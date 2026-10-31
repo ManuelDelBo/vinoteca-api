@@ -1,1 +1,64 @@
-<p>brand-list works!</p>
+<div id="contenedor">
+
+    <div id="encabezado">
+        <div>
+            <h1>Marcas</h1>
+            <p>Administración de marcas del catálogo.</p>
+        </div>
+
+        <button routerLink="/management/brands/new">
+            Agregar marca
+        </button>
+    </div>
+
+    <div id="tarjetas">
+
+        @for (brand of brands(); track brand.id) {
+
+        <div id="tarjeta">
+
+            <h2>{{ brand.name }}</h2>
+
+            <p>Marca activa</p>
+
+            <div id="acciones">
+                <button>
+                    Ver productos
+                </button>
+
+                <button [routerLink]="['/management/brands', brand.id, 'edit']">
+                    Editar
+                </button>
+
+                <button (click)="deleteBrand(brand.id)">
+                    Eliminar
+                </button>
+            </div>
+
+        </div>
+
+        }
+
+    </div>
+
+    <button (click)="toggleInactiveBrands()">
+        {{ mostrarInactivas() ? 'Ocultar marcas inactivas' : 'Ver marcas inactivas' }}
+    </button>
+
+    @if (mostrarInactivas()) {
+    <h2>Marcas inactivas</h2>
+
+    <div id="tarjetas">
+        @for (brand of inactiveBrands(); track brand.id) {
+        <div id="tarjeta">
+            <h3>{{ brand.name }}</h3>
+
+            <button (click)="activateBrand(brand.id)">
+                Reactivar
+            </button>
+        </div>
+        }
+    </div>
+    }
+
+</div>

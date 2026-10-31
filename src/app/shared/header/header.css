@@ -1,0 +1,111 @@
+.header {
+    width: 100%;
+    height: 75px;
+    padding: 0 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #ffffff;
+    border-bottom: 1px solid #eeeeee;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    box-sizing: border-box;
+}
+
+/* Logo */
+.brand {
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: #292929;
+}
+
+.brand span {
+    color: #47745b;
+}
+
+/* Navegación */
+.nav {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: #555555;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+    color: #47745b;
+}
+
+/* Gestión interna */
+.management-link {
+    padding: 10px 17px;
+    border-radius: 7px;
+    background-color: #47745b;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+}
+
+.management-link:hover {
+    background-color: #365c46;
+}
+
+/* Registrarse */
+.register-link {
+    padding: 9px 16px;
+    border: 1px solid #47745b;
+    border-radius: 7px;
+    color: #47745b;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.register-link:hover {
+    background-color: #f1f6f2;
+}
+
+/* Cerrar sesión */
+.logout-button {
+    border: none;
+    background: none;
+    color: #666666;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.logout-button:hover {
+    color: #c0392b;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .header {
+        height: auto;
+        min-height: 75px;
+        padding: 16px 20px;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .nav {
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+    .brand {
+        font-size: 21px;
+    }
+}

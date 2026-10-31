@@ -19,6 +19,15 @@ export class Header {
     return this.authService.loggedIn$;
   }
 
+  get isCustomer(): boolean {
+    return this.authService.hasRole('ROLE_CUSTOMER');
+  }
+
+  get isAdminOrEmployee(): boolean {
+    return this.authService.hasRole('ROLE_ADMIN') ||
+      this.authService.hasRole('ROLE_EMPLOYEE');
+  }
+
   onLogout(): void {
     const confirmar = confirm(
       '¿Estás segura de que querés cerrar sesión?'

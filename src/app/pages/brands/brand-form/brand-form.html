@@ -1,1 +1,33 @@
-<p>brand-form works!</p>
+<div id="contenedor">
+
+    <h1>{{ editMode ? 'Editar marca' : 'Agregar marca' }}</h1>
+
+    <form (ngSubmit)="saveBrand()">
+
+        <div class="campo">
+            <label for="name">Nombre de la marca</label>
+
+            <input
+                type="text"
+                id="name"
+                name="name"
+                [(ngModel)]="brand.name"
+                required
+                maxlength="255"
+                placeholder="Ingresá el nombre de la marca"
+            >
+        </div>
+
+        <div id="acciones">
+            <button type="button" (click)="cancel()">
+                Cancelar
+            </button>
+
+            <button type="submit">
+                {{ editMode ? 'Guardar cambios' : 'Crear marca' }}
+            </button>
+        </div>
+
+    </form>
+
+</div>

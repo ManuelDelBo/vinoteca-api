@@ -1,0 +1,78 @@
+
+#contenedor {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+#contenedor h1 {
+    color: #292929;
+    font-size: 30px;
+    margin-bottom: 8px;
+}
+
+#contenedor > p {
+    color: #777;
+    margin-bottom: 30px;
+}
+
+#tarjetas {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+#tarjeta {
+    background-color: white;
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
+    padding: 25px;
+    transition: 0.2s;
+}
+
+#tarjeta:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+#tarjeta span {
+    font-size: 28px;
+}
+
+#tarjeta h2 {
+    color: #333;
+    font-size: 18px;
+    margin: 15px 0 8px;
+}
+
+#tarjeta p {
+    color: #777;
+    font-size: 14px;
+    min-height: 35px;
+}
+
+#tarjeta button {
+    background-color: #47745b;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 18px;
+    margin-top: 12px;
+    cursor: pointer;
+}
+
+#tarjeta button:hover {
+    background-color: #365c46;
+}
+
+@media (max-width: 850px) {
+    #tarjetas {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 550px) {
+    #tarjetas {
+        grid-template-columns: 1fr;
+    }
+}
