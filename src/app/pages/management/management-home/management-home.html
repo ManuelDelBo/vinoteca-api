@@ -1,0 +1,28 @@
+<div id="contenedor">
+
+    <h1>Gestión interna</h1>
+    <p>Seleccioná el área que querés administrar.</p>
+
+    <div id="tarjetas">
+
+        @for(opcion of opciones(); track opcion.ruta) {
+
+            <div id="tarjeta">
+
+                <span>{{ opcion.icono }}</span>
+
+                <h2>{{ opcion.nombre }}</h2>
+
+                <p>{{ opcion.descripcion }}</p>
+
+                <button [routerLink]="opcion.ruta">
+                    Ingresar
+                </button>
+
+            </div>
+
+        }
+
+    </div>
+
+</div>

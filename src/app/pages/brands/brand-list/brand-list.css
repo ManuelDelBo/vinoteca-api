@@ -1,0 +1,105 @@
+#contenedor {
+    padding: 30px;
+}
+
+#encabezado {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+#encabezado h1 {
+    margin: 0 0 8px;
+    color: #333;
+}
+
+#encabezado p {
+    margin: 0;
+    color: #777;
+}
+
+#tarjetas {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+#tarjeta {
+    background-color: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
+    padding: 22px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+#tarjeta h2,
+#tarjeta h3 {
+    margin: 0 0 12px;
+    color: #333;
+}
+
+#tarjeta p {
+    color: #777;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+#acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+button {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    background-color: #315b46;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+button:hover {
+    background-color: #244535;
+}
+
+#acciones button:nth-child(2) {
+    background-color: #777;
+}
+
+#acciones button:nth-child(2):hover {
+    background-color: #5d5d5d;
+}
+
+#acciones button:nth-child(3) {
+    background-color: #b94b4b;
+}
+
+#acciones button:nth-child(3):hover {
+    background-color: #963939;
+}
+
+#contenedor > button {
+    margin-top: 10px;
+}
+
+#contenedor > h2 {
+    margin: 30px 0 20px;
+    color: #333;
+}
+
+@media (max-width: 600px) {
+    #contenedor {
+        padding: 18px;
+    }
+
+    #encabezado {
+        align-items: flex-start;
+        gap: 15px;
+        flex-direction: column;
+    }
+}

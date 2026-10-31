@@ -1,15 +1,16 @@
 import { Routes } from '@angular/router';
 import { guestOnlyGuard } from './guards/guest-only-guard';
+import { managementGuard } from './guards/management-guard';
+import { customerGuard } from './guards/customer-guard';
+import { adminGuard } from './guards/admin-guard';
 
 // Home
 import { Home } from './pages/home/home';
 
 // Authentication
 import { Login } from './pages/auth/login/login';
+import { Register } from './pages/auth/register/register';
 import { ForgotPassword } from './pages/auth/forgot-password/forgot-password';
-
-// Dashboard
-import { Dashboard } from './pages/dashboard/dashboard';
 
 // Products
 import { ProductList } from './pages/products/product-list/product-list';
@@ -51,7 +52,9 @@ import { PaymentDetail } from './pages/payments/payment-detail/payment-detail';
 
 // Notifications
 import { NotificationList } from './pages/notifications/notification-list/notification-list';
-import { Register } from './pages/auth/register/register';
+
+//Management
+import { ManagementHome } from './pages/management/management-home/management-home';
 
 export const routes: Routes = [
 
@@ -64,64 +67,86 @@ export const routes: Routes = [
     { path: 'register', component: Register, canActivate: [guestOnlyGuard] },
     { path: 'forgot-password', component: ForgotPassword },
 
-    // Product management
-    { path: 'products/new', component: ProductForm },
-    { path: 'products/:id/edit', component: ProductForm },
-
     // Public catalog
     { path: 'products', component: ProductList },
     { path: 'products/:id', component: ProductDetail },
 
     // Shopping cart
-    { path: 'cart', component: Cart },
+    {
+        path: 'cart',
+        component: Cart,
+        canActivate: [customerGuard]
+    },
 
-    // Dashboard
-    { path: 'dashboard', component: Dashboard },
+    // Internal management
+    {
+        path: 'management',
+        canActivate: [managementGuard],
+        children: [
+            { path: '', component: ManagementHome, pathMatch: 'full' },
 
-    // Product management
-    { path: 'products/new', component: ProductForm },
-    { path: 'products/:id/edit', component: ProductForm },
+            // Products
+            { path: 'products', component: ProductList },
+            { path: 'products/new', component: ProductForm },
+            { path: 'products/:id/edit', component: ProductForm },
 
-    // Categories
-    { path: 'categories', component: CategoryList },
-    { path: 'categories/new', component: CategoryForm },
-    { path: 'categories/:id/edit', component: CategoryForm },
+            // Categories
+            { path: 'categories', component: CategoryList },
+            { path: 'categories/new', component: CategoryForm },
+            { path: 'categories/:id/edit', component: CategoryForm },
 
-    // Brands
-    { path: 'brands', component: BrandList },
-    { path: 'brands/new', component: BrandForm },
-    { path: 'brands/:id/edit', component: BrandForm },
+            // Brands
+            { path: 'brands', component: BrandList },
+            { path: 'brands/new', component: BrandForm },
+            { path: 'brands/:id/edit', component: BrandForm },
 
-    // Suppliers
-    { path: 'suppliers', component: SupplierList },
-    { path: 'suppliers/new', component: SupplierForm },
-    { path: 'suppliers/:id/edit', component: SupplierForm },
-    { path: 'suppliers/:id', component: SupplierDetail },
+            // Suppliers
+            { path: 'suppliers', component: SupplierList },
+            { path: 'suppliers/new', component: SupplierForm },
+            { path: 'suppliers/:id/edit', component: SupplierForm },
+            { path: 'suppliers/:id', component: SupplierDetail },
 
-    // Stock movements
-    { path: 'stock-movements', component: StockMovementList },
-    { path: 'stock-movements/new', component: StockMovementForm },
+            // Stock movements
+            { path: 'stock-movements', component: StockMovementList },
+            { path: 'stock-movements/new', component: StockMovementForm },
 
-    // Users
-    { path: 'users', component: UserList },
-    { path: 'users/new', component: UserForm },
-    { path: 'users/:id/edit', component: UserForm },
-    { path: 'users/:id', component: UserDetail },
+            // Users
+            {
+                path: 'users',
+                component: UserList,
+                canActivate: [adminGuard]
+            },
+            {
+                path: 'users/new',
+                component: UserForm,
+                canActivate: [adminGuard]
+            },
+            {
+                path: 'users/:id/edit',
+                component: UserForm,
+                canActivate: [adminGuard]
+            },
+            {
+                path: 'users/:id',
+                component: UserDetail,
+                canActivate: [adminGuard]
+            },
 
-    // Orders
-    { path: 'orders', component: OrderList },
-    { path: 'orders/:id', component: OrderDetail },
+            // Orders
+            { path: 'orders', component: OrderList },
+            { path: 'orders/:id', component: OrderDetail },
 
-    // Payments
-    { path: 'payments', component: PaymentList },
-    { path: 'payments/:id', component: PaymentDetail },
+            // Payments
+            { path: 'payments', component: PaymentList },
+            { path: 'payments/:id', component: PaymentDetail },
 
-    // Notifications
-    { path: 'notifications', component: NotificationList },
+            // Notifications
+            { path: 'notifications', component: NotificationList }
+        ]
+    },
 
     // Unknown routes
     { path: '**', redirectTo: '' }
-
 ];
 
 

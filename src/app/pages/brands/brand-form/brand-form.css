@@ -1,0 +1,62 @@
+#contenedor {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: white;
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
+}
+
+h1 {
+    margin-bottom: 30px;
+    color: #292929;
+    font-size: 26px;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 22px;
+}
+
+.campo label {
+    color: #444;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.campo input,
+.campo select {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    outline: none;
+}
+
+.campo input:focus,
+.campo select:focus {
+    border-color: #47745b;
+}
+
+#acciones {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 30px;
+}
+
+#acciones button {
+    padding: 11px 18px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    background-color: #47745b;
+    color: white;
+}
+
+#acciones button:first-child {
+    background-color: #eeeeee;
+    color: #444;
+}

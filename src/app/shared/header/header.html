@@ -1,16 +1,53 @@
 <header class="header">
-    <h1>Vinoteca HTTP</h1>
+    <a routerLink="/" class="brand">
+        Vinoteca <span>HTTP</span>
+    </a>
 
-    <nav>
-        <a routerLink="/">Home</a>
-
-        <span class="nav-item">Mi carrito</span>
-
-        <a *ngIf="!(loggedIn$ | async)" routerLink="/login">
-            Iniciar sesión
+    <nav class="nav">
+        <a routerLink="/" class="nav-link">
+            Home
         </a>
 
-        <button *ngIf="loggedIn$ | async" type="button" (click)="onLogout()">
+        <a routerLink="/products" class="nav-link">
+            Productos
+        </a>
+
+        <!-- CUSTOMER -->
+        <a
+            *ngIf="isCustomer"
+            routerLink="/cart"
+            class="nav-link"
+        >
+            Mi carrito
+        </a>
+
+        <!-- ADMIN y EMPLOYEE -->
+        <a
+            *ngIf="isAdminOrEmployee"
+            routerLink="/management"
+            class="management-link"
+        >
+            <span>Gestión interna</span>
+        </a>
+
+        <!-- GUEST -->
+        <ng-container *ngIf="!(loggedIn$ | async)">
+            <a routerLink="/login" class="nav-link">
+                Iniciar sesión
+            </a>
+
+            <a routerLink="/register" class="register-link">
+                Registrarse
+            </a>
+        </ng-container>
+
+        <!-- Usuarios autenticados -->
+        <button
+            *ngIf="loggedIn$ | async"
+            type="button"
+            class="logout-button"
+            (click)="onLogout()"
+        >
             Salir
         </button>
     </nav>
