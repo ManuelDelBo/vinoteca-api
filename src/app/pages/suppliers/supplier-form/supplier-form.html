@@ -1,1 +1,43 @@
-<p>supplier-form works!</p>
+<div id="contenedor-formulario">
+
+    <form (ngSubmit)="saveSupplier()">
+
+        <h1>{{ editMode ? 'Editar proveedor' : 'Agregar proveedor' }}</h1>
+
+        <p>
+            {{ editMode ? 'Modificá los datos del proveedor.' : 'Completá los datos para registrar un proveedor.' }}
+        </p>
+
+        <label for="name">Nombre</label>
+
+        <input
+            id="name"
+            type="text"
+            name="name"
+            [(ngModel)]="supplier.name"
+            placeholder="Ingresá el nombre del proveedor"
+            required
+        />
+
+        <label for="contact">Contacto</label>
+
+        <input
+            id="contact"
+            type="text"
+            name="contact"
+            [(ngModel)]="supplier.contact"
+            placeholder="Ingresá el contacto del proveedor"
+            required
+        />
+
+        <div id="acciones-formulario">
+            <button type="button" (click)="cancel()">Cancelar</button>
+
+            <button type="submit">
+                {{ editMode ? 'Guardar cambios' : 'Crear proveedor' }}
+            </button>
+        </div>
+
+    </form>
+
+</div>
