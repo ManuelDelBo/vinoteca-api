@@ -28,7 +28,6 @@ import { BrandForm } from './pages/brands/brand-form/brand-form';
 // Suppliers
 import { SupplierList } from './pages/suppliers/supplier-list/supplier-list';
 import { SupplierForm } from './pages/suppliers/supplier-form/supplier-form';
-import { SupplierDetail } from './pages/suppliers/supplier-detail/supplier-detail';
 
 // Stock
 import { StockMovementList } from './pages/stock/stock-movement-list/stock-movement-list';
@@ -104,7 +103,6 @@ export const routes: Routes = [
             { path: 'suppliers', component: SupplierList },
             { path: 'suppliers/new', component: SupplierForm },
             { path: 'suppliers/:id/edit', component: SupplierForm },
-            { path: 'suppliers/:id', component: SupplierDetail },
 
             // Stock movements
             { path: 'stock-movements', component: StockMovementList },

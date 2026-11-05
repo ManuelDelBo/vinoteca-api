@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BrandService } from '../../../services/brand.service';
@@ -15,6 +15,7 @@ export class BrandForm implements OnInit {
     private brandService = inject(BrandService);
     private route = inject(ActivatedRoute);
     private router = inject(Router);
+    private changeDetector = inject(ChangeDetectorRef);
 
     brand: Brand = {
         id: '',
@@ -36,6 +37,7 @@ export class BrandForm implements OnInit {
     loadBrand(id: string): void {
         this.brandService.getBrandById(id).subscribe(data => {
             this.brand = data;
+            this.changeDetector.markForCheck();
         });
     }
 

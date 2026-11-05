@@ -1,1 +1,29 @@
-<p>category-form works!</p>
+<div id="contenedor-formulario">
+
+    <form (ngSubmit)="saveCategory()">
+
+        <h1>{{ editMode ? 'Editar categoría' : 'Agregar categoría' }}</h1>
+
+        <p>
+            {{ editMode ? 'Modificá los datos de la categoría.' : 'Completá los datos para crear una categoría.' }}
+        </p>
+
+        <label for="name">Nombre</label>
+
+        <input
+            id="name"
+            type="text"
+            name="name"
+            [(ngModel)]="category.name"
+            placeholder="Ingresá el nombre de la categoría"
+            required
+        />
+
+        <div id="acciones-formulario">
+            <button type="button" (click)="cancel()">Cancelar</button>
+            <button type="submit">{{ editMode ? 'Guardar cambios' : 'Crear categoría' }}</button>
+        </div>
+
+    </form>
+
+</div>

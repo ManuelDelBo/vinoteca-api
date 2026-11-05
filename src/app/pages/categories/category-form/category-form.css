@@ -1,0 +1,105 @@
+#contenedor-formulario {
+    min-height: 75vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px 20px;
+    background-color: #f5f6f4;
+}
+
+#contenedor-formulario form {
+    width: 100%;
+    max-width: 450px;
+    display: flex;
+    flex-direction: column;
+    padding: 35px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+}
+
+#contenedor-formulario h1 {
+    margin: 0 0 10px;
+    color: #315b46;
+    text-align: center;
+}
+
+#contenedor-formulario p {
+    margin: 0 0 28px;
+    color: #777;
+    font-size: 14px;
+    text-align: center;
+}
+
+#contenedor-formulario label {
+    margin-bottom: 8px;
+    color: #444;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+#contenedor-formulario input,
+#contenedor-formulario select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #d5d9d5;
+    border-radius: 6px;
+    background-color: #fff;
+    font-size: 14px;
+    outline: none;
+}
+
+#contenedor-formulario input:focus,
+#contenedor-formulario select:focus {
+    border-color: #315b46;
+}
+
+#acciones-formulario {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+#acciones-formulario button {
+    padding: 11px 18px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#acciones-formulario button:first-child {
+    background-color: #e8eae8;
+    color: #444;
+}
+
+#acciones-formulario button:first-child:hover {
+    background-color: #d8dcd8;
+}
+
+#acciones-formulario button:last-child {
+    background-color: #315b46;
+    color: white;
+}
+
+#acciones-formulario button:last-child:hover {
+    background-color: #244535;
+}
+
+@media (max-width: 500px) {
+    #contenedor-formulario form {
+        padding: 25px 20px;
+    }
+
+    #acciones-formulario {
+        flex-direction: column-reverse;
+    }
+
+    #acciones-formulario button {
+        width: 100%;
+    }
+}
