@@ -1,1 +1,35 @@
-<p>user-list works!</p>
+<div id="contenedor-usuarios">
+
+    <div id="encabezado">
+        <h1>Gestión de usuarios</h1>
+        <p>Administrá los usuarios del sistema.</p>
+    </div>
+
+    <div id="tarjetas-usuarios">
+
+        <div class="tarjeta-usuario">
+            <div class="icono-usuario">♙</div>
+            <h2>Administradores</h2>
+            <p class="cantidad">{{ adminCount() }}</p>
+            <span>Usuarios registrados</span>
+            <a routerLink="admin">Gestionar</a>
+        </div>
+
+        <div class="tarjeta-usuario">
+            <div class="icono-usuario">♧</div>
+            <h2>Empleados</h2>
+            <p class="cantidad">{{ employeeCount() }}</p>
+            <span>Usuarios registrados</span>
+            <a routerLink="employee">Gestionar</a>
+        </div>
+
+        <div class="tarjeta-usuario">
+            <div class="icono-usuario">♙</div>
+            <h2>Clientes</h2>
+            <p class="cantidad">{{ customerCount() }}</p>
+            <span>Usuarios registrados</span>
+            <a routerLink="customer">Gestionar</a>
+        </div>
+
+    </div>
+</div>

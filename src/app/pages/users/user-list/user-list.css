@@ -1,0 +1,68 @@
+#contenedor-usuarios {
+    padding: 30px;
+}
+
+#encabezado {
+    margin-bottom: 30px;
+}
+
+#encabezado h1 {
+    margin-bottom: 8px;
+}
+
+#encabezado p {
+    color: #777;
+}
+
+#tarjetas-usuarios {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.tarjeta-usuario {
+    background: white;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.icono-usuario {
+    font-size: 35px;
+    margin-bottom: 12px;
+}
+
+.tarjeta-usuario h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.cantidad {
+    font-size: 36px;
+    font-weight: 600;
+    margin: 5px 0;
+}
+
+.tarjeta-usuario span {
+    color: #777;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.tarjeta-usuario a {
+    text-decoration: none;
+    background: #263d32;
+    color: white;
+    padding: 10px 25px;
+    border-radius: 6px;
+}
+
+@media (max-width: 768px) {
+    #tarjetas-usuarios {
+        grid-template-columns: 1fr;
+    }
+}

@@ -95,8 +95,8 @@ export class ManagementHome implements OnInit {
                 ]
             },
             {
-                nombre: 'Pedidos',
-                descripcion: 'Consultar y gestionar pedidos',
+                nombre: 'Ordenes',
+                descripcion: 'Consultar y gestionar ordenes',
                 icono: '🛒',
                 ruta: '/management/orders',
                 permisos: [
@@ -105,6 +105,7 @@ export class ManagementHome implements OnInit {
                     'ORDER_CANCEL_ANY'
                 ]
             },
+            /*
             {
                 nombre: 'Pagos',
                 descripcion: 'Consultar pagos',
@@ -122,6 +123,7 @@ export class ManagementHome implements OnInit {
                     'NOTIFICATION_CREATE'
                 ]
             },
+            */
             {
                 nombre: 'Usuarios',
                 descripcion: 'Administrar usuarios',

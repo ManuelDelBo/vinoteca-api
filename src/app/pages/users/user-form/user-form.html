@@ -1,1 +1,121 @@
-<p>user-form works!</p>
+<div id="contenedor-formulario">
+
+    <form #userForm="ngForm" (ngSubmit)="saveUser(userForm)">
+
+        <h1>{{ title }}</h1>
+        <p>Completá los datos para registrar un nuevo usuario.</p>
+
+        <!-- Error del backend -->
+        @if (errorMessage) {
+            <small class="error">{{ errorMessage }}</small>
+        }
+
+        <!-- Nombre -->
+        <label for="name">Nombre</label>
+        <input
+            id="name"
+            type="text"
+            name="name"
+            [(ngModel)]="user.name"
+            #name="ngModel"
+            placeholder="Ingresá el nombre"
+            required
+            minlength="2"
+            maxlength="100"
+            pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s'-]+$"
+        />
+
+        @if (name.invalid && name.touched) {
+            <small class="error">
+                @if (name.errors?.['required']) {
+                    El nombre es obligatorio.
+                } @else if (name.errors?.['minlength']) {
+                    Debe tener al menos 2 caracteres.
+                } @else if (name.errors?.['pattern']) {
+                    Ingresá un nombre válido.
+                }
+            </small>
+        }
+
+        <!-- Apellido -->
+        <label for="lastName">Apellido</label>
+        <input
+            id="lastName"
+            type="text"
+            name="lastName"
+            [(ngModel)]="user.lastName"
+            #lastName="ngModel"
+            placeholder="Ingresá el apellido"
+            required
+            minlength="2"
+            maxlength="100"
+            pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s'-]+$"
+        />
+
+        @if (lastName.invalid && lastName.touched) {
+            <small class="error">
+                @if (lastName.errors?.['required']) {
+                    El apellido es obligatorio.
+                } @else if (lastName.errors?.['minlength']) {
+                    Debe tener al menos 2 caracteres.
+                } @else if (lastName.errors?.['pattern']) {
+                    Ingresá un apellido válido.
+                }
+            </small>
+        }
+
+        <!-- Email -->
+        <label for="email">Correo electrónico</label>
+        <input
+            id="email"
+            type="email"
+            name="email"
+            [(ngModel)]="user.email"
+            #email="ngModel"
+            placeholder="Ingresá el correo electrónico"
+            required
+            email
+            maxlength="255"
+        />
+
+        @if (email.invalid && email.touched) {
+            <small class="error">
+                @if (email.errors?.['required']) {
+                    El correo electrónico es obligatorio.
+                } @else if (email.errors?.['email']) {
+                    Ingresá un correo electrónico válido.
+                }
+            </small>
+        }
+
+        <!-- Contraseña -->
+        <label for="password">Contraseña</label>
+        <input
+            id="password"
+            type="password"
+            name="password"
+            [(ngModel)]="user.password"
+            #password="ngModel"
+            placeholder="Ingresá una contraseña"
+            required
+            minlength="8"
+        />
+
+        @if (password.invalid && password.touched) {
+            <small class="error">
+                @if (password.errors?.['required']) {
+                    La contraseña es obligatoria.
+                } @else if (password.errors?.['minlength']) {
+                    La contraseña debe tener al menos 8 caracteres.
+                }
+            </small>
+        }
+
+        <div id="acciones-formulario">
+            <button type="button" (click)="cancel()">Cancelar</button>
+            <button type="submit">Crear usuario</button>
+        </div>
+
+    </form>
+
+</div>
