@@ -1,0 +1,138 @@
+.dialog-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(42, 52, 39, 0.55);
+    backdrop-filter: blur(2px);
+}
+
+.dialog-card {
+    width: 100%;
+    max-width: 480px;
+    padding: 28px;
+    border: 1px solid #e6e2d5;
+    border-radius: 16px;
+    background: #fffdf8;
+    box-shadow: 0 18px 50px rgba(40, 51, 38, 0.22);
+    animation: dialog-enter 0.18s ease-out;
+}
+
+.dialog-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    margin-bottom: 16px;
+    border-radius: 50%;
+    background: #f3efe2;
+    color: #8a6a34;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.dialog-card h2 {
+    margin: 0 0 12px;
+    color: #344b38;
+    font-size: 21px;
+    font-weight: 700;
+}
+
+.dialog-message {
+    margin: 0 0 10px;
+    color: #555b50;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.dialog-detail {
+    margin: 0 0 16px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background: #eef2ea;
+    color: #526e53;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.dialog-warning {
+    margin: 0 0 24px;
+    padding: 12px 14px;
+    border: 1px solid #e6dcc3;
+    border-left: 4px solid #b58b4a;
+    border-radius: 8px;
+    background: #f8f4e9;
+    color: #7a6a42;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.dialog-actions button {
+    padding: 11px 18px;
+    border-radius: 7px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, opacity 0.2s ease;
+}
+
+.dialog-actions button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.btn-cancel {
+    border: 1px solid #d5d7ce;
+    background: #ffffff;
+    color: #68715f;
+}
+
+.btn-cancel:hover:not(:disabled) {
+    background: #f2f2ed;
+}
+
+.btn-confirm {
+    border: none;
+    background: #a65b42;
+    color: #ffffff;
+}
+
+.btn-confirm:hover:not(:disabled) {
+    background: #8f4a34;
+}
+
+@keyframes dialog-enter {
+    from {
+        opacity: 0;
+        transform: translateY(8px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@media (max-width: 520px) {
+    .dialog-card {
+        padding: 22px;
+    }
+
+    .dialog-actions {
+        flex-direction: column-reverse;
+    }
+
+    .dialog-actions button {
+        width: 100%;
+    }
+}

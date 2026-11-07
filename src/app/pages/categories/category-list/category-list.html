@@ -32,8 +32,8 @@
                     Editar
                 </button>
 
-                <button (click)="deleteCategory(category.id)">
-                    Eliminar
+                <button (click)="requestDelete(category)" [disabled]="checkingDeletion()">
+                    {{ checkingDeletion() ? 'Verificando...' : 'Eliminar' }}
                 </button>
             </div>
 
@@ -66,6 +66,13 @@
         }
 
     </div>
+    }
+
+    @if (pendingDeletion(); as pending) {
+    <app-confirm-dialog title="Eliminar categoría" [message]="deleteMessage(pending)" [detail]="deleteDetail(pending)"
+        warning="Si continuás, también se desactivarán todos los productos relacionados y sus variantes."
+        confirmLabel="Eliminar todo" cancelLabel="Cancelar" [busy]="deleting()"
+        (confirmed)="confirmCascadeDelete()" (cancelled)="cancelDelete()" />
     }
 
 </div>

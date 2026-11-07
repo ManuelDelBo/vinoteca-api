@@ -6,12 +6,12 @@ export interface CartItemRequest {
 
 // 2. La solicitud para crear o actualizar el carrito
 export interface CartRequest {
-    userId: string;
     items: CartItemRequest[];
 }
 
 // 3. Un producto dentro del carrito que devuelve el backend
 export interface CartItem {
+    id: string;
     productVariantId: string;
     productName: string;
     variantAttribute: string;

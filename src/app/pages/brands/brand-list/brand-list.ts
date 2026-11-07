@@ -1,10 +1,17 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { ConfirmDialog } from '../../../shared/confirm-dialog/confirm-dialog';
 import { BrandService } from '../../../services/brand.service';
 import { Brand } from '../../../models/brand';
 
+interface PendingDeletion {
+    id: string;
+    name: string;
+    count: number;
+}
+
 @Component({
-    imports: [RouterLink],
+    imports: [RouterLink, ConfirmDialog],
     selector: 'app-brand-list',
     styleUrl: './brand-list.css',
     templateUrl: './brand-list.html'
@@ -15,8 +22,14 @@ export class BrandList implements OnInit {
     inactiveBrands = signal<Brand[]>([]);
     mostrarInactivas = signal<boolean>(false);
     mensaje = signal<string>('');
+    pendingDeletion = signal<PendingDeletion | null>(null);
+    checkingDeletion = signal<boolean>(false);
+    deleting = signal<boolean>(false);
 
-    constructor(private brandService: BrandService) {}
+    constructor(
+        private brandService: BrandService,
+        private cdr: ChangeDetectorRef
+    ) {}
 
     ngOnInit(): void {
         this.loadBrands();
@@ -25,30 +38,118 @@ export class BrandList implements OnInit {
     loadBrands(): void {
         this.brandService.getBrands().subscribe(data => {
             this.brands.set(data);
+            this.cdr.markForCheck();
         });
     }
 
-    deleteBrand(id: string): void {
-        const confirmar = confirm('¿Estás segura de que querés eliminar esta marca?');
+    requestDelete(brand: Brand): void {
+        if (this.checkingDeletion() || this.deleting()) {
+            return;
+        }
 
-        if (!confirmar) return;
+        this.mensaje.set('');
+        this.checkingDeletion.set(true);
+        this.cdr.markForCheck();
+
+        this.brandService.getRelatedProductCount(brand.id).subscribe({
+            next: ({ count }) => {
+                this.checkingDeletion.set(false);
+
+                if (count <= 0) {
+                    const confirmar = confirm(
+                        `¿Estás seguro de que querés eliminar la marca "${brand.name}"?`
+                    );
+
+                    if (confirmar) {
+                        this.performDelete(brand.id, false);
+                    } else {
+                        this.cdr.markForCheck();
+                    }
+
+                    return;
+                }
+
+                this.pendingDeletion.set({
+                    id: brand.id,
+                    name: brand.name,
+                    count
+                });
+                this.cdr.markForCheck();
+            },
+            error: () => {
+                this.checkingDeletion.set(false);
+                this.mensaje.set('No se pudo verificar si la marca tiene productos asociados.');
+                this.cdr.markForCheck();
+            }
+        });
+    }
+
+    deleteMessage(pending: PendingDeletion): string {
+        return `¿Estás seguro de que querés eliminar la marca "${pending.name}"?`;
+    }
+
+    deleteDetail(pending: PendingDeletion): string {
+        const productos = pending.count === 1 ? 'producto asociado' : 'productos asociados';
+        return `Esta marca tiene ${pending.count} ${productos}.`;
+    }
+
+    confirmCascadeDelete(): void {
+        const pending = this.pendingDeletion();
+
+        if (!pending) {
+            return;
+        }
+
+        this.performDelete(pending.id, true);
+    }
+
+    cancelDelete(): void {
+        if (this.deleting()) {
+            return;
+        }
+
+        this.pendingDeletion.set(null);
+        this.cdr.markForCheck();
+    }
+
+    private performDelete(id: string, cascade: boolean): void {
+        this.mensaje.set('');
+        this.deleting.set(true);
+        this.cdr.markForCheck();
 
         this.brandService.deleteBrand(id).subscribe({
             next: () => {
-                this.mensaje.set('Marca eliminada correctamente');
+                this.deleting.set(false);
+                this.pendingDeletion.set(null);
+                this.mensaje.set(
+                    cascade
+                        ? 'Marca eliminada. También se desactivaron sus productos y variantes.'
+                        : 'Marca eliminada correctamente.'
+                );
                 this.loadBrands();
+                this.cdr.markForCheck();
             },
             error: (error) => {
-                this.mensaje.set(
-                    error.error?.message || 'No se pudo eliminar la marca. Puede tener productos relacionados.'
-                );
+                this.deleting.set(false);
+                this.pendingDeletion.set(null);
+                this.mensaje.set(this.resolveError(error, 'No se pudo eliminar la marca.'));
+                this.cdr.markForCheck();
             }
         });
+    }
+
+    private resolveError(error: any, fallback: string): string {
+        if (typeof error?.error === 'string' && error.error.trim()) {
+            return error.error;
+        }
+
+        return error?.error?.message || fallback;
     }
 
     loadInactiveBrands(): void {
         this.brandService.getInactiveBrands().subscribe(data => {
             this.inactiveBrands.set(data);
+            this.cdr.markForCheck();
         });
     }
 
@@ -58,6 +159,8 @@ export class BrandList implements OnInit {
         if (this.mostrarInactivas()) {
             this.loadInactiveBrands();
         }
+
+        this.cdr.markForCheck();
     }
 
     activateBrand(id: string): void {
@@ -70,9 +173,11 @@ export class BrandList implements OnInit {
                 this.mensaje.set('Marca activada correctamente');
                 this.loadBrands();
                 this.loadInactiveBrands();
+                this.cdr.markForCheck();
             },
             error: () => {
                 this.mensaje.set('No se pudo activar la marca');
+                this.cdr.markForCheck();
             }
         });
     }

@@ -11,6 +11,8 @@
         </button>
     </div>
 
+    <p>{{ mensaje() }}</p>
+
     <div id="tarjetas">
 
         @for (brand of brands(); track brand.id) {
@@ -30,8 +32,8 @@
                     Editar
                 </button>
 
-                <button (click)="deleteBrand(brand.id)">
-                    Eliminar
+                <button (click)="requestDelete(brand)" [disabled]="checkingDeletion()">
+                    {{ checkingDeletion() ? 'Verificando...' : 'Eliminar' }}
                 </button>
             </div>
 
@@ -59,6 +61,13 @@
         </div>
         }
     </div>
+    }
+
+    @if (pendingDeletion(); as pending) {
+    <app-confirm-dialog title="Eliminar marca" [message]="deleteMessage(pending)" [detail]="deleteDetail(pending)"
+        warning="Si continuás, también se desactivarán todos los productos relacionados y sus variantes."
+        confirmLabel="Eliminar todo" cancelLabel="Cancelar" [busy]="deleting()"
+        (confirmed)="confirmCascadeDelete()" (cancelled)="cancelDelete()" />
     }
 
 </div>

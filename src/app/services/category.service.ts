@@ -64,6 +64,10 @@ export class CategoryService {
         return this.http.delete<void>(`${this.url}/${id}`);
     }
 
+    getRelatedProductCount(id: string) {
+        return this.http.get<{ count: number }>(`${this.url}/${id}/products/count`);
+    }
+
     activateCategory(id: string) {
         return this.http.patch<void>(`${this.url}/${id}/activate`, {});
     }

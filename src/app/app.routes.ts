@@ -54,6 +54,7 @@ import { NotificationList } from './pages/notifications/notification-list/notifi
 
 //Management
 import { ManagementHome } from './pages/management/management-home/management-home';
+import { UserRoleList } from './pages/users/user-role-list/user-role-list';
 
 export const routes: Routes = [
 
@@ -87,6 +88,7 @@ export const routes: Routes = [
             // Products
             { path: 'products', component: ProductList },
             { path: 'products/new', component: ProductForm },
+            { path: 'products/:id', component: ProductDetail },
             { path: 'products/:id/edit', component: ProductForm },
 
             // Categories
@@ -115,17 +117,30 @@ export const routes: Routes = [
                 canActivate: [adminGuard]
             },
             {
-                path: 'users/new',
+                path: 'users/admin',
+                component: UserRoleList,
+                canActivate: [adminGuard],
+                data: { role: 'ROLE_ADMIN' }
+            },
+            {
+                path: 'users/employee',
+                component: UserRoleList,
+                canActivate: [adminGuard],
+                data: { role: 'ROLE_EMPLOYEE' }
+            },
+            {
+                path: 'users/customer',
+                component: UserRoleList,
+                canActivate: [adminGuard],
+                data: { role: 'ROLE_CUSTOMER' }
+            },
+            {
+                path: 'users/:role/new',
                 component: UserForm,
                 canActivate: [adminGuard]
             },
             {
-                path: 'users/:id/edit',
-                component: UserForm,
-                canActivate: [adminGuard]
-            },
-            {
-                path: 'users/:id',
+                path: 'users/:id/orders',
                 component: UserDetail,
                 canActivate: [adminGuard]
             },

@@ -1,0 +1,72 @@
+#contenedor-formulario {
+    padding: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+form {
+    width: 100%;
+    max-width: 550px;
+    background: white;
+    padding: 30px;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+}
+
+form h1 {
+    margin-bottom: 8px;
+}
+
+form p {
+    color: #777;
+    margin-bottom: 25px;
+}
+
+form label {
+    margin-bottom: 7px;
+    font-weight: 500;
+}
+
+form input {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin-bottom: 18px;
+    font-size: 14px;
+}
+
+#acciones-formulario {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+#acciones-formulario button {
+    padding: 11px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+#acciones-formulario button[type="button"] {
+    background: #eee;
+}
+
+#acciones-formulario button[type="submit"] {
+    background: #263d32;
+    color: white;
+}
+
+.error {
+    color: #c0392b;
+    font-size: 12px;
+    margin-top: -12px;
+    margin-bottom: 15px;
+}
+
+form input.ng-invalid.ng-touched {
+    border-color: #c0392b;
+}
