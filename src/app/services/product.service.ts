@@ -8,7 +8,16 @@ import { Product, ProductRequest, ProductDeleteResponse } from '../models/produc
 export class ProductService {
 
     private http: HttpClient = inject(HttpClient);
-    private url = 'http://localhost:8081/api/products';
+    private apiUrl = 'http://localhost:8081';
+    private url = `${this.apiUrl}/api/products`;
+
+    private toAbsoluteUrl(url: string | null | undefined): string | null {
+        if (!url) {
+            return null;
+        }
+
+        return url.startsWith('http') ? url : `${this.apiUrl}${url}`;
+    }
 
     private mapProduct(product: any): Product {
         return {
@@ -21,7 +30,14 @@ export class ProductService {
             categoryId: product.categoryId,
             categoryName: product.categoryName,
             brandId: product.brandId,
-            brandName: product.brandName
+            brandName: product.brandName,
+            principalImagePath: this.toAbsoluteUrl(product.principalImagePath),
+            images: (product.images ?? []).map((image: any) => ({
+                id: image.externalId,
+                imagePath: image.imagePath,
+                url: this.toAbsoluteUrl(image.url) ?? '',
+                principal: image.principal
+            }))
         };
     }
 
@@ -63,6 +79,12 @@ export class ProductService {
 
     getProductById(id: string) {
         return this.http.get<any>(`${this.url}/${id}`).pipe(
+            map(product => this.mapProduct(product))
+        );
+    }
+
+    getInactiveProductById(id: string) {
+        return this.http.get<any>(`${this.url}/inactive/${id}`).pipe(
             map(product => this.mapProduct(product))
         );
     }

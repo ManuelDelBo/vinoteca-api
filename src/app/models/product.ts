@@ -1,3 +1,6 @@
+import { DisabledVariant } from './product-variant';
+import { ProductImage } from './product-image';
+
 export interface Product {
     id: string;
     name: string;
@@ -9,6 +12,8 @@ export interface Product {
     categoryName: string;
     brandId: string;
     brandName: string;
+    principalImagePath: string | null;
+    images: ProductImage[];
 }
 
 export interface ProductRequest {
@@ -25,6 +30,3 @@ export interface ProductDeleteResponse {
     active: boolean;
     disabledVariants: DisabledVariant[];
 }
-
-
-import { DisabledVariant } from './product-variant';

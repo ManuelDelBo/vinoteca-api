@@ -34,8 +34,8 @@
                     Editar
                 </button>
 
-                <button (click)="deleteSupplier(supplier.id)">
-                    Eliminar
+                <button (click)="requestDelete(supplier)" [disabled]="checkingDeletion()">
+                    {{ checkingDeletion() ? 'Verificando...' : 'Eliminar' }}
                 </button>
 
             </div>
@@ -74,6 +74,14 @@
 
     </div>
 
+    }
+
+    @if (pendingDeletion(); as pending) {
+    <app-confirm-dialog title="Eliminar proveedor" [message]="deleteMessage(pending)"
+        [detail]="deleteDetail(pending)"
+        warning="Si continuás, también se desactivarán todos los productos relacionados y sus variantes."
+        confirmLabel="Eliminar todo" cancelLabel="Cancelar" [busy]="deleting()"
+        (confirmed)="confirmCascadeDelete()" (cancelled)="cancelDelete()" />
     }
 
 </div>

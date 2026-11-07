@@ -108,6 +108,21 @@
 
         <article class="product-card" *ngFor="let product of products">
 
+            <div class="product-image">
+                <img *ngIf="product.principalImagePath" [src]="product.principalImagePath" [alt]="product.name"
+                    loading="lazy" />
+
+                <div class="product-image-placeholder" *ngIf="!product.principalImagePath">
+                    <svg viewBox="0 0 64 64" aria-hidden="true">
+                        <rect x="10" y="12" width="44" height="40" rx="5" fill="none" stroke="currentColor"
+                            stroke-width="3" />
+                        <circle cx="24" cy="26" r="5" fill="currentColor" />
+                        <path d="M14 46l12-13 9 9 6-6 9 10z" fill="currentColor" opacity="0.55" />
+                    </svg>
+                    <span>Sin imagen</span>
+                </div>
+            </div>
+
             <div class="card-top">
                 <span class="status" [class.inactive]="!product.active">
                     {{ product.active ? 'Activo' : 'Deshabilitado' }}

@@ -69,6 +69,10 @@ export class SupplierService {
         return this.http.delete<void>(`${this.url}/${id}`);
     }
 
+    getRelatedProductCount(id: string) {
+        return this.http.get<{ count: number }>(`${this.url}/${id}/products/count`);
+    }
+
     activateSupplier(id: string) {
         return this.http.patch<void>(`${this.url}/${id}/activate`, {});
     }

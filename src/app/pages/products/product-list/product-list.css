@@ -155,6 +155,46 @@ button:hover {
     box-shadow: 0 5px 18px rgba(55, 65, 48, 0.07);
 }
 
+.product-image {
+    width: 100%;
+    height: 150px;
+    margin-bottom: 15px;
+    overflow: hidden;
+    border-radius: 8px;
+    background: #f1f2ed;
+}
+
+.product-image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.product-image-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    width: 100%;
+    height: 100%;
+    color: #a8b0a0;
+    background: linear-gradient(135deg, #f4f5f0 0%, #eceee7 100%);
+}
+
+.product-image-placeholder svg {
+    width: 42px;
+    height: 42px;
+}
+
+.product-image-placeholder span {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+}
+
 .card-top {
     display: flex;
     justify-content: space-between;
