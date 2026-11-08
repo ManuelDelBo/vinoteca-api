@@ -3,6 +3,7 @@ import { inject, Service } from '@angular/core';
 import { map } from 'rxjs';
 
 import { ProductVariant, ProductVariantRequest } from '../models/product-variant';
+import { StockMovementRequest } from '../models/stock-movement';
 
 @Service()
 export class ProductVariantService {
@@ -29,6 +30,34 @@ export class ProductVariantService {
 
         return this.http.get<any[]>(`${this.url}/search`, { params }).pipe(
             map(variants => variants.map(variant => this.mapVariant(variant)))
+        );
+    }
+
+    searchVariants(filters?: {
+        attribute?: string;
+        minStock?: number;
+        productId?: string;
+        categoryId?: string;
+        brandId?: string;
+        productName?: string;
+    }) {
+        let params = new HttpParams();
+
+        if (filters?.attribute) params = params.set('attribute', filters.attribute);
+        if (filters?.minStock != null) params = params.set('minStock', filters.minStock);
+        if (filters?.productId) params = params.set('productId', filters.productId);
+        if (filters?.categoryId) params = params.set('categoryId', filters.categoryId);
+        if (filters?.brandId) params = params.set('brandId', filters.brandId);
+        if (filters?.productName) params = params.set('productName', filters.productName);
+
+        return this.http.get<any[]>(`${this.url}/search`, { params }).pipe(
+            map(variants => variants.map(variant => this.mapVariant(variant)))
+        );
+    }
+
+    adjustStock(request: StockMovementRequest) {
+        return this.http.post<any>(`${this.url}/stock/adjustment`, request).pipe(
+            map(response => this.mapVariant(response))
         );
     }
 
