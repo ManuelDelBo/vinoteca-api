@@ -6,5 +6,14 @@ export interface Address {
     apartmentNumber: string | null;
     city: string;
     zipCode: string;
-    userId: string;
+    userExternalId: string;
+}
+
+export interface AddressRequest {
+    street: string;
+    streetNumber: string;
+    floor: string | null;
+    apartmentNumber: string | null;
+    city: string;
+    zipCode: string;
 }
