@@ -1,78 +1,158 @@
+/* VINOTECA UTN — GESTIÓN INTERNA */
+:host {
+  display: block;
+  min-height: 80vh;
+  background: var(--wine-bg);
+  color: var(--wine-text);
+  transition: background-color .3s ease, color .3s ease;
+}
 
 #contenedor {
-    max-width: 1200px;
-    margin: 40px auto;
-    padding: 20px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 54px 28px 80px;
+  box-sizing: border-box;
 }
 
 #contenedor h1 {
-    color: #292929;
-    font-size: 30px;
-    margin-bottom: 8px;
+  margin: 0 0 12px;
+  color: var(--wine-text);
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(30px, 4vw, 43px);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -.7px;
 }
 
 #contenedor > p {
-    color: #777;
-    margin-bottom: 30px;
+  margin: 0 0 34px;
+  color: var(--wine-muted);
+  font-size: 15px;
+  line-height: 1.65;
 }
 
 #tarjetas {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
 }
 
 #tarjeta {
-    background-color: white;
-    border: 1px solid #e5e5e5;
-    border-radius: 10px;
-    padding: 25px;
-    transition: 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+  padding: 30px;
+  background: var(--wine-surface);
+  border: 1px solid var(--wine-border);
+  border-radius: 18px;
+  box-shadow: var(--wine-shadow);
+  transition: transform .28s ease, box-shadow .28s ease,
+    border-color .28s ease, background-color .28s ease;
+  animation: management-appear .48s ease both;
 }
 
 #tarjeta:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  transform: translateY(-5px);
+  border-color: var(--wine-accent);
+  box-shadow: 0 14px 30px rgba(32, 18, 31, .12);
 }
 
 #tarjeta span {
-    font-size: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 15px;
+  background: var(--wine-surface-alt);
+  border: 1px solid var(--wine-border);
+  font-size: 28px;
+  line-height: 1;
+  transition: transform .28s ease, border-color .28s ease;
+}
+
+#tarjeta:hover span {
+  transform: scale(1.06);
+  border-color: var(--wine-accent);
 }
 
 #tarjeta h2 {
-    color: #333;
-    font-size: 18px;
-    margin: 15px 0 8px;
+  margin: 22px 0 10px;
+  color: var(--wine-text);
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 21px;
+  font-weight: 500;
+  line-height: 1.3;
 }
 
 #tarjeta p {
-    color: #777;
-    font-size: 14px;
-    min-height: 35px;
+  flex: 1;
+  margin: 0 0 24px;
+  color: var(--wine-muted);
+  font-size: 14px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
 }
 
 #tarjeta button {
-    background-color: #47745b;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    padding: 10px 18px;
-    margin-top: 12px;
-    cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 11px 22px;
+  margin-top: auto;
+  border: 1px solid var(--wine-primary);
+  border-radius: 9px;
+  background: var(--wine-primary);
+  color: #fff;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform .22s ease, background-color .22s ease,
+    border-color .22s ease, box-shadow .22s ease;
 }
 
-#tarjeta button:hover {
-    background-color: #365c46;
+#tarjeta button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  background: var(--wine-primary-hover);
+  border-color: var(--wine-primary-hover);
+  box-shadow: 0 6px 16px rgba(51, 24, 47, .17);
 }
 
-@media (max-width: 850px) {
-    #tarjetas {
-        grid-template-columns: repeat(2, 1fr);
-    }
+#tarjeta button:focus-visible {
+  outline: 3px solid var(--wine-accent);
+  outline-offset: 3px;
 }
 
-@media (max-width: 550px) {
-    #tarjetas {
-        grid-template-columns: 1fr;
-    }
+#tarjeta button:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+}
+
+@keyframes management-appear {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 900px) {
+  #tarjetas { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 600px) {
+  #contenedor { padding: 32px 16px 56px; }
+  #contenedor > p { margin-bottom: 26px; }
+  #tarjetas { grid-template-columns: 1fr; gap: 16px; }
+  #tarjeta { padding: 24px; }
+  #tarjeta h2 { margin-top: 18px; }
+  #tarjeta p { margin-bottom: 20px; }
+  #tarjeta button { width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #tarjeta { animation: none; }
+  #tarjeta, #tarjeta span, #tarjeta button { transition: none; }
+  #tarjeta:hover, #tarjeta:hover span, #tarjeta button:hover:not(:disabled) { transform: none; }
 }

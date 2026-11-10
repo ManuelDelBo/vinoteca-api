@@ -1,85 +1,251 @@
+
+/* ==========================================
+   VINOTECA UTN - LOGIN
+   Diseño premium - Claro / Oscuro
+   ========================================== */
+
+/* CONTENEDOR PRINCIPAL */
+
 .login-container {
-    min-height: 80vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 30px 20px;
-    background-color: #f5f6f4;
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 20px;
+  box-sizing: border-box;
+
+  background:
+    radial-gradient(
+      circle at 15% 20%,
+      rgba(197, 167, 123, 0.12),
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at 85% 80%,
+      rgba(103, 52, 81, 0.08),
+      transparent 40%
+    ),
+    var(--wine-bg);
+
+  transition: background-color 0.35s ease;
 }
+
+/* FORMULARIO */
 
 .login-form {
-    width: 100%;
-    max-width: 400px;
-    display: flex;
-    flex-direction: column;
-    padding: 35px;
-    background-color: #fff;
-    border-radius: 12px;
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 430px;
+  display: flex;
+  flex-direction: column;
+  padding: 48px 42px;
+  box-sizing: border-box;
+
+  background: var(--wine-surface);
+  border: 1px solid var(--wine-border);
+  border-radius: 18px;
+
+  box-shadow:
+    0 20px 60px rgba(46, 28, 39, 0.08),
+    0 4px 15px rgba(46, 28, 39, 0.03);
+
+  transition:
+    background-color 0.35s ease,
+    border-color 0.35s ease,
+    box-shadow 0.35s ease;
 }
+
+/* TÍTULO */
 
 .login-form h1 {
-    margin: 0 0 28px;
-    text-align: center;
-    color: #315b46;
+  margin: 0 0 36px;
+  text-align: center;
+
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(28px, 4vw, 36px);
+  font-weight: 500;
+  letter-spacing: -0.8px;
+
+  color: var(--wine-text);
 }
+
+/* ETIQUETAS */
 
 .login-form label {
-    margin-bottom: 8px;
-    color: #444;
-    font-size: 14px;
-    font-weight: 600;
+  margin-bottom: 9px;
+
+  color: var(--wine-text);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
 }
 
+/* CAMPOS */
+
 .login-form input {
-    padding: 12px;
-    margin-bottom: 18px;
-    border: 1px solid #d5d9d5;
-    border-radius: 6px;
-    font-size: 14px;
-    outline: none;
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 15px;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+
+  background: var(--wine-bg);
+  color: var(--wine-text);
+
+  border: 1px solid var(--wine-border);
+  border-radius: 9px;
+
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+
+  transition:
+    background-color 0.3s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.login-form input::placeholder {
+  color: var(--wine-muted);
+  opacity: 0.8;
+}
+
+.login-form input:hover {
+  border-color: var(--wine-accent);
 }
 
 .login-form input:focus {
-    border-color: #315b46;
+  border-color: var(--wine-primary);
+  box-shadow: 0 0 0 4px rgba(103, 52, 81, 0.10);
 }
+
+/* MENSAJES DE VALIDACIÓN */
 
 .login-form small {
-    color: #c0392b;
-    margin-top: -12px;
-    margin-bottom: 14px;
-    font-size: 12px;
+  margin-top: -13px;
+  margin-bottom: 16px;
+
+  color: #c34b56;
+  font-size: 12px;
+  line-height: 1.5;
 }
+
+/* BOTÓN INGRESAR */
 
 .login-form button {
-    padding: 12px;
-    margin-top: 8px;
-    border: none;
-    border-radius: 6px;
-    background-color: #315b46;
-    color: white;
-    font-size: 15px;
-    cursor: pointer;
-    transition: background-color 0.2s;
+  min-height: 49px;
+  padding: 13px 20px;
+  margin-top: 12px;
+
+  border: none;
+  border-radius: 9px;
+
+  background: var(--wine-primary);
+  color: #ffffff;
+
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
-.login-form button:hover {
-    background-color: #244535;
+.login-form button:hover:not(:disabled) {
+  background: var(--wine-primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(103, 52, 81, 0.22);
 }
+
+.login-form button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.login-form button:focus-visible {
+  outline: 3px solid var(--wine-accent);
+  outline-offset: 3px;
+}
+
+.login-form button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* TEXTO INFERIOR */
 
 .login-form p {
-    margin: 22px 0 0;
-    text-align: center;
-    color: #666;
-    font-size: 14px;
+  margin: 28px 0 0;
+  text-align: center;
+
+  color: var(--wine-muted);
+  font-size: 13px;
+  line-height: 1.6;
 }
 
+/* ENLACES */
+
 .login-form a {
-    color: #315b46;
-    font-weight: 600;
-    text-decoration: none;
+  color: var(--wine-primary);
+  font-weight: 600;
+  text-decoration: none;
+
+  transition: color 0.2s ease;
 }
 
 .login-form a:hover {
-    text-decoration: underline;
+  color: var(--wine-primary-hover);
+  text-decoration: underline;
+}
+
+.login-form a:focus-visible {
+  outline: 2px solid var(--wine-accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ==========================================
+   ANIMACIÓN DE ENTRADA
+   ========================================== */
+
+@keyframes login-entrance {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .login-form {
+    animation: login-entrance 0.7s
+      cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+}
+
+/* ==========================================
+   RESPONSIVE
+   ========================================== */
+
+@media (max-width: 600px) {
+  .login-container {
+    padding: 35px 16px;
+    min-height: 75vh;
+  }
+
+  .login-form {
+    padding: 36px 25px;
+    border-radius: 14px;
+  }
+
+  .login-form h1 {
+    margin-bottom: 28px;
+  }
 }

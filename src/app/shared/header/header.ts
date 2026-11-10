@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { ThemeService } from '../../services/theme.service';
+
 
 @Component({
   imports: [CommonModule, RouterLink],
@@ -10,6 +12,8 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './header.html',
 })
 export class Header {
+
+  readonly themeService: ThemeService = inject(ThemeService);
   constructor(
     private authService: AuthService,
     private router: Router
