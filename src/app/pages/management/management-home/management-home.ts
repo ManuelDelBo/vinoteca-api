@@ -88,10 +88,10 @@ export class ManagementHome implements OnInit {
                 icono: '🏭',
                 ruta: '/management/stock-movements',
                 permisos: [
+                    'PRODUCT_VARIANT_LIST',
                     'STOCK_READ',
-                    'STOCK_ENTRY',
                     'STOCK_ADJUSTMENT',
-                    'STOCK_MOVEMENT_READ'
+                    'STOCK_MOVEMENT_LIST_BY_VARIANT'
                 ]
             },
             {

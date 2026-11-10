@@ -42,6 +42,14 @@
         </ng-container>
 
         <!-- Usuarios autenticados -->
+        <a
+            *ngIf="loggedIn$ | async"
+            routerLink="/profile"
+            class="nav-link"
+        >
+            Mi perfil
+        </a>
+
         <button
             *ngIf="loggedIn$ | async"
             type="button"

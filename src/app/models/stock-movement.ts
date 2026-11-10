@@ -4,7 +4,7 @@ export interface StockMovement {
     quantity: number;
     movementDate: string;
     reason: string;
-    variantId: string;
+    variantExternalId: string;
 }
 
 export interface StockMovementRequest {
@@ -15,5 +15,6 @@ export interface StockMovementRequest {
 
 export type StockMovementType =
     | 'ENTRY'
-    | 'EXIT'
-    | 'CANCELLATION';
+    | 'SALE'
+    | 'CANCELLATION'
+    | 'ADJUSTMENT';

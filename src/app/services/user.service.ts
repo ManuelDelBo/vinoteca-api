@@ -27,6 +27,15 @@ export class UserService {
         );
     }
 
+    getMe(): Observable<User> {
+        return this.http.get<any>(`${this.url}/me`).pipe(
+            map(user => ({
+                ...user,
+                id: user.externalId ?? user.id
+            }))
+        );
+    }
+
     getUserById(id: string): Observable<User> {
         return this.http.get<any>(`${this.url}/${id}`).pipe(
             map(user => ({

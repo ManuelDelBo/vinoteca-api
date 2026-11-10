@@ -3,6 +3,7 @@ import { guestOnlyGuard } from './guards/guest-only-guard';
 import { managementGuard } from './guards/management-guard';
 import { customerGuard } from './guards/customer-guard';
 import { adminGuard } from './guards/admin-guard';
+import { authGuard } from './guards/auth-guard';
 
 // Home
 import { Home } from './pages/home/home';
@@ -11,6 +12,9 @@ import { Home } from './pages/home/home';
 import { Login } from './pages/auth/login/login';
 import { Register } from './pages/auth/register/register';
 import { ForgotPassword } from './pages/auth/forgot-password/forgot-password';
+
+// Profile
+import { Profile } from './pages/profile/profile';
 
 // Products
 import { ProductList } from './pages/products/product-list/product-list';
@@ -66,6 +70,9 @@ export const routes: Routes = [
     { path: 'login', component: Login, canActivate: [guestOnlyGuard] },
     { path: 'register', component: Register, canActivate: [guestOnlyGuard] },
     { path: 'forgot-password', component: ForgotPassword },
+
+    // Profile
+    { path: 'profile', component: Profile, canActivate: [authGuard] },
 
     // Public catalog
     { path: 'products', component: ProductList },
