@@ -1,21 +1,172 @@
 /* VINOTECA UTN | Formulario de marcas */
-:host{display:block;min-height:75vh;padding:44px 20px 70px;box-sizing:border-box;background:var(--wine-bg);color:var(--wine-text)}
-#contenedor{max-width:640px;margin:0 auto;padding:38px;background:var(--wine-surface);border:1px solid var(--wine-border);border-radius:20px;box-shadow:var(--wine-shadow);animation:form-appear .45s ease both}
-h1{margin:0 0 32px;color:var(--wine-text);font:500 clamp(28px,3vw,36px)/1.2 Georgia,'Times New Roman',serif;letter-spacing:-.5px}
-.campo{display:flex;flex-direction:column;gap:9px;margin-bottom:24px}
-.campo label{color:var(--wine-text);font-size:13px;font-weight:600}
-.campo input,.campo select{width:100%;box-sizing:border-box;padding:13px 15px;border:1px solid var(--wine-border);border-radius:9px;background:var(--wine-bg);color:var(--wine-text);font:inherit;font-size:14px;outline:none;transition:border-color .2s ease,box-shadow .2s ease,background-color .3s ease}
-.campo input::placeholder{color:var(--wine-muted);opacity:.8}
-.campo input:hover,.campo select:hover{border-color:var(--wine-accent)}
-.campo input:focus,.campo select:focus{border-color:var(--wine-primary);box-shadow:0 0 0 3px color-mix(in srgb,var(--wine-primary) 17%,transparent)}
-.campo input.ng-invalid.ng-touched{border-color:#c25760}
-#acciones{display:flex;justify-content:flex-end;flex-wrap:wrap;gap:12px;margin-top:32px;padding-top:22px;border-top:1px solid var(--wine-border)}
-#acciones button{min-height:44px;padding:11px 19px;border:1px solid var(--wine-primary);border-radius:9px;background:var(--wine-primary);color:#fff;font-family:inherit;font-size:14px;font-weight:600;line-height:1.3;cursor:pointer;transition:transform .2s ease,background-color .2s ease,border-color .2s ease}
-#acciones button:hover:not(:disabled){background:var(--wine-primary-hover);transform:translateY(-2px)}
-#acciones button:first-child{background:var(--wine-surface-alt);color:var(--wine-text);border-color:var(--wine-border)}
-#acciones button:first-child:hover:not(:disabled){background:var(--wine-bg);border-color:var(--wine-accent)}
-#acciones button:focus-visible{outline:3px solid var(--wine-accent);outline-offset:3px}
-#acciones button:disabled{opacity:.55;cursor:not-allowed}
-@keyframes form-appear{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-@media(max-width:650px){:host{padding:24px 14px 48px}#contenedor{padding:26px 20px}#acciones{flex-direction:column-reverse}#acciones button{width:100%}}
-@media(prefers-reduced-motion:reduce){#contenedor{animation:none}#acciones button,.campo input,.campo select{transition:none}#acciones button:hover:not(:disabled){transform:none}}
+:host {
+    display: block;
+    min-height: 75vh;
+    padding: 44px 20px 70px;
+    box-sizing: border-box;
+    background: var(--wine-bg);
+    color: var(--wine-text)
+}
+
+#contenedor {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 38px;
+    background: var(--wine-surface);
+    border: 1px solid var(--wine-border);
+    border-radius: 20px;
+    box-shadow: var(--wine-shadow);
+    animation: form-appear .45s ease both
+}
+
+h1 {
+    margin: 0 0 32px;
+    color: var(--wine-text);
+    font: 500 clamp(28px, 3vw, 36px)/1.2 Georgia, 'Times New Roman', serif;
+    letter-spacing: -.5px
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    margin-bottom: 24px
+}
+
+.campo label {
+    color: var(--wine-text);
+    font-size: 13px;
+    font-weight: 600
+}
+
+.campo input,
+.campo select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 13px 15px;
+    border: 1px solid var(--wine-border);
+    border-radius: 9px;
+    background: var(--wine-bg);
+    color: var(--wine-text);
+    font: inherit;
+    font-size: 14px;
+    outline: none;
+    transition: border-color .2s ease, box-shadow .2s ease, background-color .3s ease
+}
+
+.campo input::placeholder {
+    color: var(--wine-muted);
+    opacity: .8
+}
+
+.campo input:hover,
+.campo select:hover {
+    border-color: var(--wine-accent)
+}
+
+.campo input:focus,
+.campo select:focus {
+    border-color: var(--wine-primary);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--wine-primary) 17%, transparent)
+}
+
+.campo input.ng-invalid.ng-touched {
+    border-color: #c25760
+}
+
+#acciones {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 32px;
+    padding-top: 22px;
+    border-top: 1px solid var(--wine-border)
+}
+
+#acciones button {
+    min-height: 44px;
+    padding: 11px 19px;
+    border: 1px solid var(--wine-primary);
+    border-radius: 9px;
+    background: var(--wine-primary);
+    color: #fff;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.3;
+    cursor: pointer;
+    transition: transform .2s ease, background-color .2s ease, border-color .2s ease
+}
+
+#acciones button:hover:not(:disabled) {
+    background: var(--wine-primary-hover);
+    transform: translateY(-2px)
+}
+
+#acciones button:first-child {
+    background: var(--wine-surface-alt);
+    color: var(--wine-text);
+    border-color: var(--wine-border)
+}
+
+#acciones button:first-child:hover:not(:disabled) {
+    background: var(--wine-bg);
+    border-color: var(--wine-accent)
+}
+
+#acciones button:focus-visible {
+    outline: 3px solid var(--wine-accent);
+    outline-offset: 3px
+}
+
+#acciones button:disabled {
+    opacity: .55;
+    cursor: not-allowed
+}
+
+@keyframes form-appear {
+    from {
+        opacity: 0;
+        transform: translateY(12px)
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0)
+    }
+}
+
+@media(max-width:650px) {
+    :host {
+        padding: 24px 14px 48px
+    }
+
+    #contenedor {
+        padding: 26px 20px
+    }
+
+    #acciones {
+        flex-direction: column-reverse
+    }
+
+    #acciones button {
+        width: 100%
+    }
+}
+
+@media(prefers-reduced-motion:reduce) {
+    #contenedor {
+        animation: none
+    }
+
+    #acciones button,
+    .campo input,
+    .campo select {
+        transition: none
+    }
+
+    #acciones button:hover:not(:disabled) {
+        transform: none
+    }
+}
