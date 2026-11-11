@@ -1,22 +1,179 @@
 /* VINOTECA UTN — FORMULARIO DE CATEGORÍAS */
-:host { display:block; color:var(--wine-text); }
-#contenedor-formulario { min-height:75vh; display:flex; justify-content:center; align-items:center; padding:46px 20px 64px; box-sizing:border-box; background:var(--wine-bg); transition:background-color .3s ease; }
-#contenedor-formulario form { width:100%; max-width:490px; box-sizing:border-box; display:flex; flex-direction:column; padding:42px; background:var(--wine-surface); border:1px solid var(--wine-border); border-radius:20px; box-shadow:var(--wine-shadow); animation:category-form-in .45s ease both; }
-#contenedor-formulario h1 { margin:0 0 12px; color:var(--wine-text); text-align:center; font:500 clamp(27px,4vw,36px)/1.2 Georgia,'Times New Roman',serif; }
-#contenedor-formulario p { margin:0 0 30px; color:var(--wine-muted); font-size:14px; line-height:1.7; text-align:center; }
-#contenedor-formulario label { margin-bottom:9px; color:var(--wine-text); font-size:13px; font-weight:600; }
-#contenedor-formulario input,#contenedor-formulario select { width:100%; min-height:46px; box-sizing:border-box; padding:12px 14px; margin-bottom:24px; border:1px solid var(--wine-border); border-radius:10px; background:var(--wine-surface-alt); color:var(--wine-text); font:14px/1.4 inherit; font-family:inherit; outline:none; transition:border-color .2s ease,box-shadow .2s ease,background-color .2s ease; }
-#contenedor-formulario input::placeholder { color:var(--wine-muted); opacity:.8; }
-#contenedor-formulario input:focus,#contenedor-formulario select:focus { border-color:var(--wine-primary); box-shadow:0 0 0 3px color-mix(in srgb,var(--wine-primary) 16%,transparent); background:var(--wine-surface); }
-#contenedor-formulario input.ng-invalid.ng-touched { border-color:#bd5b64; }
-#acciones-formulario { display:flex; justify-content:flex-end; gap:12px; margin-top:8px; }
-#acciones-formulario button { min-height:44px; padding:11px 19px; border:1px solid transparent; border-radius:9px; font:600 13px/1.3 inherit; font-family:inherit; cursor:pointer; transition:background-color .2s ease,border-color .2s ease,transform .2s ease; }
-#acciones-formulario button:first-child { background:var(--wine-surface-alt); color:var(--wine-text); border-color:var(--wine-border); }
-#acciones-formulario button:first-child:hover { background:var(--wine-bg); border-color:var(--wine-accent); transform:translateY(-2px); }
-#acciones-formulario button:last-child { background:var(--wine-primary); color:#fff; }
-#acciones-formulario button:last-child:hover { background:var(--wine-primary-hover); transform:translateY(-2px); }
-#acciones-formulario button:focus-visible { outline:3px solid var(--wine-accent); outline-offset:3px; }
-#acciones-formulario button:disabled { opacity:.55; cursor:not-allowed; }
-@keyframes category-form-in { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
-@media(max-width:500px) { #contenedor-formulario { padding:24px 14px 42px; } #contenedor-formulario form { padding:28px 22px; } #acciones-formulario { flex-direction:column-reverse; } #acciones-formulario button { width:100%; } }
-@media(prefers-reduced-motion:reduce) { #contenedor-formulario form { animation:none; } #acciones-formulario button { transition:none; } #acciones-formulario button:hover { transform:none; } }
+:host {
+    display: block;
+    color: var(--wine-text);
+}
+
+#contenedor-formulario {
+    min-height: 75vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 46px 20px 64px;
+    box-sizing: border-box;
+    background: var(--wine-bg);
+    transition: background-color .3s ease;
+}
+
+#contenedor-formulario form {
+    width: 100%;
+    max-width: 490px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    padding: 42px;
+    background: var(--wine-surface);
+    border: 1px solid var(--wine-border);
+    border-radius: 20px;
+    box-shadow: var(--wine-shadow);
+    animation: category-form-in .45s ease both;
+}
+
+#contenedor-formulario h1 {
+    margin: 0 0 12px;
+    color: var(--wine-text);
+    text-align: center;
+    font: 500 clamp(27px, 4vw, 36px)/1.2 Georgia, 'Times New Roman', serif;
+}
+
+#contenedor-formulario p {
+    margin: 0 0 30px;
+    color: var(--wine-muted);
+    font-size: 14px;
+    line-height: 1.7;
+    text-align: center;
+}
+
+#contenedor-formulario label {
+    margin-bottom: 9px;
+    color: var(--wine-text);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+#contenedor-formulario input,
+#contenedor-formulario select {
+    width: 100%;
+    min-height: 46px;
+    box-sizing: border-box;
+    padding: 12px 14px;
+    margin-bottom: 24px;
+    border: 1px solid var(--wine-border);
+    border-radius: 10px;
+    background: var(--wine-surface-alt);
+    color: var(--wine-text);
+    font: 14px/1.4 inherit;
+    font-family: inherit;
+    outline: none;
+    transition: border-color .2s ease, box-shadow .2s ease, background-color .2s ease;
+}
+
+#contenedor-formulario input::placeholder {
+    color: var(--wine-muted);
+    opacity: .8;
+}
+
+#contenedor-formulario input:focus,
+#contenedor-formulario select:focus {
+    border-color: var(--wine-primary);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--wine-primary) 16%, transparent);
+    background: var(--wine-surface);
+}
+
+#contenedor-formulario input.ng-invalid.ng-touched {
+    border-color: #bd5b64;
+}
+
+#acciones-formulario {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+#acciones-formulario button {
+    min-height: 44px;
+    padding: 11px 19px;
+    border: 1px solid transparent;
+    border-radius: 9px;
+    font: 600 13px/1.3 inherit;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background-color .2s ease, border-color .2s ease, transform .2s ease;
+}
+
+#acciones-formulario button:first-child {
+    background: var(--wine-surface-alt);
+    color: var(--wine-text);
+    border-color: var(--wine-border);
+}
+
+#acciones-formulario button:first-child:hover {
+    background: var(--wine-bg);
+    border-color: var(--wine-accent);
+    transform: translateY(-2px);
+}
+
+#acciones-formulario button:last-child {
+    background: var(--wine-primary);
+    color: #fff;
+}
+
+#acciones-formulario button:last-child:hover {
+    background: var(--wine-primary-hover);
+    transform: translateY(-2px);
+}
+
+#acciones-formulario button:focus-visible {
+    outline: 3px solid var(--wine-accent);
+    outline-offset: 3px;
+}
+
+#acciones-formulario button:disabled {
+    opacity: .55;
+    cursor: not-allowed;
+}
+
+@keyframes category-form-in {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media(max-width:500px) {
+    #contenedor-formulario {
+        padding: 24px 14px 42px;
+    }
+
+    #contenedor-formulario form {
+        padding: 28px 22px;
+    }
+
+    #acciones-formulario {
+        flex-direction: column-reverse;
+    }
+
+    #acciones-formulario button {
+        width: 100%;
+    }
+}
+
+@media(prefers-reduced-motion:reduce) {
+    #contenedor-formulario form {
+        animation: none;
+    }
+
+    #acciones-formulario button {
+        transition: none;
+    }
+
+    #acciones-formulario button:hover {
+        transform: none;
+    }
+}
