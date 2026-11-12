@@ -1,1 +1,42 @@
-<p>payment-list works!</p>
+<div class="payments-page">
+
+    <div class="page-header">
+        <div>
+            <span class="eyebrow">GESTIÓN</span>
+            <h1>Pagos</h1>
+            <p>Consultá el pago asociado a una orden.</p>
+        </div>
+
+        <a class="btn-secondary" routerLink="/management">Volver a gestión</a>
+    </div>
+
+    <section class="search-card">
+        <h2>Buscar pago por orden</h2>
+        <p class="hint">
+            El backend expone la consulta de pagos por orden. Ingresá el identificador
+            externo de la orden para ver su pago.
+        </p>
+
+        <form class="search-form" [formGroup]="searchForm" (ngSubmit)="search()">
+            <div class="field">
+                <label for="orderId">ID de la orden</label>
+                <input id="orderId" type="text" formControlName="orderId"
+                    placeholder="Ej.: 3f2a9c1e-..." autocomplete="off" />
+            </div>
+
+            <button type="submit" class="btn-primary">Buscar pago</button>
+        </form>
+
+        <p class="field-error" *ngIf="errorMessage">{{ errorMessage }}</p>
+    </section>
+
+    <section class="search-card">
+        <h2>Pagos desde la orden</h2>
+        <p class="hint">
+            También podés abrir el detalle de una orden y registrar o consultar su pago
+            desde la sección <strong>Pago</strong>.
+        </p>
+        <a class="btn-secondary" routerLink="/management/orders">Ir a órdenes</a>
+    </section>
+
+</div>

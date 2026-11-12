@@ -24,6 +24,7 @@ export class Cart implements OnInit {
   errorMessage = '';
   successMessage = '';
   updatingItemId: string | null = null;
+  removingItemId: string | null = null;
   clearingCart = false;
 
   private subscription?: Subscription;
@@ -82,7 +83,9 @@ export class Cart implements OnInit {
 
     const newQuantity = item.quantity + delta;
 
-    if (newQuantity === item.quantity) {
+    if (newQuantity < 1) {
+      this.errorMessage = 'La cantidad mínima es 1. Usá "Eliminar" para quitar el producto.';
+      this.cdr.markForCheck();
       return;
     }
 
@@ -102,16 +105,17 @@ export class Cart implements OnInit {
     });
   }
 
-  setQuantity(item: CartItem, value: number): void {
-    const parsed = Number(value);
+  setQuantity(item: CartItem, input: HTMLInputElement): void {
+    const parsed = Number(input.value);
 
-    if (!Number.isFinite(parsed)) {
-      this.errorMessage = 'Ingresá una cantidad válida.';
+    if (!Number.isFinite(parsed) || parsed < 1) {
+      this.errorMessage = 'La cantidad mínima es 1. Usá "Eliminar" para quitar el producto.';
+      input.value = String(item.quantity);
       this.cdr.markForCheck();
       return;
     }
 
-    const newQuantity = Math.max(0, Math.floor(parsed));
+    const newQuantity = Math.floor(parsed);
 
     this.updatingItemId = item.productVariantId;
     this.cdr.markForCheck();
@@ -124,6 +128,37 @@ export class Cart implements OnInit {
       error: error => {
         this.updatingItemId = null;
         this.errorMessage = this.resolveError(error, 'No se pudo actualizar la cantidad.');
+        this.cdr.markForCheck();
+      }
+    });
+  }
+
+  removeItem(item: CartItem): void {
+    if (this.removingItemId || this.updatingItemId) {
+      return;
+    }
+
+    const confirmed = confirm(`¿Querés quitar "${item.productName}" del carrito?`);
+
+    if (!confirmed) {
+      return;
+    }
+
+    this.errorMessage = '';
+    this.successMessage = '';
+    this.removingItemId = item.productVariantId;
+    this.cdr.markForCheck();
+
+    this.cartService.removeItem(item.productVariantId).subscribe({
+      next: cart => {
+        this.removingItemId = null;
+        this.cart = cart.cartItems.length > 0 ? cart : null;
+        this.successMessage = 'Producto eliminado del carrito.';
+        this.cdr.markForCheck();
+      },
+      error: error => {
+        this.removingItemId = null;
+        this.errorMessage = this.resolveError(error, 'No se pudo eliminar el producto.');
         this.cdr.markForCheck();
       }
     });

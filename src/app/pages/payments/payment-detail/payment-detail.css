@@ -1,0 +1,26 @@
+.payment-detail-page{width:100%;max-width:800px;margin:0 auto;padding:32px;color:#343a32;box-sizing:border-box}
+.page-header{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:24px}
+.eyebrow{color:#829477;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase}
+.page-header h1{margin:6px 0;color:#344b38;font-size:28px}
+.page-header p{margin:0;color:#777d73;font-size:13px;overflow-wrap:anywhere}
+.message{padding:14px 18px;border-radius:10px;font-size:14px;margin-bottom:18px}
+.message.error{background:#fbf0ee;color:#9f3c2f;border:1px solid #f2cfca}
+.loading{padding:36px;text-align:center;color:#85877f}
+.btn-primary,.btn-secondary{display:inline-flex;align-items:center;justify-content:center;padding:10px 16px;border-radius:7px;font-size:13px;font-weight:600;text-decoration:none;cursor:pointer}
+.btn-primary{background:#718568;color:#fff;border:none}
+.btn-primary:hover{background:#5d7155}
+.btn-secondary{border:1px solid #cbd2c4;background:#fbfbf9;color:#4b5847}
+.btn-secondary:hover{background:#f2f2ed}
+.payment-card{padding:24px;background:#fff;border:1px solid #e9e8e1;border-radius:14px}
+.status-row{margin-bottom:18px}
+.status-badge{display:inline-block;padding:5px 12px;border-radius:999px;font-size:12px;font-weight:600}
+.payment-pending{background:#fdf4e3;color:#9a6a1f}
+.payment-approved{background:#e8f3ea;color:#2f6b3a}
+.payment-rejected{background:#f8e8e6;color:#a23f3f}
+.data-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px 28px;margin:0}
+.data-item{display:flex;flex-direction:column;gap:4px}
+.data-item dt{color:#8c9184;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.data-item dd{margin:0;color:#333;font-size:14px;overflow-wrap:anywhere}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px}
+.actions{display:flex;justify-content:flex-end;margin-top:24px}
+@media(max-width:650px){.payment-detail-page{padding:20px 14px}.page-header{flex-direction:column;align-items:flex-start}}

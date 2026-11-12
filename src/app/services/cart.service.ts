@@ -69,6 +69,13 @@ export class CartService {
         );
     }
 
+    removeItem(productVariantId: string): Observable<Cart> {
+        return this.http.delete<any>(`${this.url}/items/${productVariantId}`).pipe(
+            map(cart => this.mapCart(cart)),
+            tap(cart => this.cartSubject.next(cart))
+        );
+    }
+
     clearCart(): Observable<void> {
         return this.http.delete<void>(this.url).pipe(
             tap(() => this.cartSubject.next(null))

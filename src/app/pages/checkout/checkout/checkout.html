@@ -1,0 +1,128 @@
+<div class="checkout-page">
+
+    <div class="page-header">
+        <div>
+            <span class="eyebrow">CHECKOUT</span>
+            <h1>Finalizar compra</h1>
+            <p>Elegí cómo querés recibir tu pedido y confirmá la compra.</p>
+        </div>
+
+        <a class="btn-secondary" routerLink="/cart">Volver al carrito</a>
+    </div>
+
+    <div class="message error" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+    <div class="loading" *ngIf="loading">Cargando tu pedido...</div>
+
+    <ng-container *ngIf="!loading">
+        <div class="empty-state" *ngIf="!cart || cart.cartItems.length === 0">
+            <h3>No hay productos para confirmar</h3>
+            <p>Agregá productos al carrito antes de finalizar la compra.</p>
+            <a class="btn-primary" routerLink="/products">Ver catálogo</a>
+        </div>
+
+        <form class="checkout-content" *ngIf="cart && cart.cartItems.length > 0" [formGroup]="form"
+            (ngSubmit)="confirm()">
+
+            <div class="checkout-main">
+
+                <section class="card">
+                    <h2>Método de entrega</h2>
+
+                    <div class="delivery-options">
+                        <label class="option" [class.selected]="!isDelivery">
+                            <input type="radio" formControlName="deliveryType" value="PICKUP" />
+                            <span class="option-body">
+                                <strong>Retiro en tienda</strong>
+                                <small>Retirás el pedido en nuestro local.</small>
+                            </span>
+                        </label>
+
+                        <label class="option" [class.selected]="isDelivery">
+                            <input type="radio" formControlName="deliveryType" value="DELIVERY" />
+                            <span class="option-body">
+                                <strong>Entrega a domicilio</strong>
+                                <small>Enviamos el pedido a una dirección guardada.</small>
+                            </span>
+                        </label>
+                    </div>
+                </section>
+
+                <section class="card" *ngIf="isDelivery">
+                    <h2>Dirección de entrega</h2>
+
+                    <div class="loading-inline" *ngIf="loadingAddresses">Cargando direcciones...</div>
+
+                    <div class="empty-address" *ngIf="!loadingAddresses && addresses.length === 0">
+                        <p>No tenés direcciones guardadas. Agregá una para recibir el pedido a domicilio.</p>
+                        <a class="btn-primary" routerLink="/profile">Agregar dirección</a>
+                    </div>
+
+                    <div class="address-options" *ngIf="!loadingAddresses && addresses.length > 0">
+                        <label class="address-option" *ngFor="let address of addresses; trackBy: trackByAddress"
+                            [class.selected]="form.value.addressId === address.externalId">
+                            <input type="radio" formControlName="addressId" [value]="address.externalId" />
+                            <span class="address-body">
+                                <strong>{{ address.street }} {{ address.streetNumber }}</strong>
+                                <small *ngIf="address.floor || address.apartmentNumber">
+                                    <ng-container *ngIf="address.floor">Piso {{ address.floor }}</ng-container>
+                                    <ng-container *ngIf="address.apartmentNumber"> · Depto {{ address.apartmentNumber }}</ng-container>
+                                </small>
+                                <small>{{ address.city }} · CP {{ address.zipCode }}</small>
+                            </span>
+                        </label>
+                    </div>
+
+                    <p class="field-error" *ngIf="showAddressError">Seleccioná una dirección de entrega.</p>
+                </section>
+
+                <section class="card">
+                    <h2>Resumen del pedido</h2>
+
+                    <div class="summary-items">
+                        <div class="summary-item" *ngFor="let item of cart.cartItems; trackBy: trackByVariant">
+                            <div class="summary-info">
+                                <strong>{{ item.productName }}</strong>
+                                <span>{{ item.variantAttribute }}</span>
+                            </div>
+                            <div class="summary-qty">{{ item.quantity }} × $ {{ item.unitPrice | number:'1.2-2' }}</div>
+                            <div class="summary-subtotal">$ {{ lineTotal(item) | number:'1.2-2' }}</div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+            <aside class="checkout-summary">
+                <h2>Total del pedido</h2>
+
+                <div class="summary-row">
+                    <span>Unidades</span>
+                    <strong>{{ totalUnits }}</strong>
+                </div>
+
+                <div class="summary-row">
+                    <span>Subtotal</span>
+                    <strong>$ {{ cart.totalAmount | number:'1.2-2' }}</strong>
+                </div>
+
+                <div class="summary-row total">
+                    <span>Total</span>
+                    <strong>$ {{ cart.totalAmount | number:'1.2-2' }}</strong>
+                </div>
+
+                <p class="summary-note">El precio final lo calcula el backend al confirmar la compra.</p>
+
+                <button type="submit" class="btn-primary btn-confirm" [disabled]="submitting">
+                    {{ submitting ? 'Confirmando...' : 'Confirmar pedido' }}
+                </button>
+
+                <p class="summary-note">
+                    Al confirmar se genera un pedido en estado <strong>Pendiente de pago</strong>.
+                </p>
+            </aside>
+
+        </form>
+    </ng-container>
+
+</div>

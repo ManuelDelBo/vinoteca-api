@@ -45,11 +45,12 @@
                     <div class="item-quantity">
                         <label [for]="'qty-' + item.id">Cantidad</label>
                         <div class="qty-control">
-                            <button type="button" [disabled]="updatingItemId === item.productVariantId"
+                            <button type="button"
+                                [disabled]="updatingItemId === item.productVariantId || item.quantity <= 1"
                                 (click)="changeQuantity(item, -1)">−</button>
                             <input [id]="'qty-' + item.id" type="number" min="0" step="1" [value]="item.quantity"
                                 [disabled]="updatingItemId === item.productVariantId"
-                                (change)="setQuantity(item, $any($event.target).value)" />
+                                (change)="setQuantity(item, $any($event.target))" />
                             <button type="button" [disabled]="updatingItemId === item.productVariantId"
                                 (click)="changeQuantity(item, 1)">+</button>
                         </div>
@@ -58,6 +59,11 @@
                     <div class="item-total">
                         <span>Subtotal</span>
                         <strong>$ {{ lineTotal(item) | number:'1.2-2' }}</strong>
+                        <button type="button" class="btn-remove"
+                            [disabled]="removingItemId === item.productVariantId || updatingItemId === item.productVariantId"
+                            (click)="removeItem(item)">
+                            {{ removingItemId === item.productVariantId ? 'Eliminando...' : 'Eliminar' }}
+                        </button>
                     </div>
                 </div>
             </div>
@@ -68,10 +74,17 @@
                     <span>Unidades</span>
                     <strong>{{ totalUnits }}</strong>
                 </div>
+                <div class="summary-row">
+                    <span>Subtotal</span>
+                    <strong>$ {{ cart.totalAmount | number:'1.2-2' }}</strong>
+                </div>
                 <div class="summary-row total">
                     <span>Total</span>
                     <strong>$ {{ cart.totalAmount | number:'1.2-2' }}</strong>
                 </div>
+                <a class="btn-primary btn-checkout" routerLink="/checkout">
+                    Finalizar compra
+                </a>
                 <button type="button" class="btn-danger" [disabled]="clearingCart" (click)="clearCart()">
                     {{ clearingCart ? 'Vaciando...' : 'Vaciar carrito' }}
                 </button>

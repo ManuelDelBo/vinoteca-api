@@ -1,1 +1,58 @@
-<p>order-list works!</p>
+<div class="orders-page">
+
+    <div class="page-header">
+        <div>
+            <span class="eyebrow">{{ isStaff ? 'GESTIÓN' : 'MI CUENTA' }}</span>
+            <h1>{{ isStaff ? 'Órdenes' : 'Mis pedidos' }}</h1>
+            <p>{{ isStaff ? 'Consultá las órdenes registradas en el sistema.' : 'Revisá el estado y el detalle de tus compras.' }}</p>
+        </div>
+
+        <a class="btn-secondary" [routerLink]="isStaff ? '/management' : '/products'">
+            {{ isStaff ? 'Volver a gestión' : 'Seguir comprando' }}
+        </a>
+    </div>
+
+    <div class="message error" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+    <div class="loading" *ngIf="loading">Cargando pedidos...</div>
+
+    <ng-container *ngIf="!loading && !errorMessage">
+        <div class="empty-state" *ngIf="orders.length === 0">
+            <h3>{{ isStaff ? 'Todavía no hay órdenes registradas' : 'Todavía no realizaste ningún pedido' }}</h3>
+            <p>{{ isStaff ? 'Las órdenes creadas por los clientes aparecerán acá.' : 'Cuando confirmes una compra vas a poder seguirla desde esta sección.' }}</p>
+            <a class="btn-primary" *ngIf="!isStaff" routerLink="/products">Ver catálogo</a>
+        </div>
+
+        <div class="orders-table" *ngIf="orders.length > 0">
+            <div class="orders-head">
+                <span>Pedido</span>
+                <span>Fecha</span>
+                <span *ngIf="isStaff">Cliente</span>
+                <span>Total</span>
+                <span>Estado</span>
+                <span></span>
+            </div>
+
+            <div class="orders-row" *ngFor="let order of orders; trackBy: trackById">
+                <div class="order-number">{{ orderNumber(order.id) }}</div>
+
+                <div class="order-date">{{ order.createdAt | date:'dd/MM/yyyy HH:mm' }}</div>
+
+                <div class="order-customer" *ngIf="isStaff">{{ order.customerName || 'Cliente' }}</div>
+
+                <div class="order-total">$ {{ order.total | number:'1.2-2' }}</div>
+
+                <div class="order-status">
+                    <span class="status-badge" [ngClass]="statusClass(order.status)">
+                        {{ statusLabel(order.status) }}
+                    </span>
+                </div>
+
+                <div class="order-action">
+                    <a class="btn-detail" [routerLink]="[detailBase, order.id]">Ver detalle</a>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+
+</div>

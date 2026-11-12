@@ -1,6 +1,6 @@
 /* ==========================================
-   VINOTECA UTN - CARRITO DE COMPRAS
-   Diseño premium - Claro / Oscuro
+  VINOTECA UTN - CARRITO DE COMPRAS
+  Diseño unificado - develop + estructura actual
    ========================================== */
 
 .cart-page {
@@ -9,10 +9,11 @@
   margin: 0 auto;
   padding: 48px 5%;
   box-sizing: border-box;
-  color: var(--wine-text);
+  color: var(--wine-text, #343a32);
 }
 
 /* ENCABEZADO */
+
 .page-header {
   display: flex;
   justify-content: space-between;
@@ -22,7 +23,7 @@
 }
 
 .eyebrow {
-  color: var(--wine-primary);
+  color: var(--wine-primary, #718568);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 2.5px;
@@ -31,7 +32,7 @@
 
 .page-header h1 {
   margin: 8px 0 10px;
-  color: var(--wine-text);
+  color: var(--wine-text, #344b38);
   font-family: Georgia, 'Times New Roman', serif;
   font-size: clamp(30px, 4vw, 42px);
   font-weight: 500;
@@ -40,12 +41,13 @@
 
 .page-header p {
   margin: 0;
-  color: var(--wine-muted);
+  color: var(--wine-muted, #777d73);
   font-size: 14px;
   line-height: 1.6;
 }
 
 /* MENSAJES Y ESTADOS */
+
 .message {
   margin-bottom: 20px;
   padding: 14px 18px;
@@ -69,23 +71,23 @@
 .loading {
   padding: 55px 20px;
   text-align: center;
-  color: var(--wine-muted);
+  color: var(--wine-muted, #777d73);
   font-size: 14px;
 }
 
 .empty-state {
   padding: 65px 24px;
   text-align: center;
-  background: var(--wine-surface);
-  border: 1px dashed var(--wine-border);
+  background: var(--wine-surface, #fff);
+  border: 1px dashed var(--wine-border, #dedbd5);
   border-radius: 18px;
-  color: var(--wine-muted);
-  box-shadow: var(--wine-shadow);
+  color: var(--wine-muted, #777d73);
+  box-shadow: var(--wine-shadow, 0 5px 20px rgba(0, 0, 0, .05));
 }
 
 .empty-state h3 {
   margin: 0 0 12px;
-  color: var(--wine-text);
+  color: var(--wine-text, #344b38);
   font-family: Georgia, 'Times New Roman', serif;
   font-size: 26px;
   font-weight: 500;
@@ -99,6 +101,7 @@
 }
 
 /* BOTONES */
+
 .btn-primary,
 .btn-danger {
   display: inline-flex;
@@ -107,31 +110,31 @@
   gap: 8px;
   min-height: 44px;
   padding: 11px 18px;
+  box-sizing: border-box;
   border-radius: 9px;
   font-family: inherit;
   font-size: 13px;
   font-weight: 600;
   text-decoration: none;
   cursor: pointer;
-  transition:
-    background-color 0.25s ease,
-    border-color 0.25s ease,
-    color 0.25s ease,
-    transform 0.25s ease,
-    box-shadow 0.25s ease;
+  transition: background-color .25s ease,
+    border-color .25s ease,
+    color .25s ease,
+    transform .25s ease,
+    box-shadow .25s ease;
 }
 
 .btn-primary {
-  background: var(--wine-primary);
+  background: var(--wine-primary, #718568);
   color: #fff;
-  border: 1px solid var(--wine-primary);
+  border: 1px solid var(--wine-primary, #718568);
 }
 
 .btn-primary:hover:not(:disabled) {
-  background: var(--wine-primary-hover);
-  border-color: var(--wine-primary-hover);
+  background: var(--wine-primary-hover, #5d7155);
+  border-color: var(--wine-primary-hover, #5d7155);
   transform: translateY(-2px);
-  box-shadow: 0 8px 22px rgba(103, 52, 81, 0.2);
+  box-shadow: 0 8px 22px rgba(103, 52, 81, .2);
 }
 
 .btn-danger {
@@ -141,13 +144,13 @@
 }
 
 .btn-danger:hover:not(:disabled) {
-  background: rgba(195, 75, 86, 0.09);
+  background: rgba(195, 75, 86, .09);
   transform: translateY(-2px);
 }
 
 .btn-primary:disabled,
 .btn-danger:disabled {
-  opacity: 0.55;
+  opacity: .55;
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
@@ -155,16 +158,18 @@
 
 .btn-primary:focus-visible,
 .btn-danger:focus-visible,
+.btn-remove:focus-visible,
 .qty-control button:focus-visible,
 .qty-control input:focus-visible {
-  outline: 3px solid var(--wine-accent);
+  outline: 3px solid var(--wine-accent, #a98b9e);
   outline-offset: 3px;
 }
 
 /* DISTRIBUCIÓN DEL CARRITO */
+
 .cart-content {
   display: grid;
-  grid-template-columns: minmax(0, 1.55fr) minmax(290px, 0.85fr);
+  grid-template-columns: minmax(0, 1.55fr) minmax(290px, .85fr);
   gap: 28px;
   align-items: start;
 }
@@ -177,27 +182,27 @@
 }
 
 /* PRODUCTOS */
+
 .cart-item {
   display: grid;
   grid-template-columns: minmax(0, 1.4fr) auto auto auto;
   gap: 18px;
   align-items: center;
   padding: 22px;
-  background: var(--wine-surface);
-  border: 1px solid var(--wine-border);
+  background: var(--wine-surface, #fff);
+  border: 1px solid var(--wine-border, #e9e8e1);
   border-radius: 16px;
-  box-shadow: var(--wine-shadow);
+  box-shadow: var(--wine-shadow, 0 5px 20px rgba(0, 0, 0, .05));
   min-width: 0;
-  transition:
-    background-color 0.35s ease,
-    border-color 0.3s ease,
-    box-shadow 0.3s ease,
-    transform 0.3s ease;
+  transition: background-color .35s ease,
+    border-color .3s ease,
+    box-shadow .3s ease,
+    transform .3s ease;
 }
 
 .cart-item:hover {
-  border-color: var(--wine-accent);
-  box-shadow: 0 12px 28px rgba(46, 28, 39, 0.1);
+  border-color: var(--wine-accent, #a98b9e);
+  box-shadow: 0 12px 28px rgba(46, 28, 39, .1);
   transform: translateY(-3px);
 }
 
@@ -207,7 +212,7 @@
 
 .item-info h3 {
   margin: 0 0 7px;
-  color: var(--wine-text);
+  color: var(--wine-text, #344b38);
   font-family: Georgia, 'Times New Roman', serif;
   font-size: 19px;
   font-weight: 500;
@@ -217,7 +222,7 @@
 
 .item-info p {
   margin: 0;
-  color: var(--wine-muted);
+  color: var(--wine-muted, #85877f);
   font-size: 12px;
   line-height: 1.6;
 }
@@ -232,28 +237,56 @@
 .item-price span,
 .item-total span,
 .qty-control label,
-.label {
-  color: var(--wine-muted);
+.label,
+.item-quantity label {
+  color: var(--wine-muted, #85877f);
   font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.7px;
+  letter-spacing: .7px;
   text-transform: uppercase;
 }
 
 .item-price strong,
 .item-total strong {
-  color: var(--wine-text);
+  color: var(--wine-text, #343a32);
   font-size: 14px;
   font-weight: 700;
   white-space: nowrap;
 }
 
 .item-total strong {
-  color: var(--wine-primary);
+  color: var(--wine-primary, #718568);
   font-size: 16px;
 }
 
+/* ELIMINAR PRODUCTO */
+
+.btn-remove {
+  margin-top: 6px;
+  padding: 7px 11px;
+  border: 1px solid #e2c4bf;
+  border-radius: 7px;
+  background: #fbf3f1;
+  color: #9f3c2f;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color .2s ease,
+    transform .2s ease;
+}
+
+.btn-remove:hover:not(:disabled) {
+  background: #f6e5e2;
+  transform: translateY(-1px);
+}
+
+.btn-remove:disabled {
+  opacity: .6;
+  cursor: not-allowed;
+}
+
 /* CONTROL DE CANTIDAD */
+
 .item-quantity {
   display: flex;
   flex-direction: column;
@@ -273,28 +306,27 @@
   width: 34px;
   height: 34px;
   padding: 0;
-  border: 1px solid var(--wine-border);
+  border: 1px solid var(--wine-border, #cbd2c4);
   border-radius: 8px;
-  background: var(--wine-surface-alt);
-  color: var(--wine-primary);
+  background: var(--wine-surface-alt, #fbfbf9);
+  color: var(--wine-primary, #718568);
   font-family: inherit;
   font-size: 17px;
   font-weight: 600;
   cursor: pointer;
-  transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease,
-    color 0.2s ease;
+  transition: background-color .2s ease,
+    border-color .2s ease,
+    color .2s ease;
 }
 
 .qty-control button:hover:not(:disabled) {
-  background: var(--wine-primary);
-  border-color: var(--wine-primary);
+  background: var(--wine-primary, #718568);
+  border-color: var(--wine-primary, #718568);
   color: #fff;
 }
 
 .qty-control button:disabled {
-  opacity: 0.45;
+  opacity: .45;
   cursor: not-allowed;
 }
 
@@ -304,33 +336,33 @@
   padding: 0 5px;
   box-sizing: border-box;
   text-align: center;
-  border: 1px solid var(--wine-border);
+  border: 1px solid var(--wine-border, #d0d3c7);
   border-radius: 8px;
-  background: var(--wine-bg);
-  color: var(--wine-text);
+  background: var(--wine-bg, #fff);
+  color: var(--wine-text, #343a32);
   font-family: inherit;
   font-size: 13px;
   font-weight: 600;
 }
 
 /* RESUMEN DE COMPRA */
+
 .cart-summary {
   display: flex;
   flex-direction: column;
   gap: 16px;
   padding: 28px;
-  background: var(--wine-surface);
-  border: 1px solid var(--wine-border);
+  background: var(--wine-surface, #fff);
+  border: 1px solid var(--wine-border, #e9e8e1);
   border-radius: 16px;
-  box-shadow: var(--wine-shadow);
-  transition:
-    background-color 0.35s ease,
-    border-color 0.35s ease;
+  box-shadow: var(--wine-shadow, 0 5px 20px rgba(0, 0, 0, .05));
+  transition: background-color .35s ease,
+    border-color .35s ease;
 }
 
 .cart-summary h2 {
   margin: 0 0 5px;
-  color: var(--wine-text);
+  color: var(--wine-text, #344b38);
   font-family: Georgia, 'Times New Roman', serif;
   font-size: 25px;
   font-weight: 500;
@@ -341,13 +373,13 @@
   justify-content: space-between;
   align-items: baseline;
   gap: 12px;
-  color: var(--wine-muted);
+  color: var(--wine-muted, #6d7367);
   font-size: 13px;
   line-height: 1.5;
 }
 
 .summary-row strong {
-  color: var(--wine-text);
+  color: var(--wine-text, #343a32);
   font-size: 14px;
   font-weight: 600;
   text-align: right;
@@ -356,18 +388,27 @@
 .summary-row.total {
   margin-top: 6px;
   padding-top: 18px;
-  border-top: 1px dashed var(--wine-border);
+  border-top: 1px dashed var(--wine-border, #d8dcce);
   font-size: 15px;
   font-weight: 600;
 }
 
 .summary-row.total strong {
-  color: var(--wine-primary);
+  color: var(--wine-primary, #718568);
   font-size: 25px;
   font-weight: 700;
 }
 
+/* BOTONES DEL RESUMEN */
+
+.btn-checkout {
+  width: 100%;
+  margin-top: 6px;
+  text-align: center;
+}
+
 /* RESPONSIVE */
+
 @media (max-width: 950px) {
   .cart-content {
     grid-template-columns: minmax(0, 1fr);
@@ -421,17 +462,21 @@
 }
 
 /* ACCESIBILIDAD */
+
 @media (prefers-reduced-motion: reduce) {
+
   .cart-item,
   .btn-primary,
   .btn-danger,
+  .btn-remove,
   .qty-control button {
     transition: none;
   }
 
   .cart-item:hover,
   .btn-primary:hover,
-  .btn-danger:hover {
+  .btn-danger:hover,
+  .btn-remove:hover {
     transform: none;
   }
 }
