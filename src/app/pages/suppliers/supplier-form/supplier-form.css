@@ -1,98 +1,203 @@
+/* VINOTECA UTN | Proveedores: formulario corregido
+   Compatible con el HTML original y con/sin variables globales --wine-*.
+   No modifica el formulario ni su lógica Angular. */
+
+:host {
+    --sf-bg: var(--wine-bg, #f7f3ed);
+    --sf-card: var(--wine-surface, #fffdf9);
+    --sf-input: var(--wine-surface-alt, #faf7f2);
+    --sf-text: var(--wine-text, #28212a);
+    --sf-muted: var(--wine-muted, #756d73);
+    --sf-border: var(--wine-border, #e3d9d9);
+    --sf-primary: var(--wine-primary, #612d50);
+    --sf-primary-hover: var(--wine-primary-hover, #4c203f);
+    --sf-accent: var(--wine-accent, #c6a16b);
+    display: block;
+    background: var(--sf-bg);
+    color: var(--sf-text);
+}
+
+/* Valores de respaldo cuando todavía no están definidas las variables globales. */
+:host-context(html.dark) {
+    --sf-bg: var(--wine-bg, #17141a);
+    --sf-card: var(--wine-surface, #26202a);
+    --sf-input: var(--wine-surface-alt, #302832);
+    --sf-text: var(--wine-text, #f4ecef);
+    --sf-muted: var(--wine-muted, #c5b7c1);
+    --sf-border: var(--wine-border, #51404f);
+    --sf-primary: var(--wine-primary, #95637e);
+    --sf-primary-hover: var(--wine-primary-hover, #ac7694);
+    --sf-accent: var(--wine-accent, #d5b27d);
+}
+
 #contenedor-formulario {
+    box-sizing: border-box;
+    width: 100%;
     min-height: 75vh;
     display: flex;
-    justify-content: center;
     align-items: center;
-    padding: 30px 20px;
-    background-color: #f5f6f4;
+    justify-content: center;
+    padding: 48px 20px 64px;
+    background: var(--sf-bg);
 }
 
 #contenedor-formulario form {
+    box-sizing: border-box;
     width: 100%;
-    max-width: 450px;
+    max-width: 520px;
+    margin: 0;
+    padding: 42px;
     display: flex;
     flex-direction: column;
-    padding: 35px;
-    background-color: #fff;
-    border-radius: 12px;
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+    background: var(--sf-card);
+    border: 1px solid var(--sf-border);
+    border-radius: 18px;
+    box-shadow: 0 14px 38px rgba(29, 16, 27, .09);
+    animation: sf-appear .35s ease-out both;
 }
 
 #contenedor-formulario h1 {
     margin: 0 0 10px;
-    color: #315b46;
+    color: var(--sf-text);
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: clamp(28px, 3vw, 36px);
+    font-weight: 500;
+    line-height: 1.2;
     text-align: center;
 }
 
 #contenedor-formulario p {
-    margin: 0 0 28px;
-    color: #777;
+    margin: 0 0 32px;
+    color: var(--sf-muted);
     font-size: 14px;
+    line-height: 1.65;
     text-align: center;
 }
 
 #contenedor-formulario label {
-    margin-bottom: 8px;
-    color: #444;
-    font-size: 14px;
+    display: block;
+    margin: 0 0 9px;
+    color: var(--sf-text);
+    font-size: 13px;
     font-weight: 600;
+    line-height: 1.4;
 }
 
-#contenedor-formulario input,
-#contenedor-formulario select {
-    width: 100%;
+#contenedor-formulario input {
     box-sizing: border-box;
-    padding: 12px;
-    margin-bottom: 20px;
-    border: 1px solid #d5d9d5;
-    border-radius: 6px;
-    background-color: #fff;
+    display: block;
+    width: 100%;
+    min-width: 0;
+    min-height: 46px;
+    margin: 0 0 23px;
+    padding: 12px 15px;
+    background: var(--sf-input);
+    color: var(--sf-text);
+    border: 1px solid var(--sf-border);
+    border-radius: 9px;
+    font-family: inherit;
     font-size: 14px;
+    line-height: 1.5;
     outline: none;
+    transition: border-color .2s ease, box-shadow .2s ease;
 }
 
-#contenedor-formulario input:focus,
-#contenedor-formulario select:focus {
-    border-color: #315b46;
+#contenedor-formulario input::placeholder {
+    color: var(--sf-muted);
+    opacity: .85;
+}
+
+#contenedor-formulario input:hover {
+    border-color: var(--sf-accent);
+}
+
+#contenedor-formulario input:focus {
+    border-color: var(--sf-primary);
+    box-shadow: 0 0 0 3px rgba(130, 77, 105, .15);
+}
+
+#contenedor-formulario input.ng-invalid.ng-touched {
+    border-color: #bd5966;
 }
 
 #acciones-formulario {
     display: flex;
+    align-items: center;
     justify-content: flex-end;
+    flex-wrap: wrap;
     gap: 12px;
-    margin-top: 10px;
+    margin-top: 9px;
+    padding-top: 22px;
+    border-top: 1px solid var(--sf-border);
 }
 
 #acciones-formulario button {
-    padding: 11px 18px;
-    border: none;
-    border-radius: 6px;
+    box-sizing: border-box;
+    min-height: 44px;
+    padding: 11px 20px;
+    border: 1px solid transparent;
+    border-radius: 9px;
+    font-family: inherit;
     font-size: 14px;
+    font-weight: 600;
+    line-height: 1.35;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: transform .2s ease, background-color .2s ease, border-color .2s ease;
 }
 
 #acciones-formulario button:first-child {
-    background-color: #e8eae8;
-    color: #444;
+    background: var(--sf-input);
+    border-color: var(--sf-border);
+    color: var(--sf-text);
 }
 
 #acciones-formulario button:first-child:hover {
-    background-color: #d8dcd8;
+    background: var(--sf-bg);
+    border-color: var(--sf-accent);
+    transform: translateY(-2px);
 }
 
 #acciones-formulario button:last-child {
-    background-color: #315b46;
-    color: white;
+    background: var(--sf-primary);
+    color: #fff;
 }
 
 #acciones-formulario button:last-child:hover {
-    background-color: #244535;
+    background: var(--sf-primary-hover);
+    transform: translateY(-2px);
 }
 
-@media (max-width: 500px) {
+#acciones-formulario button:focus-visible {
+    outline: 3px solid var(--sf-accent);
+    outline-offset: 3px;
+}
+
+#acciones-formulario button:disabled {
+    opacity: .55;
+    cursor: not-allowed;
+    transform: none;
+}
+
+@keyframes sf-appear {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 540px) {
+    #contenedor-formulario {
+        padding: 28px 14px 46px;
+        align-items: flex-start;
+    }
+
     #contenedor-formulario form {
-        padding: 25px 20px;
+        padding: 30px 22px;
     }
 
     #acciones-formulario {
@@ -101,5 +206,20 @@
 
     #acciones-formulario button {
         width: 100%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #contenedor-formulario form {
+        animation: none;
+    }
+
+    #contenedor-formulario input,
+    #acciones-formulario button {
+        transition: none;
+    }
+
+    #acciones-formulario button:hover {
+        transform: none;
     }
 }

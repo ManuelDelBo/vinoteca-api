@@ -1,110 +1,204 @@
-#contenedor {
-    padding: 30px;
-}
+ /* VINOTECA UTN — ADMINISTRACIÓN DE CATEGORÍAS */
+ :host {
+     display: block;
+     min-width: 0;
+     color: var(--wine-text);
+ }
 
-#encabezado {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-}
+ #contenedor {
+     width: 100%;
+     max-width: 1200px;
+     margin: 0 auto;
+     padding: 44px 32px 70px;
+     box-sizing: border-box;
+ }
 
-#encabezado h1 {
-    margin: 0 0 8px;
-    color: #333;
-}
+ #encabezado {
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     gap: 24px;
+     margin-bottom: 30px;
+ }
 
-#encabezado p {
-    margin: 0;
-    color: #777;
-}
+ #encabezado h1 {
+     margin: 0 0 8px;
+     color: var(--wine-text);
+     font: 500 clamp(30px, 4vw, 42px)/1.2 Georgia, 'Times New Roman', serif;
+     letter-spacing: -.7px;
+ }
 
-#tarjetas {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-    gap: 20px;
-    margin-bottom: 25px;
-}
+ #encabezado p {
+     margin: 0;
+     color: var(--wine-muted);
+     font-size: 14px;
+     line-height: 1.6;
+ }
 
-#tarjeta {
-    background-color: #fff;
-    border: 1px solid #e5e5e5;
-    border-radius: 10px;
-    padding: 22px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-}
+ #contenedor>p {
+     color: var(--wine-muted);
+     font-size: 14px;
+     line-height: 1.5;
+ }
 
-#tarjeta h2,
-#tarjeta h3 {
-    margin: 0 0 12px;
-    color: #333;
-}
+ #tarjetas {
+     display: grid;
+     grid-template-columns: repeat(auto-fill, minmax(min(100%, 265px), 1fr));
+     gap: 20px;
+     margin: 26px 0;
+ }
 
-#tarjeta p {
-    color: #777;
-    font-size: 14px;
-    margin-bottom: 20px;
-}
+ #tarjeta {
+     display: flex;
+     flex-direction: column;
+     min-width: 0;
+     padding: 26px;
+     background: var(--wine-surface);
+     border: 1px solid var(--wine-border);
+     border-radius: 18px;
+     box-shadow: var(--wine-shadow);
+     transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease, background-color .3s ease;
+     animation: category-rise .45s ease both;
+ }
 
-#acciones {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-}
+ #tarjeta:hover {
+     transform: translateY(-4px);
+     border-color: var(--wine-accent);
+     box-shadow: 0 14px 30px rgba(40, 20, 35, .1);
+ }
 
-button {
-    padding: 10px 16px;
-    border: none;
-    border-radius: 6px;
-    background-color: #315b46;
-    color: white;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
+ #tarjeta h2,
+ #tarjeta h3 {
+     margin: 0 0 12px;
+     color: var(--wine-text);
+     font: 500 23px/1.3 Georgia, 'Times New Roman', serif;
+     overflow-wrap: anywhere;
+ }
 
-button:hover {
-    background-color: #244535;
-}
+ #tarjeta p {
+     margin: 0 0 22px;
+     color: var(--wine-muted);
+     font-size: 13px;
+     line-height: 1.6;
+ }
 
-#acciones button:nth-child(2) {
-    background-color: #777;
-}
+ #acciones {
+     display: flex;
+     flex-wrap: wrap;
+     gap: 9px;
+     margin-top: auto;
+ }
 
-#acciones button:nth-child(2):hover {
-    background-color: #5d5d5d;
-}
+ button {
+     display: inline-flex;
+     align-items: center;
+     justify-content: center;
+     min-height: 41px;
+     padding: 10px 15px;
+     border: 1px solid transparent;
+     border-radius: 9px;
+     background: var(--wine-primary);
+     color: #fff;
+     font: 600 13px/1.2 inherit;
+     font-family: inherit;
+     cursor: pointer;
+     transition: background-color .2s ease, border-color .2s ease, transform .2s ease, box-shadow .2s ease;
+ }
 
-#acciones button:nth-child(3) {
-    background-color: #b94b4b;
-}
+ button:hover:not(:disabled) {
+     background: var(--wine-primary-hover);
+     transform: translateY(-2px);
+ }
 
-#acciones button:nth-child(3):hover {
-    background-color: #963939;
-}
+ button:focus-visible {
+     outline: 3px solid var(--wine-accent);
+     outline-offset: 3px;
+ }
 
-#acciones button:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-}
+ button:disabled {
+     opacity: .55;
+     cursor: not-allowed;
+ }
 
-#contenedor > button {
-    margin-top: 10px;
-}
+ #acciones button:nth-child(2) {
+     background: var(--wine-surface-alt);
+     color: var(--wine-text);
+     border-color: var(--wine-border);
+ }
 
-#contenedor > h2 {
-    margin: 30px 0 20px;
-    color: #333;
-}
+ #acciones button:nth-child(2):hover:not(:disabled) {
+     background: var(--wine-bg);
+     border-color: var(--wine-accent);
+ }
 
-@media (max-width: 600px) {
-    #contenedor {
-        padding: 18px;
-    }
+ #acciones button:nth-child(3) {
+     background: #a94350;
+     color: #fff;
+ }
 
-    #encabezado {
-        align-items: flex-start;
-        gap: 15px;
-        flex-direction: column;
-    }
-}
+ #acciones button:nth-child(3):hover:not(:disabled) {
+     background: #8f3340;
+ }
+
+ #contenedor>button {
+     margin-top: 12px;
+     background: var(--wine-surface);
+     color: var(--wine-primary);
+     border-color: var(--wine-border);
+ }
+
+ #contenedor>button:hover:not(:disabled) {
+     background: var(--wine-surface-alt);
+     border-color: var(--wine-accent);
+ }
+
+ #contenedor>h2 {
+     margin: 38px 0 20px;
+     padding-top: 26px;
+     border-top: 1px solid var(--wine-border);
+     color: var(--wine-text);
+     font: 500 28px/1.3 Georgia, 'Times New Roman', serif;
+ }
+
+ @keyframes category-rise {
+     from {
+         opacity: 0;
+         transform: translateY(12px);
+     }
+
+     to {
+         opacity: 1;
+         transform: translateY(0);
+     }
+ }
+
+ @media(max-width:700px) {
+     #contenedor {
+         padding: 28px 16px 48px;
+     }
+
+     #encabezado {
+         align-items: flex-start;
+         flex-direction: column;
+     }
+
+     #tarjeta {
+         padding: 22px;
+     }
+ }
+
+ @media(prefers-reduced-motion:reduce) {
+     #tarjeta {
+         animation: none;
+     }
+
+     #tarjeta,
+     button {
+         transition: none;
+     }
+
+     #tarjeta:hover,
+     button:hover:not(:disabled) {
+         transform: none;
+     }
+ }
