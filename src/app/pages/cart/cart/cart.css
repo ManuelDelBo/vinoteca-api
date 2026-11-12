@@ -20,6 +20,9 @@
 .item-price,.item-total{display:flex;flex-direction:column;gap:4px}
 .item-price span,.item-total span,.qty-control label,.label{font-size:11px;color:#8c9184;text-transform:uppercase;letter-spacing:.5px;font-weight:600}
 .item-price strong,.item-total strong{color:#3f473c;font-size:14px}
+.btn-remove{margin-top:6px;padding:6px 10px;border:1px solid #e2c4bf;border-radius:6px;background:#fbf3f1;color:#9f3c2f;font-size:12px;font-weight:600;cursor:pointer}
+.btn-remove:hover:not(:disabled){background:#f6e5e2}
+.btn-remove:disabled{opacity:.6;cursor:not-allowed}
 .item-quantity{display:flex;flex-direction:column;gap:8px}
 .qty-control{display:flex;align-items:center;gap:8px}
 .qty-control button{width:32px;height:32px;border:1px solid #cbd2c4;border-radius:6px;background:#fbfbf9;color:#4b5847;cursor:pointer;font-size:16px;font-weight:600}
@@ -30,6 +33,7 @@
 .summary-row strong{color:#343b31;font-size:14px}
 .summary-row.total{padding-top:12px;border-top:1px dashed #d8dcce;font-size:16px}
 .summary-row.total strong{color:#2e4a2d;font-size:22px;font-weight:800}
+.btn-checkout{width:100%;margin-top:6px;box-sizing:border-box;text-align:center}
 .btn-danger{padding:10px 16px;border:none;border-radius:8px;background:#b55345;color:#fff;font-size:13px;font-weight:600;cursor:pointer}
 .btn-danger:disabled{opacity:.6;cursor:not-allowed}
 @media(max-width:850px){.cart-content{grid-template-columns:1fr}.cart-item{grid-template-columns:1fr;gap:10px}}

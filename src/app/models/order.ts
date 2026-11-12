@@ -9,6 +9,20 @@ export interface Order {
     status: OrderStatus;
     deliveryType: DeliveryType;
     items: OrderItem[];
+    customerName?: string | null;
+}
+
+export interface OrderSummary {
+    id: string;
+    total: number;
+    status: OrderStatus;
+    createdAt: string;
+    customerName?: string | null;
+}
+
+export interface CheckoutRequest {
+    deliveryType: DeliveryType;
+    addressId?: string | null;
 }
 
 export interface OrderRequest {
@@ -18,13 +32,21 @@ export interface OrderRequest {
 }
 
 export type OrderStatus =
-    | 'PENDING'
-    | 'CONFIRMED'
-    | 'PREPARING'
-    | 'SHIPPED'
-    | 'DELIVERED'
+    | 'PENDING_PAYMENT'
+    | 'PAID'
     | 'CANCELLED';
 
 export type DeliveryType =
     | 'PICKUP'
     | 'DELIVERY';
+
+export const ORDER_STATUS_LABELS: Record<OrderStatus, string> = {
+    PENDING_PAYMENT: 'Pendiente de pago',
+    PAID: 'Pagado',
+    CANCELLED: 'Cancelado',
+};
+
+export const DELIVERY_TYPE_LABELS: Record<DeliveryType, string> = {
+    DELIVERY: 'Entrega a domicilio',
+    PICKUP: 'Retiro en tienda',
+};
