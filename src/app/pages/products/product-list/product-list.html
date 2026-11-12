@@ -81,7 +81,26 @@
 
     <div class="list-heading">
         <h2>{{ showingInactive ? 'Productos deshabilitados' : 'Productos' }}</h2>
-        <span>{{ products.length }} resultado(s)</span>
+
+        <div class="list-controls">
+            <span>{{ products.length }} resultado(s)</span>
+
+            <div class="sort-field">
+                <label for="sortBy">Ordenar por:</label>
+
+                <select
+                    id="sortBy"
+                    [(ngModel)]="sortBy"
+                    (ngModelChange)="changeSort()">
+
+                    <option value="name-asc">Nombre: A-Z</option>
+                    <option value="name-desc">Nombre: Z-A</option>
+                    <option value="price-asc">Precio: menor a mayor</option>
+                    <option value="price-desc">Precio: mayor a menor</option>
+
+                </select>
+            </div>
+        </div>
     </div>
 
     <div class="loading" *ngIf="loading">
@@ -106,7 +125,7 @@
 
     <div class="products-grid" *ngIf="!loading && products.length > 0">
 
-        <article class="product-card" *ngFor="let product of products">
+        <article class="product-card" *ngFor="let product of paginatedProducts">
 
             <div class="product-image">
                 <img *ngIf="product.principalImagePath" [src]="product.principalImagePath" [alt]="product.name"
@@ -187,5 +206,34 @@
         </article>
 
     </div>
+
+            <!-- PAGINACIÓN -->
+
+        <nav
+            class="pagination"
+            *ngIf="!loading && totalPages > 1"
+            aria-label="Paginación de productos">
+
+            <button
+                type="button"
+                class="pagination-btn"
+                [disabled]="currentPage === 1"
+                (click)="changePage(currentPage - 1)">
+                ← Anterior
+            </button>
+
+            <span class="pagination-info">
+                Página {{ currentPage }} de {{ totalPages }}
+            </span>
+
+            <button
+                type="button"
+                class="pagination-btn"
+                [disabled]="currentPage === totalPages"
+                (click)="changePage(currentPage + 1)">
+                Siguiente →
+            </button>
+
+        </nav>
 
 </div>

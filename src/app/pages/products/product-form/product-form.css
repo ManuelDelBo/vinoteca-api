@@ -1,3 +1,5 @@
+/* VINOTECA UTN — PRODUCT FORM | Estilo vino y champagne */
+
 :host {
     display: block;
     width: 100%;
@@ -7,8 +9,9 @@
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
+    box-sizing: border-box;
     padding: 32px;
-    color: #333b32;
+    color: var(--wine-text, #282127);
 }
 
 /* ENCABEZADO */
@@ -22,26 +25,27 @@
 
 .form-header h1 {
     margin: 0 0 8px;
-    font-size: 28px;
-    font-weight: 700;
-    color: #344b38;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(27px, 3vw, 36px);
+    font-weight: 500;
+    color: var(--wine-primary, #673451);
 }
 
 .form-header p {
     margin: 0;
-    color: #777d73;
+    color: var(--wine-muted, #71666c);
     font-size: 14px;
 }
 
 /* SECCIONES */
 
 .form-section {
-    background: #ffffff;
-    border: 1px solid #e8e9df;
-    border-radius: 14px;
+    background: var(--wine-surface, #fffdf9);
+    border: 1px solid var(--wine-border, #e4d9cf);
+    border-radius: var(--wine-radius, 14px);
     padding: 26px;
     margin-bottom: 24px;
-    box-shadow: 0 3px 12px rgba(50, 65, 45, 0.04);
+    box-shadow: 0 3px 12px var(--wine-shadow, 0 8px 30px rgba(46, 28, 39, 0.07));
 }
 
 .section-heading {
@@ -50,14 +54,14 @@
 
 .section-heading h2 {
     margin: 0 0 7px;
-    color: #344b38;
+    color: var(--wine-primary, #673451);
     font-size: 19px;
     font-weight: 700;
 }
 
 .section-heading p {
     margin: 0;
-    color: #85897f;
+    color: var(--wine-muted, #71666c);
     font-size: 13px;
 }
 
@@ -81,7 +85,7 @@
 }
 
 .form-group label {
-    color: #465344;
+    color: var(--wine-text, #282127);
     font-size: 13px;
     font-weight: 600;
 }
@@ -92,10 +96,10 @@
     width: 100%;
     box-sizing: border-box;
     padding: 11px 13px;
-    border: 1px solid #dedfd5;
+    border: 1px solid var(--wine-border, #e4d9cf);
     border-radius: 8px;
-    background: #fcfcf9;
-    color: #3e453c;
+    background: var(--wine-surface, #fffdf9);
+    color: var(--wine-text, #282127);
     font-family: inherit;
     font-size: 14px;
     outline: none;
@@ -115,15 +119,15 @@
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
-    border-color: #829b78;
-    box-shadow: 0 0 0 3px rgba(130, 155, 120, 0.13);
+    border-color: var(--wine-primary, #673451);
+    box-shadow: 0 0 0 3px rgba(103, 52, 81, 0.15);
 }
 
 .form-group input:disabled,
 .form-group select:disabled,
 .form-group textarea:disabled {
-    background: #f0f0eb;
-    color: #999d94;
+    background: var(--wine-surface-alt, #ece3d9);
+    color: var(--wine-muted, #71666c);
     cursor: not-allowed;
 }
 
@@ -148,8 +152,9 @@
     padding: 10px 16px;
     border: none;
     border-radius: 8px;
-    background: #526e53;
+    background: var(--wine-primary, #673451);
     color: #ffffff;
+    font-family: inherit;
     font-size: 13px;
     font-weight: 600;
     cursor: pointer;
@@ -158,7 +163,7 @@
 }
 
 .btn-add:hover {
-    background: #405b42;
+    background: var(--wine-primary-hover, #50253e);
     transform: translateY(-1px);
 }
 
@@ -175,19 +180,19 @@
 
 .variant-card {
     padding: 20px;
-    border: 1px solid #e1e6dc;
+    border: 1px solid var(--wine-border, #e4d9cf);
     border-radius: 11px;
-    background: #fbfcf8;
+    background: var(--wine-bg, #f6f1e9);
     transition: border-color 0.2s, background 0.2s;
 }
 
 .variant-card:hover {
-    border-color: #bdcbb6;
+    border-color: var(--wine-accent, #c5a77b);
 }
 
 .variant-card.inactive-variant {
-    background: #f5f5f1;
-    border-color: #e4e4dd;
+    background: var(--wine-surface-alt, #ece3d9);
+    border-color: var(--wine-border, #e4d9cf);
 }
 
 .variant-header {
@@ -207,7 +212,7 @@
 
 .variant-title h3 {
     margin: 0;
-    color: #3c513d;
+    color: var(--wine-text, #282127);
     font-size: 16px;
     font-weight: 700;
 }
@@ -221,13 +226,13 @@
 }
 
 .status-active {
-    background: #e4efe1;
-    color: #426b43;
+    background: rgba(77, 132, 96, 0.13);
+    color: #39744c;
 }
 
 .status-inactive {
-    background: #ecece8;
-    color: #777a72;
+    background: var(--wine-surface-alt, #ece3d9);
+    color: var(--wine-muted, #71666c);
 }
 
 .variant-actions {
@@ -248,33 +253,33 @@
 }
 
 .btn-disable {
-    background: #fff3ed;
-    border: 1px solid #f0d5c8;
+    background: rgba(166, 91, 66, 0.09);
+    border: 1px solid rgba(166, 91, 66, 0.28);
     color: #a65b42;
 }
 
 .btn-disable:hover {
-    background: #fce5da;
+    background: rgba(166, 91, 66, 0.17);
 }
 
 .btn-reactivate {
-    background: #e7f0e4;
-    border: 1px solid #cbdcc5;
-    color: #426b43;
+    background: rgba(77, 132, 96, 0.13);
+    border: 1px solid rgba(63, 130, 85, 0.3);
+    color: #39744c;
 }
 
 .btn-reactivate:hover {
-    background: #d8e8d3;
+    background: rgba(77, 132, 96, 0.23);
 }
 
 .btn-remove {
-    background: #f1f1ed;
-    border: 1px solid #deded6;
-    color: #77786e;
+    background: var(--wine-surface-alt, #ece3d9);
+    border: 1px solid var(--wine-border, #e4d9cf);
+    color: var(--wine-muted, #71666c);
 }
 
 .btn-remove:hover {
-    background: #e5e5df;
+    background: var(--wine-border, #e4d9cf);
 }
 
 /* CAMPOS DE VARIANTES */
@@ -289,8 +294,8 @@
     margin: 16px 0 0;
     padding: 10px 12px;
     border-radius: 7px;
-    background: #ededE8;
-    color: #777a72;
+    background: var(--wine-surface-alt, #ece3d9);
+    color: var(--wine-muted, #71666c);
     font-size: 12px;
 }
 
@@ -298,15 +303,15 @@
 
 .empty-variants {
     padding: 35px 20px;
-    border: 1px dashed #cfd7c9;
+    border: 1px dashed var(--wine-border, #e4d9cf);
     border-radius: 10px;
     text-align: center;
-    background: #fbfcf8;
+    background: var(--wine-bg, #f6f1e9);
 }
 
 .empty-variants p {
     margin: 0 0 15px;
-    color: #85897f;
+    color: var(--wine-muted, #71666c);
     font-size: 14px;
 }
 
@@ -320,21 +325,21 @@
 }
 
 .error-message {
-    background: #fff0ed;
-    border: 1px solid #f1d1c9;
+    background: rgba(166, 77, 62, 0.09);
+    border: 1px solid rgba(166, 77, 62, 0.3);
     color: #a64d3e;
 }
 
 .success-message {
-    background: #eaf3e7;
-    border: 1px solid #d1e2ca;
-    color: #456c43;
+    background: rgba(77, 132, 96, 0.13);
+    border: 1px solid rgba(63, 130, 85, 0.3);
+    color: #39744c;
 }
 
 .loading {
     padding: 40px;
     text-align: center;
-    color: #6f806a;
+    color: var(--wine-muted, #71666c);
     font-size: 14px;
 }
 
@@ -360,23 +365,23 @@
 }
 
 .btn-cancel {
-    border: 1px solid #d8d9d0;
-    background: #ffffff;
-    color: #62685e;
+    border: 1px solid var(--wine-border, #e4d9cf);
+    background: var(--wine-surface, #fffdf9);
+    color: var(--wine-text, #282127);
 }
 
 .btn-cancel:hover {
-    background: #f2f2ed;
+    background: var(--wine-surface-alt, #ece3d9);
 }
 
 .btn-save {
     border: none;
-    background: #526e53;
+    background: var(--wine-primary, #673451);
     color: #ffffff;
 }
 
 .btn-save:hover:not(:disabled) {
-    background: #405b42;
+    background: var(--wine-primary-hover, #50253e);
     transform: translateY(-1px);
 }
 
@@ -437,14 +442,14 @@
     display: inline-block;
     padding: 5px 11px;
     border-radius: 20px;
-    background: #eef2ea;
-    color: #526e53;
+    background: var(--wine-surface-alt, #ece3d9);
+    color: var(--wine-primary, #673451);
     font-size: 12px;
     font-weight: 700;
 }
 
 .images-note {
-    color: #85897f;
+    color: var(--wine-muted, #71666c);
     font-size: 12px;
 }
 
@@ -459,19 +464,19 @@
     display: flex;
     flex-direction: column;
     padding: 10px;
-    border: 1px solid #e1e6dc;
+    border: 1px solid var(--wine-border, #e4d9cf);
     border-radius: 11px;
-    background: #fbfcf8;
+    background: var(--wine-bg, #f6f1e9);
     transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .image-card:hover {
-    border-color: #bdcbb6;
+    border-color: var(--wine-accent, #c5a77b);
 }
 
 .image-card.principal-image {
-    border-color: #829b78;
-    box-shadow: 0 0 0 2px rgba(130, 155, 120, 0.15);
+    border-color: var(--wine-primary, #673451);
+    box-shadow: 0 0 0 2px rgba(103, 52, 81, 0.16);
 }
 
 .image-preview {
@@ -480,7 +485,7 @@
     aspect-ratio: 4 / 3;
     overflow: hidden;
     border-radius: 8px;
-    background: #ecece5;
+    background: var(--wine-surface-alt, #ece3d9);
 }
 
 .image-preview img {
@@ -504,13 +509,13 @@
 }
 
 .principal-badge {
-    background: #526e53;
+    background: var(--wine-primary, #673451);
     color: #ffffff;
 }
 
 .pending-badge {
-    background: #f3efe2;
-    color: #8a7a44;
+    background: #f4e8d4;
+    color: #77591f;
 }
 
 .image-actions {
@@ -532,29 +537,29 @@
 }
 
 .btn-image-principal {
-    border: 1px solid #cbdcc5;
-    background: #e7f0e4;
-    color: #426b43;
+    border: 1px solid rgba(63, 130, 85, 0.3);
+    background: rgba(77, 132, 96, 0.13);
+    color: #39744c;
 }
 
 .btn-image-principal:hover {
-    background: #d8e8d3;
+    background: rgba(77, 132, 96, 0.23);
 }
 
 .btn-image-remove {
-    border: 1px solid #f0d5c8;
-    background: #fff3ed;
+    border: 1px solid rgba(166, 91, 66, 0.28);
+    background: rgba(166, 91, 66, 0.09);
     color: #a65b42;
 }
 
 .btn-image-remove:hover {
-    background: #fce5da;
+    background: rgba(166, 91, 66, 0.17);
 }
 
 .pending-file-name {
     margin: 8px 2px 0;
     overflow: hidden;
-    color: #85897f;
+    color: var(--wine-muted, #71666c);
     font-size: 11px;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -562,9 +567,9 @@
 
 .empty-images {
     padding: 32px 20px;
-    border: 1px dashed #cfd7c9;
+    border: 1px dashed var(--wine-border, #e4d9cf);
     border-radius: 10px;
-    background: #fbfcf8;
+    background: var(--wine-bg, #f6f1e9);
     text-align: center;
 }
 
@@ -575,7 +580,7 @@
 
 .empty-images p {
     margin: 0;
-    color: #85897f;
+    color: var(--wine-muted, #71666c);
     font-size: 14px;
 }
 
@@ -644,5 +649,160 @@
     .btn-cancel,
     .btn-save {
         width: 100%;
+    }
+}
+
+/* ==========================================
+   VINOTECA UTN — AJUSTES FINALES
+   Accesibilidad, modo oscuro y movimiento
+   ========================================== */
+
+:host {
+    background: var(--wine-bg, #f6f1e9);
+    color: var(--wine-text, #282127);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: var(--wine-muted, #71666c);
+    opacity: 0.8;
+}
+
+.form-group input:focus-visible,
+.form-group select:focus-visible,
+.form-group textarea:focus-visible {
+    border-color: var(--wine-primary, #673451);
+    outline: 2px solid transparent;
+    box-shadow: 0 0 0 3px rgba(103, 52, 81, 0.16);
+}
+
+.btn-add:focus-visible,
+.btn-disable:focus-visible,
+.btn-reactivate:focus-visible,
+.btn-remove:focus-visible,
+.btn-image-principal:focus-visible,
+.btn-image-remove:focus-visible,
+.btn-cancel:focus-visible,
+.btn-save:focus-visible,
+.upload-button:focus-within {
+    outline: 3px solid var(--wine-accent, #c5a77b);
+    outline-offset: 3px;
+}
+
+button:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Mantener contraste en botones principales en ambos temas */
+
+.btn-add,
+.btn-save,
+.principal-badge {
+    color: #ffffff;
+}
+
+/* Adaptación del formulario al modo oscuro global */
+
+:host-context(html.dark) .form-section {
+    background: var(--wine-surface, #292229);
+    border-color: var(--wine-border, #51414d);
+}
+
+:host-context(html.dark) .form-group input,
+:host-context(html.dark) .form-group select,
+:host-context(html.dark) .form-group textarea {
+    background: var(--wine-surface-alt, #392d38);
+    color: var(--wine-text, #f7f0ea);
+    border-color: var(--wine-border, #51414d);
+}
+
+:host-context(html.dark) .form-group input:disabled,
+:host-context(html.dark) .form-group select:disabled,
+:host-context(html.dark) .form-group textarea:disabled {
+    opacity: 0.55;
+}
+
+:host-context(html.dark) .variant-card,
+:host-context(html.dark) .image-card,
+:host-context(html.dark) .empty-variants,
+:host-context(html.dark) .empty-images {
+    background: var(--wine-surface-alt, #392d38);
+    border-color: var(--wine-border, #51414d);
+}
+
+:host-context(html.dark) .variant-card.inactive-variant,
+:host-context(html.dark) .inactive-info {
+    background: var(--wine-bg, #1c171c);
+}
+
+:host-context(html.dark) .status-active,
+:host-context(html.dark) .btn-reactivate,
+:host-context(html.dark) .btn-image-principal,
+:host-context(html.dark) .success-message {
+    color: #a8e0b6;
+}
+
+:host-context(html.dark) .status-inactive,
+:host-context(html.dark) .images-count {
+    color: var(--wine-text, #f7f0ea);
+}
+
+:host-context(html.dark) .btn-disable,
+:host-context(html.dark) .btn-image-remove,
+:host-context(html.dark) .error-message {
+    color: #f4a69b;
+}
+
+:host-context(html.dark) .btn-cancel,
+:host-context(html.dark) .btn-remove {
+    background: var(--wine-surface-alt, #392d38);
+    color: var(--wine-text, #f7f0ea);
+    border-color: var(--wine-border, #51414d);
+}
+
+:host-context(html.dark) .pending-badge {
+    background: #5a472c;
+    color: #f5deb4;
+}
+
+:host-context(html.dark) .btn-add,
+:host-context(html.dark) .btn-save,
+:host-context(html.dark) .principal-badge {
+    background: var(--wine-primary, #a36e91);
+    color: #ffffff;
+}
+
+@media (max-width: 600px) {
+    .form-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .variant-actions {
+        flex-wrap: wrap;
+    }
+
+    .image-grid {
+        grid-template-columns: repeat(auto-fill, minmax(min(100%, 140px), 1fr));
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .btn-add,
+    .btn-save,
+    .variant-card,
+    .image-card,
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        transition: none;
+    }
+
+    .btn-add:hover,
+    .btn-save:hover:not(:disabled) {
+        transform: none;
     }
 }
