@@ -21,6 +21,14 @@
             Mi carrito
         </a>
 
+        <a
+            *ngIf="isCustomer"
+            routerLink="/orders"
+            class="nav-link"
+        >
+            Mis pedidos
+        </a>
+
         <!-- ADMIN y EMPLOYEE -->
         <a
             *ngIf="isAdminOrEmployee"

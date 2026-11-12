@@ -1,0 +1,63 @@
+.order-detail-page{width:100%;max-width:1000px;margin:0 auto;padding:32px;color:#343a32;box-sizing:border-box}
+.page-header{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:24px}
+.eyebrow{color:#829477;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase}
+.page-header h1{margin:6px 0;color:#344b38;font-size:28px}
+.page-header p{margin:0;color:#777d73;font-size:13px}
+.message{padding:14px 18px;border-radius:10px;font-size:14px;margin-bottom:18px}
+.message.error{background:#fbf0ee;color:#9f3c2f;border:1px solid #f2cfca}
+.message.success{background:#eef5ec;color:#3a683e;border:1px solid #d4e7d1}
+.message.info{background:#eef2f7;color:#3d5670;border:1px solid #d3dfeb}
+.loading{padding:36px;text-align:center;color:#85877f}
+.btn-primary,.btn-secondary,.btn-danger{display:inline-flex;align-items:center;justify-content:center;padding:10px 16px;border-radius:7px;font-size:13px;font-weight:600;text-decoration:none;cursor:pointer}
+.btn-primary{background:#718568;color:#fff;border:none}
+.btn-primary:hover:not(:disabled){background:#5d7155}
+.btn-secondary{border:1px solid #cbd2c4;background:#fbfbf9;color:#4b5847}
+.btn-secondary:hover{background:#f2f2ed}
+.btn-danger{background:#b55345;color:#fff;border:none}
+.btn-danger:hover:not(:disabled){background:#9f4438}
+.btn-primary:disabled,.btn-danger:disabled{opacity:.6;cursor:not-allowed}
+.summary-card,.items-card,.payment-card{background:#fff;border:1px solid #e9e8e1;border-radius:14px;padding:22px;margin-bottom:18px}
+.summary-top{display:flex;justify-content:space-between;align-items:center;gap:20px;padding-bottom:18px;border-bottom:1px solid #f0f0ea}
+.label{display:block;margin-bottom:6px;color:#8c9184;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px}
+.total{color:#2e4a2d;font-size:24px;font-weight:800}
+.status-badge{display:inline-block;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:600}
+.status-pending_payment{background:#fdf4e3;color:#9a6a1f}
+.status-paid{background:#e8f3ea;color:#2f6b3a}
+.status-cancelled{background:#f8e8e6;color:#a23f3f}
+.payment-pending{background:#fdf4e3;color:#9a6a1f}
+.payment-approved{background:#e8f3ea;color:#2f6b3a}
+.payment-rejected{background:#f8e8e6;color:#a23f3f}
+.summary-data{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px 28px;margin:18px 0 0}
+.data-item{display:flex;flex-direction:column;gap:4px}
+.data-item dt{color:#8c9184;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.data-item dd{margin:0;color:#333;font-size:14px;overflow-wrap:anywhere}
+.items-card h2,.payment-card h2{margin:0 0 16px;color:#344b38;font-size:19px}
+.items-head,.items-row{display:grid;grid-template-columns:minmax(0,1.6fr) .6fr .9fr .9fr;gap:16px;align-items:center;padding:12px 0}
+.items-head{color:#8c9184;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;border-bottom:1px solid #e9e8e1}
+.items-row{border-bottom:1px solid #f0f0ea;font-size:14px}
+.item-product{display:flex;flex-direction:column;gap:3px}
+.item-product strong{color:#344b38;font-size:14px}
+.item-product small{color:#85877f;font-size:12px}
+.item-quantity{color:#555}
+.item-price,.item-subtotal{color:#3f473c;white-space:nowrap}
+.item-subtotal{font-weight:700}
+.items-total{display:flex;justify-content:flex-end;align-items:baseline;gap:16px;padding-top:16px;font-size:16px;color:#6d7367}
+.items-total strong{color:#2e4a2d;font-size:22px;font-weight:800}
+.payment-status-row{margin-bottom:4px}
+.payment-intro{margin:0 0 14px;color:#6d7367;font-size:14px}
+.payment-controls{display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap}
+.field{display:flex;flex-direction:column;gap:6px;min-width:220px}
+.field label{color:#444;font-size:13px;font-weight:600}
+.field select{padding:10px 12px;border:1px solid #d5d9d5;border-radius:6px;background:#fff;font-family:inherit;font-size:14px;color:#333}
+.field select:focus{outline:none;border-color:#315b46}
+.field-error{margin:12px 0 0;color:#9f3c2f;font-size:13px;font-weight:600}
+.payment-note{margin:12px 0 0;color:#777d73;font-size:13px;line-height:1.45}
+.actions{display:flex;justify-content:flex-end}
+@media(max-width:750px){
+.order-detail-page{padding:20px 14px}
+.page-header{flex-direction:column;align-items:flex-start}
+.items-head{display:none}
+.items-row{grid-template-columns:1fr 1fr;gap:6px 16px}
+.item-product{grid-column:1 / -1}
+.summary-top{flex-direction:column;align-items:flex-start}
+}

@@ -49,6 +49,9 @@ import { OrderDetail } from './pages/orders/order-detail/order-detail';
 // Cart
 import { Cart } from './pages/cart/cart/cart';
 
+// Checkout
+import { Checkout } from './pages/checkout/checkout/checkout';
+
 // Payments
 import { PaymentList } from './pages/payments/payment-list/payment-list';
 import { PaymentDetail } from './pages/payments/payment-detail/payment-detail';
@@ -82,6 +85,25 @@ export const routes: Routes = [
     {
         path: 'cart',
         component: Cart,
+        canActivate: [customerGuard]
+    },
+
+    // Checkout
+    {
+        path: 'checkout',
+        component: Checkout,
+        canActivate: [customerGuard]
+    },
+
+    // Customer orders
+    {
+        path: 'orders',
+        component: OrderList,
+        canActivate: [customerGuard]
+    },
+    {
+        path: 'orders/:id',
+        component: OrderDetail,
         canActivate: [customerGuard]
     },
 
@@ -157,8 +179,8 @@ export const routes: Routes = [
             { path: 'orders/:id', component: OrderDetail },
 
             // Payments
-            { path: 'payments', component: PaymentList },
-            { path: 'payments/:id', component: PaymentDetail },
+            { path: 'payments', component: PaymentList, canActivate: [adminGuard] },
+            { path: 'payments/:id', component: PaymentDetail, canActivate: [adminGuard] },
 
             // Notifications
             { path: 'notifications', component: NotificationList }
