@@ -45,6 +45,60 @@
     </div>
   </section>
 
+  <!-- VINOS DESTACADOS -->
+  <section class="featured-products" aria-labelledby="featured-title">
+    <div class="section-heading">
+      <span class="section-eyebrow">NUESTRA SELECCIÓN</span>
+      <h2 id="featured-title">Descubrí nuestros <em>vinos.</em></h2>
+      <p>Una pequeña muestra de nuestra colección, elegida para inspirar tu próxima experiencia.</p>
+    </div>
+
+    @if (loadingProducts) {
+      <p class="featured-message" role="status">Cargando nuestra selección...</p>
+    } @else if (productsError) {
+      <p class="featured-message" role="status">No pudimos cargar los vinos en este momento.</p>
+    } @else if (featuredProducts.length === 0) {
+      <p class="featured-message">Próximamente vas a encontrar nuestra selección de vinos acá.</p>
+    } @else {
+      <div class="featured-grid">
+        @for (item of featuredProducts; track item.product.id) {
+          <article class="featured-card">
+            <a class="featured-image" [routerLink]="['/products', item.product.id]" [attr.aria-label]="'Ver ' + item.product.name">
+              @if (item.product.principalImagePath) {
+                <img [src]="item.product.principalImagePath" [alt]="item.product.name" loading="lazy" />
+              } @else {
+                <div class="featured-placeholder" aria-hidden="true">
+                  <span>V</span>
+                  <small>VINOTECA HTTP</small>
+                </div>
+              }
+            </a>
+            <div class="featured-info">
+              <span class="featured-brand">{{ item.product.brandName }}</span>
+              <h3><a [routerLink]="['/products', item.product.id]">{{ item.product.name }}</a></h3>
+              <p class="featured-category">{{ item.product.categoryName }}</p>
+              <div class="featured-bottom">
+                <div class="featured-price">
+                  @if (item.minPrice !== null) {
+                    <small>Desde</small>
+                    <strong>{{ item.minPrice | currency:'ARS':'symbol':'1.0-0':'es-AR' }}</strong>
+                  } @else {
+                    <span>Consultar opciones</span>
+                  }
+                </div>
+                <a class="featured-detail" [routerLink]="['/products', item.product.id]">Ver detalle <span aria-hidden="true">↗</span></a>
+              </div>
+            </div>
+          </article>
+        }
+      </div>
+    }
+
+    <div class="featured-actions">
+      <a routerLink="/products" class="featured-catalog-link">Ver todo el catálogo <span aria-hidden="true">↗</span></a>
+    </div>
+  </section>
+
   <!-- PRESENTACIÓN -->
   <section class="experience" id="experiencia">
 

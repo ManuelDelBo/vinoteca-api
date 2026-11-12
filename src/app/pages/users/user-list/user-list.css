@@ -1,68 +1,247 @@
+/* =========================================================
+   VINOTECA UTN — LISTADO DE USUARIOS
+   Paleta vino, beige y champagne | Claro / oscuro
+   ========================================================= */
+
+/* 1. Contenedor y encabezado */
+:host {
+    display: block;
+    min-height: 75vh;
+    background: var(--wine-bg, #f7f3ed);
+    color: var(--wine-text, #302631);
+}
+
 #contenedor-usuarios {
-    padding: 30px;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 1220px;
+    margin: 0 auto;
+    padding: 48px 30px 72px;
 }
 
 #encabezado {
-    margin-bottom: 30px;
+    margin-bottom: 34px;
 }
 
 #encabezado h1 {
-    margin-bottom: 8px;
+    margin: 0 0 10px;
+    color: var(--wine-text, #302631);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(30px, 3.5vw, 40px);
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -0.5px;
 }
 
 #encabezado p {
-    color: #777;
+    margin: 0;
+    color: var(--wine-muted, #786d75);
+    font-size: 14px;
+    line-height: 1.65;
 }
 
+/* 2. Grilla de tarjetas */
 #tarjetas-usuarios {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 25px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
 }
 
 .tarjeta-usuario {
-    background: white;
-    border: 1px solid #e5e5e5;
-    border-radius: 12px;
-    padding: 25px;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     align-items: center;
+    min-width: 0;
+    padding: 34px 26px 30px;
+    background: var(--wine-surface, #fffdf9);
+    border: 1px solid var(--wine-border, #e5d9d9);
+    border-radius: 18px;
+    box-shadow: var(--wine-shadow, 0 12px 30px rgba(36, 20, 34, 0.08));
     text-align: center;
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        background-color 0.25s ease;
+    animation: user-card-enter 0.45s ease-out both;
 }
 
+.tarjeta-usuario:hover {
+    transform: translateY(-5px);
+    border-color: var(--wine-accent, #c6a16b);
+    box-shadow: 0 18px 38px rgba(36, 20, 34, 0.13);
+}
+
+/* 3. Iconos, títulos y contadores */
 .icono-usuario {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    margin-bottom: 20px;
+    background: var(--wine-surface-alt, #faf4eb);
+    border: 1px solid var(--wine-border, #e5d9d9);
+    border-radius: 50%;
+    color: var(--wine-primary, #632b50);
     font-size: 35px;
-    margin-bottom: 12px;
+    line-height: 1;
 }
 
 .tarjeta-usuario h2 {
-    font-size: 20px;
-    margin-bottom: 10px;
+    margin: 0 0 12px;
+    color: var(--wine-text, #302631);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 23px;
+    font-weight: 500;
+    line-height: 1.3;
 }
 
 .cantidad {
-    font-size: 36px;
-    font-weight: 600;
-    margin: 5px 0;
+    margin: 6px 0 8px;
+    color: var(--wine-primary, #632b50);
+    font-size: clamp(34px, 3vw, 42px);
+    font-weight: 700;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
 }
 
 .tarjeta-usuario span {
-    color: #777;
+    display: block;
+    margin-bottom: 26px;
+    color: var(--wine-muted, #786d75);
     font-size: 14px;
-    margin-bottom: 20px;
+    line-height: 1.5;
 }
 
+/* 4. Acceso a cada sección */
 .tarjeta-usuario a {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    margin-top: auto;
+    padding: 11px 26px;
+    background: var(--wine-primary, #632b50);
+    border: 1px solid transparent;
+    border-radius: 9px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.3;
     text-decoration: none;
-    background: #263d32;
-    color: white;
-    padding: 10px 25px;
-    border-radius: 6px;
+    transition:
+        transform 0.2s ease,
+        background-color 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
-@media (max-width: 768px) {
+.tarjeta-usuario a:hover {
+    transform: translateY(-2px);
+    background: var(--wine-primary-hover, #4c203e);
+    box-shadow: 0 6px 16px rgba(55, 25, 48, 0.18);
+}
+
+.tarjeta-usuario a:focus-visible {
+    outline: 3px solid var(--wine-accent, #c6a16b);
+    outline-offset: 3px;
+}
+
+/* 5. Modo oscuro: colores de respaldo */
+:host-context(html.dark) {
+    background: var(--wine-bg, #19151b);
+    color: var(--wine-text, #f4edf0);
+}
+
+:host-context(html.dark) #encabezado h1,
+:host-context(html.dark) .tarjeta-usuario h2 {
+    color: var(--wine-text, #f4edf0);
+}
+
+:host-context(html.dark) #encabezado p,
+:host-context(html.dark) .tarjeta-usuario span {
+    color: var(--wine-muted, #c4b5bf);
+}
+
+:host-context(html.dark) .tarjeta-usuario {
+    background: var(--wine-surface, #29212b);
+    border-color: var(--wine-border, #554451);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+}
+
+:host-context(html.dark) .tarjeta-usuario:hover {
+    border-color: var(--wine-accent, #d5b27d);
+    box-shadow: 0 18px 38px rgba(0, 0, 0, 0.28);
+}
+
+:host-context(html.dark) .icono-usuario {
+    background: var(--wine-surface-alt, #342b36);
+    border-color: var(--wine-border, #554451);
+    color: var(--wine-accent, #d5b27d);
+}
+
+:host-context(html.dark) .cantidad {
+    color: var(--wine-accent, #d5b27d);
+}
+
+:host-context(html.dark) .tarjeta-usuario a {
+    background: var(--wine-primary, #95637e);
+}
+
+:host-context(html.dark) .tarjeta-usuario a:hover {
+    background: var(--wine-primary-hover, #ac7694);
+}
+
+/* 6. Animaciones */
+@keyframes user-card-enter {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 7. Adaptación a distintas pantallas */
+@media (max-width: 950px) {
+    #tarjetas-usuarios {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 650px) {
+    #contenedor-usuarios {
+        padding: 28px 16px 52px;
+    }
+
     #tarjetas-usuarios {
         grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .tarjeta-usuario {
+        padding: 28px 22px;
+    }
+}
+
+/* 8. Accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+    .tarjeta-usuario {
+        animation: none;
+        transition: none;
+    }
+
+    .tarjeta-usuario a {
+        transition: none;
+    }
+
+    .tarjeta-usuario:hover,
+    .tarjeta-usuario a:hover {
+        transform: none;
     }
 }
