@@ -28,6 +28,7 @@ export class ProductList implements OnInit {
     private supplierService = inject(SupplierService);
     private route = inject(ActivatedRoute);
     private router = inject(Router);
+    private route = inject(ActivatedRoute);
     private cdr = inject(ChangeDetectorRef);
     private modal = inject(ModalService);
 
@@ -150,7 +151,15 @@ export class ProductList implements OnInit {
         });
 
         this.loadFilters();
-        this.loadProducts();
+
+        this.route.queryParamMap.subscribe(params => {
+            this.searchName = params.get('name') ?? '';
+            this.selectedCategory = params.get('categoryId') ?? '';
+            this.selectedBrand = params.get('brandId') ?? '';
+            this.selectedSupplier = params.get('supplierId') ?? '';
+
+            this.loadProducts();
+        });
     }
 
     loadFilters(): void {

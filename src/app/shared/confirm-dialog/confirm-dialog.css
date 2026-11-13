@@ -46,6 +46,31 @@
     font-weight: 700;
 }
 
+.dialog-icon[data-variant="success"] {
+    background: rgba(74, 125, 83, .14);
+    border-color: rgba(74, 125, 83, .5);
+    color: #3f7049;
+}
+
+.dialog-icon[data-variant="error"],
+.dialog-icon[data-variant="danger"] {
+    background: rgba(181, 83, 69, .13);
+    border-color: rgba(181, 83, 69, .45);
+    color: #a7463c;
+}
+
+.dialog-icon[data-variant="warning"] {
+    background: rgba(176, 131, 45, .15);
+    border-color: rgba(176, 131, 45, .45);
+    color: #96691f;
+}
+
+.dialog-icon[data-variant="info"] {
+    background: rgba(72, 104, 142, .14);
+    border-color: rgba(72, 104, 142, .4);
+    color: #3f6188;
+}
+
 .dialog-card h2 {
     margin: 0 0 12px;
     color: var(--wine-text, #302631);

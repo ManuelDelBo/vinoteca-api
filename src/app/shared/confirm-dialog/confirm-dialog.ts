@@ -77,20 +77,20 @@ export class ConfirmDialog implements AfterViewInit, OnDestroy {
     document.body.style.overflow = this.previousOverflow;
   }
 
-  onCancel(): void {
-    if (this.busy) {
-      return;
-    }
-
-    this.cancelled.emit();
-  }
-
   onConfirm(): void {
     if (this.busy) {
       return;
     }
 
     this.confirmed.emit();
+  }
+
+  onCancel(): void {
+    if (this.busy) {
+      return;
+    }
+
+    this.cancelled.emit();
   }
 
   @HostListener('document:keydown.escape')

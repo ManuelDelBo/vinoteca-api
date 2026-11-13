@@ -4,7 +4,7 @@
 
         <div class="dialog-icon" aria-hidden="true">{{ icon }}</div>
 
-        <h2>{{ title }}</h2>
+        <h2 [id]="dialogTitleId">{{ title }}</h2>
 
         @if (message) {
         <p class="dialog-message">{{ message }}</p>
