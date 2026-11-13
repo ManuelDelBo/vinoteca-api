@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -9,6 +9,7 @@ import {
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { UserRequest } from '../../../models/user';
+import { ModalService } from '../../../shared/modal/modal.service';
 
 @Component({
   imports: [CommonModule, ReactiveFormsModule, RouterLink],
@@ -18,6 +19,8 @@ import { UserRequest } from '../../../models/user';
 })
 export class Register implements OnInit {
   registerForm!: FormGroup;
+
+  private modal = inject(ModalService);
 
   constructor(
     private fb: FormBuilder,
@@ -35,22 +38,19 @@ export class Register implements OnInit {
     });
   }
 
-  onSubmit(): void {
+  async onSubmit(): Promise<void> {
     if (this.registerForm.invalid) {
       this.registerForm.markAllAsTouched();
-      alert('Complete correctamente todos los campos.');
       return;
     }
 
     const userData: UserRequest = this.registerForm.value;
 
     this.authService.register(userData).subscribe({
-      next: (usuario) => {
-        alert(
-          '¡Usuario creado exitosamente!\n\n' +
-          'Nombre: ' + usuario.name + '\n' +
-          'Apellido: ' + usuario.lastName + '\n' +
-          'Email: ' + usuario.email + '\n'
+      next: async (usuario) => {
+        await this.modal.success(
+          '¡Cuenta creada!',
+          `Bienvenido/a ${usuario.name} ${usuario.lastName}. Ya podés comenzar a comprar con ${usuario.email}.`
         );
 
         this.router.navigate(['/']);
@@ -59,11 +59,20 @@ export class Register implements OnInit {
         console.error(e);
 
         if (e.status === 409) {
-          alert('Ese correo electrónico ya está registrado.');
+          this.modal.error(
+            'Email ya registrado',
+            'Ese correo electrónico ya está registrado. Probá con otro o iniciá sesión.'
+          );
         } else if (e.status === 400) {
-          alert('Los datos ingresados no son válidos.');
+          this.modal.error(
+            'Datos inválidos',
+            'Los datos ingresados no son válidos. Revisá el formulario e intentá nuevamente.'
+          );
         } else {
-          alert('No se pudo crear el usuario. Verifique que el servidor esté funcionando.');
+          this.modal.error(
+            'No pudimos crear tu cuenta',
+            'Verificá que el servidor esté funcionando e intentá nuevamente.'
+          );
         }
       }
     });

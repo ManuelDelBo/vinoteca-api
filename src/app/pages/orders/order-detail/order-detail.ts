@@ -22,6 +22,7 @@ import { AuthService } from '../../../services/auth.service';
 import { OrderService } from '../../../services/order.service';
 import { PaymentService } from '../../../services/payment.service';
 import { ProductVariantService } from '../../../services/product-variant.service';
+import { ModalService } from '../../../shared/modal/modal.service';
 
 @Component({
   imports: [CommonModule, ReactiveFormsModule, RouterLink],
@@ -38,6 +39,7 @@ export class OrderDetail implements OnInit {
   private variantService = inject(ProductVariantService);
   private authService = inject(AuthService);
   private cdr = inject(ChangeDetectorRef);
+  private modal = inject(ModalService);
 
   order: Order | null = null;
   payment: Payment | null = null;
@@ -52,6 +54,9 @@ export class OrderDetail implements OnInit {
 
   created = false;
   replayed = false;
+
+  userId = '';
+  userName = '';
 
   private orderId = '';
 
@@ -68,6 +73,8 @@ export class OrderDetail implements OnInit {
     this.orderId = this.route.snapshot.paramMap.get('id') ?? '';
     this.created = this.route.snapshot.queryParamMap.get('created') === '1';
     this.replayed = this.route.snapshot.queryParamMap.get('replayed') === '1';
+    this.userId = this.route.snapshot.queryParamMap.get('userId') ?? '';
+    this.userName = this.route.snapshot.queryParamMap.get('userName') ?? '';
 
     this.loadOrder();
   }
@@ -78,6 +85,12 @@ export class OrderDetail implements OnInit {
 
   get listPath(): string {
     return this.isStaff ? '/management/orders' : '/orders';
+  }
+
+  get listQueryParams(): Record<string, string> {
+    return this.isStaff && this.userId
+      ? { userId: this.userId, userName: this.userName }
+      : {};
   }
 
   get canPay(): boolean {
@@ -156,12 +169,19 @@ export class OrderDetail implements OnInit {
     });
   }
 
-  cancelOrder(): void {
+  async cancelOrder(): Promise<void> {
     if (!this.order || this.cancelling) {
       return;
     }
 
-    const confirmed = confirm('¿Querés cancelar este pedido? Esta acción no se puede deshacer.');
+    const confirmed = await this.modal.confirm({
+      title: 'Cancelar pedido',
+      message: '¿Querés cancelar este pedido?',
+      detail: 'Esta acción no se puede deshacer.',
+      confirmLabel: 'Cancelar pedido',
+      cancelLabel: 'Volver',
+      variant: 'danger'
+    });
 
     if (!confirmed) {
       return;

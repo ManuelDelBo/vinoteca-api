@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ConfirmDialog } from '../../../shared/confirm-dialog/confirm-dialog';
+import { ModalService } from '../../../shared/modal/modal.service';
 import { SupplierService } from '../../../services/supplier.service';
 import { Supplier } from '../../../models/supplier';
 
@@ -28,6 +29,7 @@ export class SupplierList implements OnInit {
 
     constructor(
         private supplierService: SupplierService,
+        private modal: ModalService,
         private cdr: ChangeDetectorRef
     ) {}
 
@@ -52,13 +54,17 @@ export class SupplierList implements OnInit {
         this.cdr.markForCheck();
 
         this.supplierService.getRelatedProductCount(supplier.id).subscribe({
-            next: ({ count }) => {
+            next: async ({ count }) => {
                 this.checkingDeletion.set(false);
 
                 if (count <= 0) {
-                    const confirmar = confirm(
-                        `¿Estás seguro de que querés eliminar el proveedor "${supplier.name}"?`
-                    );
+                    const confirmar = await this.modal.confirm({
+                        title: 'Eliminar proveedor',
+                        message: `¿Estás seguro de que querés eliminar el proveedor "${supplier.name}"?`,
+                        confirmLabel: 'Eliminar',
+                        cancelLabel: 'Cancelar',
+                        variant: 'danger'
+                    });
 
                     if (confirmar) {
                         this.performDelete(supplier.id, false);
@@ -163,8 +169,14 @@ export class SupplierList implements OnInit {
         this.cdr.markForCheck();
     }
 
-    activateSupplier(id: string): void {
-        const confirmar = confirm('¿Querés volver a activar este proveedor?');
+    async activateSupplier(id: string): Promise<void> {
+        const confirmar = await this.modal.confirm({
+            title: 'Activar proveedor',
+            message: '¿Querés volver a activar este proveedor?',
+            confirmLabel: 'Activar',
+            cancelLabel: 'Cancelar',
+            variant: 'confirm'
+        });
 
         if (!confirmar) return;
 

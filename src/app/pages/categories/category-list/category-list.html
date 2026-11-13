@@ -24,7 +24,9 @@
             <p>Categoría activa</p>
 
             <div id="acciones">
-                <button>
+                <button
+                    [routerLink]="['/management/products']"
+                    [queryParams]="{ categoryId: category.id, categoryName: category.name }">
                     Ver productos
                 </button>
 

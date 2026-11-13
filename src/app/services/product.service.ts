@@ -37,7 +37,8 @@ export class ProductService {
                 imagePath: image.imagePath,
                 url: this.toAbsoluteUrl(image.url) ?? '',
                 principal: image.principal
-            }))
+            })),
+            minPrice: product.minPrice != null ? Number(product.minPrice) : null
         };
     }
 

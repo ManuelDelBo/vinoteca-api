@@ -12,14 +12,29 @@
         </a>
     </div>
 
+    <div class="context-banner" *ngIf="hasUserFilter" role="status">
+        <div class="context-banner-text">
+            <span class="context-banner-label">Órdenes filtradas por cliente</span>
+            <strong>{{ filterLabel }}</strong>
+        </div>
+
+        <button
+            type="button"
+            class="btn-clear"
+            *ngIf="canViewAllOrders"
+            (click)="removeUserFilter()">
+            Quitar filtro
+        </button>
+    </div>
+
     <div class="message error" *ngIf="errorMessage">{{ errorMessage }}</div>
 
     <div class="loading" *ngIf="loading">Cargando pedidos...</div>
 
     <ng-container *ngIf="!loading && !errorMessage">
         <div class="empty-state" *ngIf="orders.length === 0">
-            <h3>{{ isStaff ? 'Todavía no hay órdenes registradas' : 'Todavía no realizaste ningún pedido' }}</h3>
-            <p>{{ isStaff ? 'Las órdenes creadas por los clientes aparecerán acá.' : 'Cuando confirmes una compra vas a poder seguirla desde esta sección.' }}</p>
+            <h3>{{ hasUserFilter ? 'Este cliente todavía no tiene órdenes' : (isStaff ? 'Todavía no hay órdenes registradas' : 'Todavía no realizaste ningún pedido') }}</h3>
+            <p>{{ hasUserFilter ? 'Cuando el cliente realice una compra, aparecerá en esta lista.' : (isStaff ? 'Las órdenes creadas por los clientes aparecerán acá.' : 'Cuando confirmes una compra vas a poder seguirla desde esta sección.') }}</p>
             <a class="btn-primary" *ngIf="!isStaff" routerLink="/products">Ver catálogo</a>
         </div>
 
@@ -49,7 +64,7 @@
                 </div>
 
                 <div class="order-action">
-                    <a class="btn-detail" [routerLink]="[detailBase, order.id]">Ver detalle</a>
+                    <a class="btn-detail" [routerLink]="[detailBase, order.id]" [queryParams]="detailQueryParams">Ver detalle</a>
                 </div>
             </div>
         </div>

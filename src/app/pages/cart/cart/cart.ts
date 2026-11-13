@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { Cart as CartModel, CartItem } from '../../../models/cart';
 import { CartService } from '../../../services/cart.service';
 import { AuthService } from '../../../services/auth.service';
+import { ModalService } from '../../../shared/modal/modal.service';
 
 @Component({
   imports: [CommonModule, RouterLink],
@@ -18,6 +19,7 @@ export class Cart implements OnInit {
   private cartService = inject(CartService);
   private authService = inject(AuthService);
   private cdr = inject(ChangeDetectorRef);
+  private modal = inject(ModalService);
 
   cart: CartModel | null = null;
   loading = false;
@@ -133,12 +135,18 @@ export class Cart implements OnInit {
     });
   }
 
-  removeItem(item: CartItem): void {
+  async removeItem(item: CartItem): Promise<void> {
     if (this.removingItemId || this.updatingItemId) {
       return;
     }
 
-    const confirmed = confirm(`¿Querés quitar "${item.productName}" del carrito?`);
+    const confirmed = await this.modal.confirm({
+      title: 'Quitar producto',
+      message: `¿Querés quitar "${item.productName}" del carrito?`,
+      confirmLabel: 'Quitar',
+      cancelLabel: 'Cancelar',
+      variant: 'danger'
+    });
 
     if (!confirmed) {
       return;

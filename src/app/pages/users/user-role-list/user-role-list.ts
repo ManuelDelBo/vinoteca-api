@@ -1,7 +1,8 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { UserService } from '../../../services/user.service';
 import { User, Role } from '../../../models/user';
+import { ModalService } from '../../../shared/modal/modal.service';
 
 @Component({
     imports: [RouterLink],
@@ -16,6 +17,8 @@ export class UserRoleList implements OnInit {
     title = '';
     mensaje = signal('');
     showingInactive = signal(false);
+
+    private modal = inject(ModalService);
 
     constructor(
         private userService: UserService,
@@ -66,8 +69,16 @@ export class UserRoleList implements OnInit {
         this.loadUsers();
     }
 
-    deleteUser(user: User): void {
-        if (!confirm(`¿Estás seguro de deshabilitar a ${user.name} ${user.lastName}?`)) {
+    async deleteUser(user: User): Promise<void> {
+        const confirmed = await this.modal.confirm({
+            title: 'Deshabilitar usuario',
+            message: `¿Estás seguro de deshabilitar a ${user.name} ${user.lastName}?`,
+            confirmLabel: 'Deshabilitar',
+            cancelLabel: 'Cancelar',
+            variant: 'danger'
+        });
+
+        if (!confirmed) {
             return;
         }
 
@@ -82,8 +93,16 @@ export class UserRoleList implements OnInit {
         });
     }
 
-    activateUser(user: User): void {
-        if (!confirm(`¿Querés reactivar a ${user.name} ${user.lastName}?`)) {
+    async activateUser(user: User): Promise<void> {
+        const confirmed = await this.modal.confirm({
+            title: 'Reactivar usuario',
+            message: `¿Querés reactivar a ${user.name} ${user.lastName}?`,
+            confirmLabel: 'Reactivar',
+            cancelLabel: 'Cancelar',
+            variant: 'confirm'
+        });
+
+        if (!confirmed) {
             return;
         }
 

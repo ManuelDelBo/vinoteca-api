@@ -46,6 +46,31 @@
     font-weight: 700;
 }
 
+.dialog-icon[data-variant="success"] {
+    background: rgba(74, 125, 83, .14);
+    border-color: rgba(74, 125, 83, .5);
+    color: #3f7049;
+}
+
+.dialog-icon[data-variant="error"],
+.dialog-icon[data-variant="danger"] {
+    background: rgba(181, 83, 69, .13);
+    border-color: rgba(181, 83, 69, .45);
+    color: #a7463c;
+}
+
+.dialog-icon[data-variant="warning"] {
+    background: rgba(176, 131, 45, .15);
+    border-color: rgba(176, 131, 45, .45);
+    color: #96691f;
+}
+
+.dialog-icon[data-variant="info"] {
+    background: rgba(72, 104, 142, .14);
+    border-color: rgba(72, 104, 142, .4);
+    color: #3f6188;
+}
+
 .dialog-card h2 {
     margin: 0 0 12px;
     color: var(--wine-text, #302631);
@@ -134,6 +159,73 @@
 .btn-confirm:hover:not(:disabled) {
     background: var(--wine-primary-hover, #552541);
     transform: translateY(-2px);
+}
+
+/* Variantes del diálogo */
+
+.variant-danger .dialog-icon {
+    background: #fbecee;
+    color: #b23b47;
+    border-color: #e5b4b4;
+}
+
+.variant-danger .btn-confirm {
+    border-color: #a83a46;
+    background: #a83a46;
+}
+
+.variant-danger .btn-confirm:hover:not(:disabled) {
+    background: #8e2f3a;
+}
+
+.variant-error .dialog-icon {
+    background: #fbecee;
+    color: #b23b47;
+    border-color: #e5b4b4;
+}
+
+.variant-error .btn-confirm {
+    border-color: #a83a46;
+    background: #a83a46;
+}
+
+.variant-error .btn-confirm:hover:not(:disabled) {
+    background: #8e2f3a;
+}
+
+.variant-success .dialog-icon {
+    background: #eaf5ee;
+    color: #2f6b3a;
+    border-color: #9dcbad;
+}
+
+.variant-success .btn-confirm {
+    border-color: #38815a;
+    background: #38815a;
+}
+
+.variant-success .btn-confirm:hover:not(:disabled) {
+    background: #2c6848;
+}
+
+.variant-warning .dialog-icon {
+    background: #fdf4e3;
+    color: #9a6a1f;
+    border-color: #e6cd94;
+}
+
+.variant-warning .btn-confirm {
+    border-color: #b5852e;
+    background: #b5852e;
+}
+
+.variant-warning .btn-confirm:hover:not(:disabled) {
+    background: #9a6f24;
+}
+
+.variant-info .dialog-icon {
+    background: var(--wine-surface-alt, #f5ece7);
+    color: var(--wine-primary, #6d3559);
 }
 
 @keyframes wine-dialog-in {
