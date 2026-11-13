@@ -7,7 +7,7 @@
             <p *ngIf="order">Creado el {{ order.createdAt | date:'dd/MM/yyyy HH:mm' }}</p>
         </div>
 
-        <a class="btn-secondary" [routerLink]="listPath">Volver a pedidos</a>
+        <a class="btn-secondary" [routerLink]="listPath" [queryParams]="listQueryParams">Volver a pedidos</a>
     </div>
 
     <div class="message success" *ngIf="created">

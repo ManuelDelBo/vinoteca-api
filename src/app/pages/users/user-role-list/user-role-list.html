@@ -53,8 +53,10 @@
                         } @else {
 
                             @if (role === 'ROLE_CUSTOMER') {
-                                <a [routerLink]="['/management/users', user.id, 'orders']">
-                                    Ver compras
+                                <a
+                                    [routerLink]="['/management/orders']"
+                                    [queryParams]="{ userId: user.id, userName: (user.name + ' ' + user.lastName).trim() }">
+                                    Ver órdenes
                                 </a>
                             }
 

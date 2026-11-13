@@ -15,15 +15,86 @@
         <div class="profile-header">
             <div class="avatar">{{ initials(currentUser) }}</div>
 
-            <div>
+            <div class="profile-identity">
                 <h1>Mi perfil</h1>
                 <p class="profile-name">{{ currentUser.name }} {{ currentUser.lastName }}</p>
                 <span class="status" [class.status-inactive]="!currentUser.active">
                     {{ currentUser.active ? 'Cuenta activa' : 'Cuenta inactiva' }}
                 </span>
             </div>
+
+            @if (isCustomer && !editingProfile()) {
+            <button type="button" class="btn-secondary profile-edit-btn" (click)="startProfileEdit()">
+                Editar perfil
+            </button>
+            }
         </div>
 
+        @if (profileSuccess()) {
+        <p class="alert alert-success">{{ profileSuccess() }}</p>
+        }
+
+        @if (editingProfile()) {
+        <form class="profile-form" [formGroup]="profileForm" (ngSubmit)="saveProfile()">
+            <h2>Editar datos personales</h2>
+            <p class="form-hint">
+                Podés actualizar tu nombre, apellido y email. Los roles, permisos y el estado de la
+                cuenta no se modifican desde aquí.
+            </p>
+
+            <div class="form-grid">
+                <div class="field">
+                    <label for="profileName">Nombre *</label>
+                    <input id="profileName" type="text" formControlName="name"
+                        placeholder="Ej.: Juan" autocomplete="given-name" />
+                    @if (showProfileError('name')) {
+                    <small class="field-error">El nombre es obligatorio.</small>
+                    }
+                </div>
+
+                <div class="field">
+                    <label for="profileLastName">Apellido *</label>
+                    <input id="profileLastName" type="text" formControlName="lastName"
+                        placeholder="Ej.: Pérez" autocomplete="family-name" />
+                    @if (showProfileError('lastName')) {
+                    <small class="field-error">El apellido es obligatorio.</small>
+                    }
+                </div>
+
+                <div class="field field-wide">
+                    <label for="profileEmail">Email *</label>
+                    <input id="profileEmail" type="email" formControlName="email"
+                        placeholder="Ej.: juan@correo.com" autocomplete="email" />
+                    @if (showProfileError('email')) {
+                    <small class="field-error">
+                        @if (profileForm.get('email')?.errors?.['email']) {
+                        Ingresá un email válido.
+                        } @else {
+                        El email es obligatorio.
+                        }
+                    </small>
+                    }
+                    <small class="field-hint">
+                        Si cambiás el email, vas a tener que iniciar sesión nuevamente.
+                    </small>
+                </div>
+            </div>
+
+            @if (profileFormError()) {
+            <p class="alert alert-error">{{ profileFormError() }}</p>
+            }
+
+            <div class="form-actions">
+                <button type="button" class="btn-secondary" (click)="cancelProfileEdit()"
+                    [disabled]="savingProfile()">
+                    Cancelar
+                </button>
+                <button type="submit" class="btn-primary" [disabled]="savingProfile()">
+                    {{ savingProfile() ? 'Guardando...' : 'Guardar cambios' }}
+                </button>
+            </div>
+        </form>
+        } @else {
         <dl class="profile-data">
             <div class="data-item">
                 <dt>Nombre</dt>
@@ -49,6 +120,7 @@
                 </dd>
             </div>
         </dl>
+        }
 
         }
         }

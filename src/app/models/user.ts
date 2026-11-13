@@ -15,6 +15,12 @@ export interface UserRequest {
     role: Role;
 }
 
+export interface UserProfileUpdate {
+    name: string;
+    lastName: string;
+    email: string;
+}
+
 export type Role =
     | 'ROLE_GUEST'
     | 'ROLE_CUSTOMER'

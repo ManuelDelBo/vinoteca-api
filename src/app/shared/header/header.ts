@@ -1,12 +1,20 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  ViewChild,
+  inject,
+  signal
+} from '@angular/core';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ThemeService } from '../../services/theme.service';
+import { ConfirmDialog } from '../confirm-dialog/confirm-dialog';
 
 
 @Component({
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, RouterLinkActive, ConfirmDialog],
   selector: 'app-header',
   styleUrl: './header.css',
   templateUrl: './header.html',
@@ -14,6 +22,13 @@ import { ThemeService } from '../../services/theme.service';
 export class Header {
 
   readonly themeService: ThemeService = inject(ThemeService);
+
+  @ViewChild('profileMenu')
+  private profileMenu?: ElementRef<HTMLElement>;
+
+  profileMenuOpen = signal(false);
+  showLogoutDialog = signal(false);
+
   constructor(
     private authService: AuthService,
     private router: Router
@@ -21,6 +36,10 @@ export class Header {
 
   get loggedIn$() {
     return this.authService.loggedIn$;
+  }
+
+  get isLoggedIn(): boolean {
+    return this.authService.isLoggedIn();
   }
 
   get isCustomer(): boolean {
@@ -32,17 +51,53 @@ export class Header {
       this.authService.hasRole('ROLE_EMPLOYEE');
   }
 
-  onLogout(): void {
-    const confirmar = confirm(
-      '¿Estás segura de que querés cerrar sesión?'
-    );
+  toggleProfileMenu(): void {
+    this.profileMenuOpen.update(open => !open);
+  }
 
-    if (!confirmar) {
-      return;
+  closeProfileMenu(): void {
+    if (this.profileMenuOpen()) {
+      this.profileMenuOpen.set(false);
     }
+  }
 
+  onProfileMenuKeydown(event: KeyboardEvent): void {
+    if (event.key === 'Escape') {
+      this.closeProfileMenu();
+    }
+  }
+
+  requestLogout(): void {
+    this.closeProfileMenu();
+    this.showLogoutDialog.set(true);
+  }
+
+  cancelLogout(): void {
+    this.showLogoutDialog.set(false);
+  }
+
+  confirmLogout(): void {
+    this.showLogoutDialog.set(false);
     this.authService.logout();
     this.router.navigate(['/']);
   }
-}
 
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    if (!this.profileMenuOpen()) {
+      return;
+    }
+
+    const target = event.target as Node | null;
+    const menu = this.profileMenu?.nativeElement;
+
+    if (menu && target && !menu.contains(target)) {
+      this.closeProfileMenu();
+    }
+  }
+
+  @HostListener('document:keydown.escape')
+  onEscape(): void {
+    this.closeProfileMenu();
+  }
+}

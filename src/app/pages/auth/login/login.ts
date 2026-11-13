@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
+import { ModalService } from '../../../shared/modal/modal.service';
 
 @Component({
   imports: [CommonModule, ReactiveFormsModule, RouterLink],
@@ -12,6 +13,8 @@ import { AuthService } from '../../../services/auth.service';
 })
 export class Login implements OnInit {
   loginForm!: FormGroup
+
+  private modal = inject(ModalService);
 
   constructor(
     private fb: FormBuilder,
@@ -28,7 +31,7 @@ export class Login implements OnInit {
 
   onSubmit(): void {
     if (this.loginForm.invalid) {
-      alert('Complete los campos.')
+      this.loginForm.markAllAsTouched();
       return
     }
 
@@ -36,15 +39,20 @@ export class Login implements OnInit {
 
     this.authService.login(credenciales).subscribe({
       next: () => {
-        alert('Inicio de sesión exitoso.');
         this.router.navigate(['/']);
       },
       error: (e) => {
         if (e.status === 401) {
-          alert('Usuario o contraseña incorrectos.');
+          this.modal.error(
+            'No pudimos iniciar sesión',
+            'El usuario o la contraseña son incorrectos. Revisá los datos e intentá nuevamente.'
+          );
         } else {
           console.error(e);
-          alert('No se pudo iniciar sesión. Verifique que el servidor esté funcionando.');
+          this.modal.error(
+            'No pudimos iniciar sesión',
+            'Verificá que el servidor esté funcionando e intentá nuevamente.'
+          );
         }
       }
     })

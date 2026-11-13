@@ -24,7 +24,9 @@
             <p>Marca activa</p>
 
             <div id="acciones">
-                <button>
+                <button
+                    [routerLink]="['/management/products']"
+                    [queryParams]="{ brandId: brand.id, brandName: brand.name }">
                     Ver productos
                 </button>
 

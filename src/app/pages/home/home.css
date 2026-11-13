@@ -1,6 +1,6 @@
 
 /* ==========================================
-   VINOTECA HTTP - HOME
+  VINOTECA HTTP - HOME
    ========================================== */
 
 .home-page {
@@ -192,7 +192,7 @@
 }
 
 /* ==========================================
-   EXPERIENCIA
+  EXPERIENCIA
    ========================================== */
 
 .experience {
@@ -691,3 +691,149 @@
         transform: none;
     }
 }
+
+/* ==========================================
+   ANIMACIÓN DEL LOGO VINOTECA HTTP
+   ========================================== */
+
+/* El círculo aparece suavemente */
+.visual-circle {
+  animation: logoCircleAppear 1s ease-out 0.45s both;
+  transition:
+    transform 0.7s ease,
+    box-shadow 0.7s ease,
+    filter 0.7s ease;
+}
+
+/* El aro aparece después del círculo */
+.visual-ring {
+  animation: logoRingAppear 1s ease-out 0.65s both;
+  transform-origin: center;
+  transition:
+    transform 0.8s ease,
+    border-color 0.7s ease,
+    box-shadow 0.7s ease;
+}
+
+/* La V se revela de arriba hacia abajo */
+.visual-symbol {
+  clip-path: inset(0 0 100% 0);
+  opacity: 0;
+  animation: logoLetterReveal 1.15s cubic-bezier(0.22, 1, 0.36, 1) 0.85s forwards;
+  transition:
+    transform 0.6s ease,
+    text-shadow 0.6s ease,
+    color 0.6s ease;
+  transform-origin: center;
+}
+
+/* El nombre aparece al final */
+.visual-caption {
+  opacity: 0;
+  animation: logoCaptionAppear 0.8s ease-out 1.45s forwards;
+  transition:
+    letter-spacing 0.6s ease,
+    text-shadow 0.6s ease;
+}
+
+/* Animaciones iniciales */
+@keyframes logoCircleAppear {
+  from {
+    opacity: 0;
+    transform: scale(0.82);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes logoRingAppear {
+  from {
+    opacity: 0;
+    transform: scale(0.88) rotate(-12deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+@keyframes logoLetterReveal {
+  from {
+    opacity: 0;
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes logoCaptionAppear {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==========================================
+   HOVER DEL LOGO
+   ========================================== */
+
+.hero-visual:hover .visual-circle {
+  transform: scale(1.055);
+  filter: brightness(1.15);
+  box-shadow:
+    0 25px 85px rgba(0, 0, 0, 0.35),
+    0 0 45px rgba(197, 167, 123, 0.18);
+}
+
+.hero-visual:hover .visual-ring {
+  transform: scale(1.045) rotate(8deg);
+  border-color: rgba(230, 208, 169, 0.8);
+  box-shadow: 0 0 22px rgba(197, 167, 123, 0.12);
+}
+
+.hero-visual:hover .visual-symbol {
+  color: #f5e4c4;
+  transform: translateY(-5px) scale(1.035);
+  text-shadow:
+    0 0 12px rgba(230, 208, 169, 0.45),
+    0 0 35px rgba(197, 167, 123, 0.3),
+    0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.hero-visual:hover .visual-caption {
+  letter-spacing: 6px;
+  text-shadow: 0 0 12px rgba(230, 208, 169, 0.45);
+}
+
+/* Accesibilidad: respetar movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+  .visual-circle,
+  .visual-ring,
+  .visual-symbol,
+  .visual-caption {
+    animation: none;
+    opacity: 1;
+    clip-path: none;
+    transition: none;
+  }
+
+  .hero-visual:hover .visual-circle,
+  .hero-visual:hover .visual-ring,
+  .hero-visual:hover .visual-symbol,
+  .hero-visual:hover .visual-caption {
+    transform: none;
+    filter: none;
+    box-shadow: none;
+    text-shadow: none;
+    letter-spacing: inherit;
+  }
+}
+

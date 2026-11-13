@@ -4,12 +4,15 @@ import {
     FormBuilder,
     FormGroup,
     ReactiveFormsModule,
-    ValidationErrors
+    ValidationErrors,
+    Validators
 } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmDialog } from '../../shared/confirm-dialog/confirm-dialog';
 import { Address, AddressRequest } from '../../models/address';
 import { Role, User } from '../../models/user';
 import { AddressService } from '../../services/address.service';
+import { AuthService } from '../../services/auth.service';
 import { UserService } from '../../services/user.service';
 
 const trimmedRequired = (control: AbstractControl): ValidationErrors | null => {
@@ -42,7 +45,15 @@ export class Profile implements OnInit {
     editingAddressId = signal<string | null>(null);
     pendingDeletion = signal<Address | null>(null);
 
+    editingProfile = signal(false);
+    savingProfile = signal(false);
+    profileSuccess = signal('');
+    profileFormError = signal('');
+
     addressForm: FormGroup;
+    profileForm: FormGroup;
+
+    private openEditOnLoad = false;
 
     private readonly roleLabels: Record<Role, string> = {
         ROLE_GUEST: 'Invitado',
@@ -55,12 +66,17 @@ export class Profile implements OnInit {
         private fb: FormBuilder,
         private userService: UserService,
         private addressService: AddressService,
+        private authService: AuthService,
+        private route: ActivatedRoute,
+        private router: Router,
         private cdr: ChangeDetectorRef
     ) {
         this.addressForm = this.buildAddressForm();
+        this.profileForm = this.buildProfileForm();
     }
 
     ngOnInit(): void {
+        this.openEditOnLoad = this.route.snapshot.queryParamMap.get('edit') === '1';
         this.loadProfile();
     }
 
@@ -80,9 +96,15 @@ export class Profile implements OnInit {
             next: user => {
                 this.user.set(user);
                 this.loadingProfile.set(false);
+                this.syncProfileForm(user);
 
                 if (this.isCustomer) {
                     this.loadAddresses(user.id);
+
+                    if (this.openEditOnLoad) {
+                        this.openEditOnLoad = false;
+                        this.startProfileEdit();
+                    }
                 }
 
                 this.cdr.markForCheck();
@@ -97,6 +119,96 @@ export class Profile implements OnInit {
 
     retryLoadProfile(): void {
         this.loadProfile();
+    }
+
+    startProfileEdit(): void {
+        const currentUser = this.user();
+
+        if (!currentUser || !this.isCustomer || this.savingProfile()) {
+            return;
+        }
+
+        this.profileForm = this.buildProfileForm(currentUser);
+        this.profileFormError.set('');
+        this.profileSuccess.set('');
+        this.editingProfile.set(true);
+        this.cdr.markForCheck();
+    }
+
+    cancelProfileEdit(): void {
+        if (this.savingProfile()) {
+            return;
+        }
+
+        this.editingProfile.set(false);
+        this.profileFormError.set('');
+        this.profileForm = this.buildProfileForm();
+        this.cdr.markForCheck();
+    }
+
+    saveProfile(): void {
+        const currentUser = this.user();
+
+        if (!currentUser || !this.isCustomer || this.savingProfile()) {
+            return;
+        }
+
+        this.profileForm.markAllAsTouched();
+
+        if (this.profileForm.invalid) {
+            this.profileFormError.set('Revisá los datos ingresados.');
+            this.cdr.markForCheck();
+            return;
+        }
+
+        const raw = this.profileForm.getRawValue();
+        const name = raw.name.trim();
+        const lastName = raw.lastName.trim();
+        const email = raw.email.trim();
+        const emailChanged = email.toLowerCase() !== currentUser.email.toLowerCase();
+
+        this.profileFormError.set('');
+        this.profileSuccess.set('');
+        this.savingProfile.set(true);
+        this.cdr.markForCheck();
+
+        this.userService.updateMyProfile({ name, lastName, email }).subscribe({
+            next: updated => {
+                this.savingProfile.set(false);
+                this.user.set(updated);
+                this.editingProfile.set(false);
+                this.profileForm = this.buildProfileForm();
+
+                if (emailChanged) {
+                    this.profileSuccess.set(
+                        'Perfil actualizado. Como cambiaste tu email, volvé a iniciar sesión con tu nueva dirección.'
+                    );
+                    this.cdr.markForCheck();
+
+                    this.authService.logout();
+                    this.router.navigate(['/login'], {
+                        queryParams: { emailChanged: '1' }
+                    });
+                    return;
+                }
+
+                this.profileSuccess.set('Perfil actualizado correctamente.');
+                this.cdr.markForCheck();
+            },
+            error: error => {
+                this.savingProfile.set(false);
+                this.profileFormError.set(
+                    this.resolveError(error, 'No se pudo actualizar tu perfil.')
+                );
+                this.cdr.markForCheck();
+            }
+        });
+    }
+
+    showProfileError(controlName: string): boolean {
+        const control = this.profileForm.get(controlName);
+
+        return !!control && control.invalid && (control.touched || control.dirty);
     }
 
     loadAddresses(userExternalId: string): void {
@@ -285,6 +397,22 @@ export class Profile implements OnInit {
         if (userId) {
             this.loadAddresses(userId);
         }
+    }
+
+    private buildProfileForm(user?: User): FormGroup {
+        return this.fb.group({
+            name: [user?.name ?? '', trimmedRequired],
+            lastName: [user?.lastName ?? '', trimmedRequired],
+            email: [user?.email ?? '', [trimmedRequired, Validators.email]],
+        });
+    }
+
+    private syncProfileForm(user: User): void {
+        if (this.savingProfile()) {
+            return;
+        }
+
+        this.profileForm = this.buildProfileForm(user);
     }
 
     private buildAddressForm(address?: Address): FormGroup {

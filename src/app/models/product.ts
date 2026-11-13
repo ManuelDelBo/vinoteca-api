@@ -14,6 +14,8 @@ export interface Product {
     brandName: string;
     principalImagePath: string | null;
     images: ProductImage[];
+    /** Precio de la variante activa con stock más económica, calculado por el backend. */
+    minPrice: number | null;
 }
 
 export interface ProductRequest {
