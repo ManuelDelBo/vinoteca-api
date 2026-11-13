@@ -28,7 +28,6 @@ export class ProductList implements OnInit {
     private supplierService = inject(SupplierService);
     private route = inject(ActivatedRoute);
     private router = inject(Router);
-    private route = inject(ActivatedRoute);
     private cdr = inject(ChangeDetectorRef);
     private modal = inject(ModalService);
 

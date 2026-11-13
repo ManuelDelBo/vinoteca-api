@@ -27,6 +27,12 @@ export type DialogVariant =
 })
 export class ConfirmDialog implements AfterViewInit, OnDestroy {
 
+  private static nextId = 0;
+  private readonly instanceId = ConfirmDialog.nextId++;
+
+  readonly dialogTitleId = `wine-dialog-title-${this.instanceId}`;
+  readonly dialogMessageId = `wine-dialog-message-${this.instanceId}`;
+
   @Input({ required: true }) title = '';
   @Input() message = '';
   @Input() detail = '';
@@ -48,17 +54,12 @@ export class ConfirmDialog implements AfterViewInit, OnDestroy {
 
   get icon(): string {
     switch (this.variant) {
-      case 'success':
-        return '✓';
-      case 'error':
-        return '✕';
+      case 'success': return '✓';
+      case 'error': return '✕';
       case 'danger':
-      case 'warning':
-        return '!';
-      case 'info':
-        return 'i';
-      default:
-        return '?';
+      case 'warning': return '!';
+      case 'info': return 'i';
+      default: return '?';
     }
   }
 
@@ -77,20 +78,14 @@ export class ConfirmDialog implements AfterViewInit, OnDestroy {
     document.body.style.overflow = this.previousOverflow;
   }
 
-  onConfirm(): void {
-    if (this.busy) {
-      return;
-    }
-
-    this.confirmed.emit();
+  onCancel(): void {
+    if (this.busy) return;
+    this.cancelled.emit();
   }
 
-  onCancel(): void {
-    if (this.busy) {
-      return;
-    }
-
-    this.cancelled.emit();
+  onConfirm(): void {
+    if (this.busy) return;
+    this.confirmed.emit();
   }
 
   @HostListener('document:keydown.escape')
@@ -100,15 +95,10 @@ export class ConfirmDialog implements AfterViewInit, OnDestroy {
 
   @HostListener('keydown', ['$event'])
   onKeydown(event: KeyboardEvent): void {
-    if (event.key !== 'Tab') {
-      return;
-    }
+    if (event.key !== 'Tab') return;
 
     const card = this.dialogCard?.nativeElement;
-
-    if (!card) {
-      return;
-    }
+    if (!card) return;
 
     const focusable = Array.from(
       card.querySelectorAll<HTMLElement>(
@@ -128,10 +118,7 @@ export class ConfirmDialog implements AfterViewInit, OnDestroy {
     if (event.shiftKey && (active === first || !card.contains(active))) {
       event.preventDefault();
       last.focus();
-      return;
-    }
-
-    if (!event.shiftKey && (active === last || !card.contains(active))) {
+    } else if (!event.shiftKey && (active === last || !card.contains(active))) {
       event.preventDefault();
       first.focus();
     }
