@@ -1,0 +1,88 @@
+<div id="contenedor-usuarios">
+
+    <div id="encabezado">
+        <div>
+            <h1>{{ showingInactive() ? title + ' deshabilitados' : title }}</h1>
+            <p>
+                {{ showingInactive()
+                    ? 'Consultá y reactivá los usuarios deshabilitados.'
+                    : 'Administrá los usuarios registrados en esta sección.' }}
+            </p>
+        </div>
+
+        <div id="acciones-encabezado">
+
+            <button type="button" id="btn-inactivos" (click)="toggleInactive()">
+                {{ showingInactive() ? 'Ver usuarios activos' : 'Ver usuarios deshabilitados' }}
+            </button>
+
+            @if (role !== 'ROLE_CUSTOMER' && !showingInactive()) {
+                <a [routerLink]="['/management/users', role === 'ROLE_ADMIN' ? 'admin' : 'employee', 'new']"
+                    id="btn-agregar">
+                    Agregar usuario
+                </a>
+            }
+
+        </div>
+    </div>
+
+    @if (mensaje()) {
+        <p id="mensaje">{{ mensaje() }}</p>
+    }
+
+    <div id="listado-usuarios">
+
+        @if (users().length > 0) {
+
+            @for (user of users(); track user.id) {
+                <div class="tarjeta-usuario">
+
+                    <div class="datos-usuario">
+                        <h3>{{ user.name }} {{ user.lastName }}</h3>
+                        <p>{{ user.email }}</p>
+                    </div>
+
+                    <div class="acciones-usuario">
+
+                        @if (showingInactive()) {
+
+                            <button type="button" id="btn-reactivar" (click)="activateUser(user)">
+                                Reactivar
+                            </button>
+
+                        } @else {
+
+                            @if (role === 'ROLE_CUSTOMER') {
+                                <a
+                                    [routerLink]="['/management/orders']"
+                                    [queryParams]="{ userId: user.id, userName: (user.name + ' ' + user.lastName).trim() }">
+                                    Ver órdenes
+                                </a>
+                            }
+
+                            <button type="button" (click)="deleteUser(user)">
+                                Deshabilitar
+                            </button>
+
+                        }
+
+                    </div>
+
+                </div>
+            }
+
+        } @else {
+            <p id="sin-usuarios">
+                {{ showingInactive()
+                    ? 'No hay usuarios deshabilitados en esta sección.'
+                    : 'No hay usuarios registrados en esta sección.' }}
+            </p>
+        }
+
+    </div>
+
+    <a routerLink="/management/users" id="btn-volver">
+        Volver
+    </a>
+
+</div>

@@ -1,0 +1,189 @@
+/* VINOTECA UTN — DETALLE DE PAGO */
+:host {
+  display: block;
+}
+
+.payment-detail-page {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 32px;
+  color: var(--wine-text);
+  box-sizing: border-box;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.eyebrow {
+  color: var(--wine-primary);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.page-header h1 {
+  margin: 6px 0;
+  color: var(--wine-text);
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 28px;
+  font-weight: 500;
+}
+
+.page-header p {
+  margin: 0;
+  color: var(--wine-muted);
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+.message {
+  padding: 14px 18px;
+  border-radius: 10px;
+  font-size: 14px;
+  margin-bottom: 18px;
+}
+
+.message.error {
+  background: #fbecee;
+  color: #922d3c;
+  border: 1px solid #e5b4b4;
+}
+
+.loading {
+  padding: 36px;
+  text-align: center;
+  color: var(--wine-muted);
+}
+
+.btn-primary,
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  border-radius: 7px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color .2s ease, border-color .2s ease, color .2s ease;
+}
+
+.btn-primary {
+  background: var(--wine-primary);
+  color: #fff;
+  border: 1px solid transparent;
+}
+
+.btn-primary:hover {
+  background: var(--wine-primary-hover);
+}
+
+.btn-secondary {
+  border: 1px solid var(--wine-border);
+  background: var(--wine-surface);
+  color: var(--wine-text);
+}
+
+.btn-secondary:hover {
+  background: var(--wine-surface-alt);
+}
+
+.payment-card {
+  padding: 24px;
+  background: var(--wine-surface);
+  border: 1px solid var(--wine-border);
+  border-radius: 14px;
+}
+
+.status-row {
+  margin-bottom: 18px;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.payment-pending {
+  background: #fdf4e3;
+  color: #9a6a1f;
+}
+
+.payment-approved {
+  background: #e8f3ea;
+  color: #2f6b3a;
+}
+
+.payment-rejected {
+  background: #f8e8e6;
+  color: #a23f3f;
+}
+
+.data-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 18px 28px;
+  margin: 0;
+}
+
+.data-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.data-item dt {
+  color: var(--wine-muted);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+
+.data-item dd {
+  margin: 0;
+  color: var(--wine-text);
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 24px;
+}
+
+@media (max-width: 650px) {
+  .payment-detail-page {
+    padding: 20px 14px;
+  }
+
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-primary,
+  .btn-secondary {
+    transition: none;
+  }
+}

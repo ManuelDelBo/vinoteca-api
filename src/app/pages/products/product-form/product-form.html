@@ -1,0 +1,311 @@
+<div class="product-form-container">
+
+    <div class="form-header">
+        <div>
+            <h1>{{ isEditMode ? 'Editar producto' : 'Nuevo producto' }}</h1>
+            <p>
+                {{ isEditMode
+                ? 'Modificá los datos del producto, sus imágenes y variantes.'
+                : 'Completá los datos del producto, agregá sus imágenes y variantes.' }}
+            </p>
+        </div>
+    </div>
+
+    <div class="message error-message" *ngIf="errorMessage">
+        {{ errorMessage }}
+    </div>
+
+    <div class="message success-message" *ngIf="successMessage">
+        {{ successMessage }}
+    </div>
+
+    <div class="loading" *ngIf="loading">
+        Cargando producto...
+    </div>
+
+    <ng-container *ngIf="!loading">
+
+        <!-- DATOS DEL PRODUCTO -->
+        <section class="form-section">
+            <div class="section-heading">
+                <h2>Datos del producto</h2>
+                <p>Información general del producto.</p>
+            </div>
+
+            <div class="form-grid">
+
+                <div class="form-group full-width">
+                    <label for="name">Nombre del producto *</label>
+                    <input id="name" type="text" [(ngModel)]="name" name="name" placeholder="Ej. Vino Malbec"
+                        maxlength="255" />
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="description">Descripción</label>
+                    <textarea id="description" [(ngModel)]="description" name="description" rows="3"
+                        placeholder="Ingresá una descripción del producto..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="category">Categoría *</label>
+                    <select id="category" [(ngModel)]="categoryId" name="categoryId">
+                        <option value="">Seleccionar categoría</option>
+                        <option *ngFor="let category of categories" [value]="category.id">
+                            {{ category.name }}
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="brand">Marca *</label>
+                    <select id="brand" [(ngModel)]="brandId" name="brandId">
+                        <option value="">Seleccionar marca</option>
+                        <option *ngFor="let brand of brands" [value]="brand.id">
+                            {{ brand.name }}
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="supplier">Proveedor *</label>
+                    <select id="supplier" [(ngModel)]="supplierId" name="supplierId">
+                        <option value="">Seleccionar proveedor</option>
+                        <option *ngFor="let supplier of suppliers" [value]="supplier.id">
+                            {{ supplier.name }}
+                        </option>
+                    </select>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- VARIANTES -->
+        <section class="form-section variants-section">
+
+            <div class="section-heading variants-heading">
+                <div>
+                    <h2>Variantes del producto</h2>
+                    <p>
+                        Administrá las presentaciones, precios y stock de cada variante.
+                    </p>
+                </div>
+
+                <button type="button" class="btn-add" (click)="addVariant()">
+                    <span>+</span> Agregar variante
+                </button>
+            </div>
+
+            <div class="variant-list">
+
+                <div class="variant-card" *ngFor="let variant of variants; let i = index"
+                    [class.inactive-variant]="!variant.active">
+
+                    <div class="variant-header">
+                        <div class="variant-title">
+                            <h3>
+                                {{ variant.attribute || 'Nueva variante' }}
+                            </h3>
+
+                            <span class="status" [class.status-active]="variant.active"
+                                [class.status-inactive]="!variant.active">
+                                {{ variant.active ? 'Activa' : 'Inactiva' }}
+                            </span>
+                        </div>
+
+                        <div class="variant-actions">
+
+                            <button *ngIf="variant.id && variant.active" type="button" class="btn-disable"
+                                (click)="disableVariant(variant)">
+                                Deshabilitar
+                            </button>
+
+                            <button *ngIf="variant.id && !variant.active" type="button" class="btn-reactivate"
+                                (click)="activateVariant(variant)">
+                                Reactivar
+                            </button>
+
+                            <button *ngIf="!variant.id" type="button" class="btn-remove" (click)="removeNewVariant(i)">
+                                Quitar
+                            </button>
+
+                        </div>
+                    </div>
+
+                    <div class="variant-fields">
+
+                        <div class="form-group">
+                            <label [for]="'attribute-' + i">Atributo *</label>
+                            <input [id]="'attribute-' + i" type="text" [(ngModel)]="variant.attribute"
+                                [name]="'attribute-' + i" placeholder="Ej. 750 ml" [disabled]="!variant.active" />
+                        </div>
+
+                        <div class="form-group">
+                            <label [for]="'price-' + i">Precio regular *</label>
+                            <input [id]="'price-' + i" type="number" min="0.01" step="0.01" [(ngModel)]="variant.price"
+                                [name]="'price-' + i" placeholder="0.00" [disabled]="!variant.active" />
+                        </div>
+
+                        <div class="form-group">
+                            <label [for]="'stock-' + i">Stock *</label>
+                            <input [id]="'stock-' + i" type="number" min="0" step="1" [(ngModel)]="variant.stock"
+                                [name]="'stock-' + i" placeholder="0" [disabled]="!variant.active" />
+                        </div>
+
+                        <div class="form-group">
+                            <label [for]="'wholesale-price-' + i">
+                                Precio mayorista
+                            </label>
+                            <input [id]="'wholesale-price-' + i" type="number" min="0.01" step="0.01"
+                                [(ngModel)]="variant.wholesalePrice" [name]="'wholesale-price-' + i"
+                                placeholder="Opcional" [disabled]="!variant.active" />
+                        </div>
+
+                        <div class="form-group">
+                            <label [for]="'wholesale-qty-' + i">
+                                Cantidad mínima mayorista
+                            </label>
+                            <input [id]="'wholesale-qty-' + i" type="number" min="1" step="1"
+                                [(ngModel)]="variant.wholesaleMinQty" [name]="'wholesale-qty-' + i"
+                                placeholder="Opcional" [disabled]="!variant.active" />
+                        </div>
+
+                    </div>
+
+                    <p class="inactive-info" *ngIf="!variant.active">
+                        Esta variante está deshabilitada. Para modificar sus datos,
+                        primero tenés que reactivarla.
+                    </p>
+
+                </div>
+
+                <div class="empty-variants" *ngIf="variants.length === 0">
+                    <p>Todavía no agregaste variantes.</p>
+                    <button type="button" class="btn-add" (click)="addVariant()">
+                        Agregar primera variante
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- IMÁGENES DEL PRODUCTO -->
+        <section class="form-section images-section">
+
+            <div class="section-heading images-heading">
+                <div>
+                    <h2>Imágenes del producto</h2>
+                    <p>
+                        Subí entre 1 y {{ maxImages }} imágenes en formato JPG, JPEG, PNG o WEBP
+                        (hasta 5 MB cada una). La imagen principal se muestra en el catálogo.
+                    </p>
+                </div>
+
+                <label class="btn-add upload-button" [class.upload-button-disabled]="totalImages >= maxImages">
+                    <span>+</span> Agregar imágenes
+                    <input type="file" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
+                        multiple (change)="onFilesSelected($event)" [disabled]="totalImages >= maxImages" />
+                </label>
+            </div>
+
+            <div class="images-summary">
+                <span class="images-count">
+                    {{ totalImages }} / {{ maxImages }} imágenes
+                </span>
+
+                <span class="images-note" *ngIf="totalImages > 0">
+                    Los cambios de imágenes se aplican al guardar el producto.
+                </span>
+            </div>
+
+            <div class="image-grid" *ngIf="visibleExistingImages.length > 0">
+
+                <article class="image-card" *ngFor="let image of visibleExistingImages"
+                    [class.principal-image]="isExistingPrincipal(image)">
+
+                    <div class="image-preview">
+                        <img [src]="image.url" [alt]="'Imagen de ' + name" />
+
+                        <span class="principal-badge" *ngIf="isExistingPrincipal(image)">
+                            Principal
+                        </span>
+                    </div>
+
+                    <div class="image-actions">
+                        <button type="button" class="btn-image-principal" *ngIf="!isExistingPrincipal(image)"
+                            (click)="selectExistingPrincipal(image)">
+                            Marcar principal
+                        </button>
+
+                        <button type="button" class="btn-image-remove" (click)="removeExistingImage(image)">
+                            Eliminar
+                        </button>
+                    </div>
+
+                </article>
+
+            </div>
+
+            <div class="image-grid" *ngIf="pendingImages.length > 0">
+
+                <article class="image-card pending-image" *ngFor="let pending of pendingImages; let i = index"
+                    [class.principal-image]="pendingPrincipalIndex === i">
+
+                    <div class="image-preview">
+                        <img [src]="pending.previewUrl" [alt]="pending.file.name" />
+
+                        <span class="principal-badge" *ngIf="pendingPrincipalIndex === i">
+                            Principal
+                        </span>
+
+                        <span class="pending-badge" *ngIf="pendingPrincipalIndex !== i">
+                            Nueva
+                        </span>
+                    </div>
+
+                    <div class="image-actions">
+                        <button type="button" class="btn-image-principal" *ngIf="pendingPrincipalIndex !== i"
+                            (click)="selectPendingPrincipal(i)">
+                            Marcar principal
+                        </button>
+
+                        <button type="button" class="btn-image-remove" (click)="removePendingImage(i)">
+                            Quitar
+                        </button>
+                    </div>
+
+                    <p class="pending-file-name" [title]="pending.file.name">
+                        {{ pending.file.name }}
+                    </p>
+
+                </article>
+
+            </div>
+
+            <div class="empty-images" *ngIf="totalImages === 0">
+                <div class="empty-images-icon">🖼️</div>
+                <p>Todavía no agregaste imágenes para este producto.</p>
+                <p class="empty-images-hint">
+                    El producto debe tener al menos una imagen para poder guardarse.
+                </p>
+            </div>
+
+        </section>
+
+        <!-- BOTONES -->
+        <div class="form-footer">
+
+            <button type="button" class="btn-cancel" (click)="cancel()" [disabled]="saving">
+                Cancelar
+            </button>
+
+            <button type="button" class="btn-save" (click)="saveProduct()" [disabled]="saving">
+                {{ saving
+                ? 'Guardando...'
+                : (isEditMode ? 'Guardar cambios' : 'Crear producto') }}
+            </button>
+
+        </div>
+
+    </ng-container>
+
+</div>

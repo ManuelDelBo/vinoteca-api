@@ -1,0 +1,272 @@
+<div class="profile-page">
+
+    <section class="profile-card">
+
+        @if (loadingProfile()) {
+        <p class="state">Cargando tus datos...</p>
+        } @else if (profileError()) {
+        <div class="alert alert-error">{{ profileError() }}</div>
+        <button type="button" class="btn-primary" (click)="retryLoadProfile()">
+            Reintentar
+        </button>
+        } @else {
+        @if (user(); as currentUser) {
+
+        <div class="profile-header">
+            <div class="avatar">{{ initials(currentUser) }}</div>
+
+            <div class="profile-identity">
+                <h1>Mi perfil</h1>
+                <p class="profile-name">{{ currentUser.name }} {{ currentUser.lastName }}</p>
+                <span class="status" [class.status-inactive]="!currentUser.active">
+                    {{ currentUser.active ? 'Cuenta activa' : 'Cuenta inactiva' }}
+                </span>
+            </div>
+
+            @if (isCustomer && !editingProfile()) {
+            <button type="button" class="btn-secondary profile-edit-btn" (click)="startProfileEdit()">
+                Editar perfil
+            </button>
+            }
+        </div>
+
+        @if (profileSuccess()) {
+        <p class="alert alert-success">{{ profileSuccess() }}</p>
+        }
+
+        @if (editingProfile()) {
+        <form class="profile-form" [formGroup]="profileForm" (ngSubmit)="saveProfile()">
+            <h2>Editar datos personales</h2>
+            <p class="form-hint">
+                Podés actualizar tu nombre, apellido y email. Los roles, permisos y el estado de la
+                cuenta no se modifican desde aquí.
+            </p>
+
+            <div class="form-grid">
+                <div class="field">
+                    <label for="profileName">Nombre *</label>
+                    <input id="profileName" type="text" formControlName="name"
+                        placeholder="Ej.: Juan" autocomplete="given-name" />
+                    @if (showProfileError('name')) {
+                    <small class="field-error">El nombre es obligatorio.</small>
+                    }
+                </div>
+
+                <div class="field">
+                    <label for="profileLastName">Apellido *</label>
+                    <input id="profileLastName" type="text" formControlName="lastName"
+                        placeholder="Ej.: Pérez" autocomplete="family-name" />
+                    @if (showProfileError('lastName')) {
+                    <small class="field-error">El apellido es obligatorio.</small>
+                    }
+                </div>
+
+                <div class="field field-wide">
+                    <label for="profileEmail">Email *</label>
+                    <input id="profileEmail" type="email" formControlName="email"
+                        placeholder="Ej.: juan@correo.com" autocomplete="email" />
+                    @if (showProfileError('email')) {
+                    <small class="field-error">
+                        @if (profileForm.get('email')?.errors?.['email']) {
+                        Ingresá un email válido.
+                        } @else {
+                        El email es obligatorio.
+                        }
+                    </small>
+                    }
+                    <small class="field-hint">
+                        Si cambiás el email, vas a tener que iniciar sesión nuevamente.
+                    </small>
+                </div>
+            </div>
+
+            @if (profileFormError()) {
+            <p class="alert alert-error">{{ profileFormError() }}</p>
+            }
+
+            <div class="form-actions">
+                <button type="button" class="btn-secondary" (click)="cancelProfileEdit()"
+                    [disabled]="savingProfile()">
+                    Cancelar
+                </button>
+                <button type="submit" class="btn-primary" [disabled]="savingProfile()">
+                    {{ savingProfile() ? 'Guardando...' : 'Guardar cambios' }}
+                </button>
+            </div>
+        </form>
+        } @else {
+        <dl class="profile-data">
+            <div class="data-item">
+                <dt>Nombre</dt>
+                <dd>{{ currentUser.name }}</dd>
+            </div>
+
+            <div class="data-item">
+                <dt>Apellido</dt>
+                <dd>{{ currentUser.lastName }}</dd>
+            </div>
+
+            <div class="data-item">
+                <dt>Email</dt>
+                <dd>{{ currentUser.email }}</dd>
+            </div>
+
+            <div class="data-item">
+                <dt>Roles</dt>
+                <dd class="roles">
+                    @for (role of currentUser.roles; track role) {
+                    <span class="role-badge">{{ roleLabel(role) }}</span>
+                    }
+                </dd>
+            </div>
+        </dl>
+        }
+
+        }
+        }
+
+    </section>
+
+    @if (isCustomer) {
+    <section class="addresses-section">
+
+        <div class="section-header">
+            <div>
+                <h2>Mis direcciones</h2>
+                <p>Administrá las direcciones asociadas a tu cuenta.</p>
+            </div>
+
+            @if (!showAddressForm()) {
+            <button type="button" class="btn-primary" (click)="startCreate()">
+                Agregar dirección
+            </button>
+            }
+        </div>
+
+        @if (addressSuccess()) {
+        <p class="alert alert-success">{{ addressSuccess() }}</p>
+        }
+
+        @if (addressError()) {
+        <p class="alert alert-error">{{ addressError() }}</p>
+        }
+
+        @if (showAddressForm()) {
+        <form class="address-form" [formGroup]="addressForm" (ngSubmit)="saveAddress()">
+            <h3>{{ isEditing ? 'Editar dirección' : 'Nueva dirección' }}</h3>
+
+            <div class="form-grid">
+                <div class="field">
+                    <label for="street">Calle *</label>
+                    <input id="street" type="text" formControlName="street"
+                        placeholder="Ej.: Av. San Martín" autocomplete="address-line1" />
+                    @if (showError('street')) {
+                    <small class="field-error">La calle es obligatoria.</small>
+                    }
+                </div>
+
+                <div class="field">
+                    <label for="streetNumber">Número *</label>
+                    <input id="streetNumber" type="text" formControlName="streetNumber"
+                        placeholder="Ej.: 1234" autocomplete="address-line2" />
+                    @if (showError('streetNumber')) {
+                    <small class="field-error">El número es obligatorio.</small>
+                    }
+                </div>
+
+                <div class="field">
+                    <label for="city">Ciudad *</label>
+                    <input id="city" type="text" formControlName="city"
+                        placeholder="Ej.: Buenos Aires" autocomplete="address-level2" />
+                    @if (showError('city')) {
+                    <small class="field-error">La ciudad es obligatoria.</small>
+                    }
+                </div>
+
+                <div class="field">
+                    <label for="zipCode">Código postal *</label>
+                    <input id="zipCode" type="text" formControlName="zipCode"
+                        placeholder="Ej.: C1001" autocomplete="postal-code" />
+                    @if (showError('zipCode')) {
+                    <small class="field-error">El código postal es obligatorio.</small>
+                    }
+                </div>
+
+                <div class="field">
+                    <label for="floor">Piso (opcional)</label>
+                    <input id="floor" type="text" formControlName="floor" placeholder="Ej.: 3" />
+                </div>
+
+                <div class="field">
+                    <label for="apartmentNumber">Departamento (opcional)</label>
+                    <input id="apartmentNumber" type="text" formControlName="apartmentNumber"
+                        placeholder="Ej.: B" />
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="btn-secondary" (click)="cancelForm()" [disabled]="savingAddress()">
+                    Cancelar
+                </button>
+
+                <button type="submit" class="btn-primary" [disabled]="savingAddress()">
+                    {{ savingAddress() ? 'Guardando...' : (isEditing ? 'Guardar cambios' : 'Agregar dirección') }}
+                </button>
+            </div>
+        </form>
+        }
+
+        @if (loadingAddresses()) {
+        <p class="state">Cargando direcciones...</p>
+        } @else if (addresses().length === 0 && !addressError()) {
+        @if (!showAddressForm()) {
+        <div class="empty-state">
+            <h3>Todavía no tenés direcciones</h3>
+            <p>Agregá tu primera dirección para tenerla disponible en tus próximas compras.</p>
+            <button type="button" class="btn-primary" (click)="startCreate()">
+                Agregar dirección
+            </button>
+        </div>
+        }
+        } @else {
+        <div class="address-grid">
+            @for (address of addresses(); track address.externalId) {
+            <article class="address-card">
+                <h3>{{ address.street }} {{ address.streetNumber }}</h3>
+
+                @if (address.floor || address.apartmentNumber) {
+                <p class="address-extra">
+                    @if (address.floor) {
+                    <span>Piso {{ address.floor }}</span>
+                    }
+                    @if (address.apartmentNumber) {
+                    <span>Depto {{ address.apartmentNumber }}</span>
+                    }
+                </p>
+                }
+
+                <p class="address-location">{{ address.city }} · CP {{ address.zipCode }}</p>
+
+                <div class="address-actions">
+                    <button type="button" class="btn-secondary" (click)="startEdit(address)">
+                        Editar
+                    </button>
+                    <button type="button" class="btn-danger" (click)="requestDelete(address)">
+                        Eliminar
+                    </button>
+                </div>
+            </article>
+            }
+        </div>
+        }
+
+    </section>
+    }
+
+    @if (pendingDeletion(); as pending) {
+    <app-confirm-dialog title="Eliminar dirección" [message]="deleteMessage(pending)"
+        detail="La dirección se quitará de tu perfil." confirmLabel="Eliminar" cancelLabel="Cancelar"
+        [busy]="deletingAddress()" (confirmed)="confirmDelete()" (cancelled)="cancelDelete()" />
+    }
+
+</div>

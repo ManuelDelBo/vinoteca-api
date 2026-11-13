@@ -1,3 +1,167 @@
-/* You can add global styles to this file, and also import other style files */
 
 @import 'tailwindcss';
+
+/* ====================================
+   VINOTECA UTN - ESTILOS GLOBALES
+   ==================================== */
+
+:root {
+  color-scheme: light;
+
+  /* Fondos */
+  --wine-bg: #f6f1e9;
+  --wine-surface: #fffdf9;
+  --wine-surface-alt: #ece3d9;
+
+  /* Textos */
+  --wine-text: #282127;
+  --wine-muted: #71666c;
+
+  /* Colores principales */
+  --wine-primary: #673451;
+  --wine-primary-hover: #50253e;
+  --wine-accent: #c5a77b;
+
+  /* Bordes y sombras */
+  --wine-border: #e4d9cf;
+  --wine-shadow: 0 8px 30px rgba(46, 28, 39, 0.07);
+  --wine-radius: 14px;
+
+  /* Tipografía */
+  font-family: 'Inter', system-ui, 'Segoe UI', sans-serif;
+}
+
+/* Estilos generales */
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--wine-bg);
+  color: var(--wine-text);
+
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
+}
+
+/* Accesibilidad */
+:focus-visible {
+  outline: 3px solid var(--wine-accent);
+  outline-offset: 3px;
+}
+
+/* ====================================
+   MODO OSCURO
+   ==================================== */
+
+html.dark {
+  color-scheme: dark;
+
+  --wine-bg: #1c171c;
+  --wine-surface: #292229;
+  --wine-surface-alt: #392d38;
+
+  --wine-text: #f7f0ea;
+  --wine-muted: #c7b9c2;
+
+  --wine-primary: #a36e91;
+  --wine-primary-hover: #bc8baa;
+
+  --wine-border: #51414d;
+  --wine-shadow: 0 8px 30px rgba(0, 0, 0, 0.22);
+}
+
+/* Reducir animaciones cuando el usuario lo solicita */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+
+/* =========================================
+   TRANSICIONES MODO CLARO / OSCURO
+   ========================================= */
+
+html {
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+/* Transiciones globales de colores */
+
+body,
+header,
+footer,
+main,
+section,
+article,
+nav,
+aside,
+.card,
+.product-card,
+input,
+select,
+textarea {
+  transition:
+    background-color 0.35s ease,
+    color 0.35s ease,
+    border-color 0.35s ease;
+}
+
+/* Respetar preferencias de accesibilidad */
+
+@media (prefers-reduced-motion: reduce) {
+  body,
+  header,
+  footer,
+  main,
+  section,
+  article,
+  nav,
+  aside,
+  .card,
+  .product-card,
+  input,
+  select,
+  textarea {
+    transition: none;
+  }
+}
+html,
+body {
+  scroll-behavior: smooth !important;
+}
+/* =====================================
+   TRANSICIÓN GLOBAL ENTRE PÁGINAS
+   ===================================== */
+
+@keyframes pageFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Contenido de las páginas */
+router-outlet + * {
+  animation: pageFadeIn 1.20s ease-out both;
+}
+
+/* Accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+  router-outlet + * {
+    animation: none;
+  }
+}
+

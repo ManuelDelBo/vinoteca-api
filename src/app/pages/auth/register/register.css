@@ -1,0 +1,271 @@
+
+/* ==========================================
+   VINOTECA UTN - REGISTRO
+   Diseño premium - Claro / Oscuro
+   ========================================== */
+
+/* CONTENEDOR PRINCIPAL */
+
+.register-container {
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 20px;
+  box-sizing: border-box;
+
+  background:
+    radial-gradient(
+      circle at 15% 20%,
+      rgba(197, 167, 123, 0.12),
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at 85% 80%,
+      rgba(103, 52, 81, 0.08),
+      transparent 40%
+    ),
+    var(--wine-bg);
+
+  transition: background-color 0.35s ease;
+}
+
+/* FORMULARIO */
+
+.register-container form {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  padding: 48px 42px;
+  box-sizing: border-box;
+
+  background: var(--wine-surface);
+  border: 1px solid var(--wine-border);
+  border-radius: 18px;
+
+  box-shadow:
+    0 20px 60px rgba(46, 28, 39, 0.08),
+    0 4px 15px rgba(46, 28, 39, 0.03);
+
+  transition:
+    background-color 0.35s ease,
+    border-color 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+/* TÍTULO */
+
+.register-container h1 {
+  margin: 0 0 10px;
+  text-align: center;
+
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(28px, 4vw, 36px);
+  font-weight: 500;
+  letter-spacing: -0.8px;
+
+  color: var(--wine-text);
+}
+
+/* SUBTÍTULO */
+
+.register-container form > p:first-of-type {
+  margin: 0 0 32px;
+  text-align: center;
+
+  color: var(--wine-muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* GRUPOS DE CAMPOS */
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+/* ETIQUETAS */
+
+.form-group label {
+  margin-bottom: 9px;
+
+  color: var(--wine-text);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+/* CAMPOS */
+
+.form-group input {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 15px;
+  box-sizing: border-box;
+
+  background: var(--wine-bg);
+  color: var(--wine-text);
+
+  border: 1px solid var(--wine-border);
+  border-radius: 9px;
+
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+
+  transition:
+    background-color 0.3s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.form-group input::placeholder {
+  color: var(--wine-muted);
+  opacity: 0.8;
+}
+
+.form-group input:hover {
+  border-color: var(--wine-accent);
+}
+
+.form-group input:focus {
+  border-color: var(--wine-primary);
+  box-shadow: 0 0 0 4px rgba(103, 52, 81, 0.10);
+}
+
+/* VALIDACIONES */
+
+.form-group small {
+  margin-top: 7px;
+  color: #c34b56;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* BOTÓN DE REGISTRO */
+
+.register-container button {
+  min-height: 49px;
+  padding: 13px 20px;
+  margin-top: 12px;
+
+  border: none;
+  border-radius: 9px;
+
+  background: var(--wine-primary);
+  color: #ffffff;
+
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.register-container button:hover:not(:disabled) {
+  background: var(--wine-primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(103, 52, 81, 0.22);
+}
+
+.register-container button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.register-container button:focus-visible {
+  outline: 3px solid var(--wine-accent);
+  outline-offset: 3px;
+}
+
+.register-container button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* TEXTO INFERIOR */
+
+.register-container form > p:last-child {
+  margin: 28px 0 0;
+  text-align: center;
+
+  color: var(--wine-muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* ENLACES */
+
+.register-container a {
+  color: var(--wine-primary);
+  font-weight: 600;
+  text-decoration: none;
+
+  transition: color 0.2s ease;
+}
+
+.register-container a:hover {
+  color: var(--wine-primary-hover);
+  text-decoration: underline;
+}
+
+.register-container a:focus-visible {
+  outline: 2px solid var(--wine-accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ==========================================
+   ANIMACIÓN DE ENTRADA
+   ========================================== */
+
+@keyframes register-entrance {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .register-container form {
+    animation: register-entrance 0.7s
+      cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+}
+
+/* ==========================================
+   RESPONSIVE
+   ========================================== */
+
+@media (max-width: 600px) {
+  .register-container {
+    min-height: 75vh;
+    padding: 35px 16px;
+  }
+
+  .register-container form {
+    padding: 36px 25px;
+    border-radius: 14px;
+  }
+
+  .register-container h1 {
+    font-size: 30px;
+  }
+
+  .register-container form > p:first-of-type {
+    margin-bottom: 26px;
+  }
+}

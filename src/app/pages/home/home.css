@@ -1,0 +1,839 @@
+
+/* ==========================================
+  VINOTECA HTTP - HOME
+   ========================================== */
+
+.home-page {
+  width: 100%;
+  overflow: hidden;
+}
+
+/* PORTADA */
+
+.hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  align-items: center;
+  min-height: 620px;
+  padding: 80px 8%;
+  gap: 50px;
+  overflow: hidden;
+
+  background: linear-gradient(
+    125deg,
+    #201820 0%,
+    #38243a 55%,
+    #58314d 100%
+  );
+
+  color: #f7f0ea;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 650px;
+  animation: fadeUp 0.8s ease both;
+}
+
+.hero-eyebrow,
+.section-eyebrow {
+  display: inline-block;
+  color: #c5a77b;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  margin: 26px 0;
+  color: #f7f0ea;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(45px, 5.8vw, 84px);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -2px;
+}
+
+.hero h1 span {
+  display: block;
+  color: #c5a77b;
+  font-style: italic;
+}
+
+.hero-description {
+  max-width: 510px;
+  color: #d6c9d1;
+  font-size: 16px;
+  line-height: 1.9;
+}
+
+/* BOTONES */
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 15px;
+  margin-top: 35px;
+}
+
+.hero-btn-primary,
+.hero-btn-secondary,
+.cta-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  min-height: 49px;
+  padding: 13px 24px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+
+  transition:
+    transform 0.25s ease,
+    background-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.hero-btn-primary {
+  background: #c5a77b;
+  color: #211920;
+}
+
+.hero-btn-primary:hover {
+  background: #dfc69f;
+  transform: translateY(-3px);
+}
+
+.hero-btn-secondary {
+  border: 1px solid rgba(247, 240, 234, 0.4);
+  color: #f7f0ea;
+}
+
+.hero-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-3px);
+}
+
+/* DETALLE INFERIOR */
+
+.hero-detail {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 65px;
+  color: #c5a77b;
+  font-size: 10px;
+  letter-spacing: 2px;
+}
+
+.detail-line {
+  width: 45px;
+  height: 1px;
+  background: #c5a77b;
+}
+
+/* ELEMENTO VISUAL */
+
+.hero-visual {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 430px;
+  isolation: isolate;
+}
+
+.visual-circle {
+  position: absolute;
+  width: min(34vw, 390px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 35% 30%,
+    #8e5878,
+    #512b48 55%,
+    #281b2a 100%
+  );
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.25);
+  z-index: -2;
+}
+
+.visual-ring {
+  position: absolute;
+  width: min(39vw, 440px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(197, 167, 123, 0.4);
+  border-radius: 50%;
+  z-index: -1;
+}
+
+.visual-symbol {
+  color: #e6d0a9;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(150px, 18vw, 250px);
+  font-style: italic;
+  line-height: 1;
+  text-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.visual-caption {
+  margin-top: 12px;
+  color: #e6d0a9;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 5px;
+}
+
+/* ==========================================
+  EXPERIENCIA
+   ========================================== */
+
+.experience {
+  padding: 100px 8%;
+  background: var(--wine-bg);
+}
+
+.section-heading {
+  max-width: 650px;
+  margin: 0 auto 55px;
+  text-align: center;
+}
+
+.experience .section-eyebrow {
+  color: var(--wine-primary);
+}
+
+.section-heading h2 {
+  margin: 20px 0;
+  color: var(--wine-text);
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(32px, 4vw, 49px);
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.section-heading h2 em {
+  color: var(--wine-primary);
+}
+
+.section-heading p {
+  color: var(--wine-muted);
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 25px;
+  max-width: 1250px;
+  margin: 0 auto;
+}
+
+.feature-card {
+  position: relative;
+  min-height: 245px;
+  padding: 35px;
+  background: var(--wine-surface);
+  border: 1px solid var(--wine-border);
+  border-radius: 15px;
+  box-shadow: var(--wine-shadow);
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-7px);
+  border-color: var(--wine-accent);
+  box-shadow: 0 15px 35px rgba(46, 28, 39, 0.12);
+}
+
+.feature-number {
+  position: absolute;
+  top: 25px;
+  right: 30px;
+  color: var(--wine-border);
+  font-family: Georgia, serif;
+  font-size: 32px;
+}
+
+.feature-icon {
+  color: var(--wine-primary);
+  font-size: 34px;
+}
+
+.feature-card h3 {
+  margin: 20px 0 12px;
+  color: var(--wine-text);
+  font-family: Georgia, serif;
+  font-size: 25px;
+  font-weight: 500;
+}
+
+.feature-card p {
+  margin: 0;
+  color: var(--wine-muted);
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+/* ==========================================
+   CTA FINAL
+   ========================================== */
+
+.home-cta {
+  padding: 95px 8%;
+  background: var(--wine-surface-alt);
+  text-align: center;
+}
+
+.cta-content {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.home-cta .section-eyebrow {
+  color: var(--wine-primary);
+}
+
+.home-cta h2 {
+  margin: 22px 0;
+  color: var(--wine-text);
+  font-family: Georgia, serif;
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 400;
+}
+
+.home-cta p {
+  color: var(--wine-muted);
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.cta-button {
+  margin-top: 25px;
+  background: var(--wine-primary);
+  color: #fff;
+}
+
+.cta-button:hover {
+  background: var(--wine-primary-hover);
+  transform: translateY(-3px);
+}
+
+/* ==========================================
+   ANIMACIONES
+   ========================================== */
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==========================================
+   RESPONSIVE
+   ========================================== */
+
+@media (max-width: 900px) {
+  .hero {
+    grid-template-columns: 1fr;
+    padding: 75px 6%;
+    text-align: center;
+  }
+
+  .hero-content {
+    margin: 0 auto;
+  }
+
+  .hero-description {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero-actions,
+  .hero-detail {
+    justify-content: center;
+  }
+
+  .hero-visual {
+    min-height: 320px;
+  }
+
+  .visual-circle {
+    width: 280px;
+  }
+
+  .visual-ring {
+    width: 315px;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero {
+    padding: 65px 20px;
+    gap: 30px;
+  }
+
+  .hero h1 {
+    font-size: 45px;
+  }
+
+  .hero-description {
+    font-size: 14px;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hero-detail {
+    margin-top: 40px;
+  }
+
+  .hero-visual {
+    min-height: 270px;
+  }
+
+  .visual-circle {
+    width: 220px;
+  }
+
+  .visual-ring {
+    width: 250px;
+  }
+
+  .visual-symbol {
+    font-size: 150px;
+  }
+
+  .experience,
+  .home-cta {
+    padding: 65px 20px;
+  }
+
+  .feature-card {
+    padding: 28px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-content {
+    animation: none;
+  }
+
+  .feature-card,
+  .hero-btn-primary,
+  .hero-btn-secondary,
+  .cta-button {
+    transition: none;
+  }
+
+  .feature-card:hover,
+  .hero-btn-primary:hover,
+  .hero-btn-secondary:hover,
+  .cta-button:hover {
+    transform: none;
+  }
+}
+
+/* ==========================================
+   VINOS DESTACADOS
+   ========================================== */
+
+.featured-products {
+    padding: 95px 8%;
+    background: var(--wine-surface-alt, #f3ece7);
+}
+
+.featured-products .section-eyebrow {
+    color: var(--wine-primary, #632b50);
+}
+
+.featured-products .section-heading h2 {
+    color: var(--wine-text, #302631);
+}
+
+.featured-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 22px;
+    max-width: 1250px;
+    margin: 0 auto;
+}
+
+.featured-card {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    overflow: hidden;
+    background: var(--wine-surface, #fffdf9);
+    border: 1px solid var(--wine-border, #e5d9d9);
+    border-radius: 15px;
+    box-shadow: var(--wine-shadow, 0 10px 30px rgba(46, 28, 39, 0.08));
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.featured-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--wine-accent, #c5a77b);
+    box-shadow: 0 16px 35px rgba(46, 28, 39, 0.13);
+}
+
+.featured-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 260px;
+    padding: 16px;
+    background: var(--wine-bg, #f7f3ed);
+    text-decoration: none;
+}
+
+.featured-image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.featured-card:hover .featured-image img {
+    transform: scale(1.04);
+}
+
+.featured-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: var(--wine-primary, #632b50);
+}
+
+.featured-placeholder span {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 85px;
+    font-style: italic;
+    line-height: 1;
+}
+
+.featured-placeholder small {
+    font-size: 9px;
+    letter-spacing: 2px;
+}
+
+.featured-info {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 23px;
+}
+
+.featured-brand {
+    color: var(--wine-primary, #632b50);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.featured-info h3 {
+    margin: 10px 0 7px;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 1.25;
+}
+
+.featured-info h3 a {
+    color: var(--wine-text, #302631);
+    text-decoration: none;
+}
+
+.featured-info h3 a:hover {
+    color: var(--wine-primary, #632b50);
+}
+
+.featured-category {
+    margin: 0 0 22px;
+    color: var(--wine-muted, #786d75);
+    font-size: 12px;
+}
+
+.featured-bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    margin-top: auto;
+    padding-top: 17px;
+    border-top: 1px solid var(--wine-border, #e5d9d9);
+}
+
+.featured-price {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    color: var(--wine-muted, #786d75);
+    font-size: 12px;
+}
+
+.featured-price strong {
+    color: var(--wine-text, #302631);
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.featured-detail {
+    color: var(--wine-primary, #632b50);
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.featured-detail:hover {
+    text-decoration: underline;
+}
+
+.featured-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 38px;
+}
+
+.featured-catalog-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    min-height: 48px;
+    padding: 13px 25px;
+    background: var(--wine-primary, #632b50);
+    color: #ffffff;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.25s ease, transform 0.25s ease;
+}
+
+.featured-catalog-link:hover {
+    background: var(--wine-primary-hover, #4c203e);
+    transform: translateY(-3px);
+}
+
+.featured-message {
+    margin: 0 auto;
+    padding: 35px 20px;
+    color: var(--wine-muted, #786d75);
+    text-align: center;
+}
+
+.featured-image:focus-visible,
+.featured-info a:focus-visible,
+.featured-catalog-link:focus-visible {
+    outline: 3px solid var(--wine-accent, #c5a77b);
+    outline-offset: 3px;
+}
+
+@media (max-width: 1100px) {
+    .featured-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .featured-products {
+        padding: 65px 20px;
+    }
+
+    .featured-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .featured-image {
+        height: 280px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .featured-card,
+    .featured-image img,
+    .featured-catalog-link {
+        transition: none;
+    }
+
+    .featured-card:hover,
+    .featured-card:hover .featured-image img,
+    .featured-catalog-link:hover {
+        transform: none;
+    }
+}
+
+/* ==========================================
+   ANIMACIÓN DEL LOGO VINOTECA HTTP
+   ========================================== */
+
+/* El círculo aparece suavemente */
+.visual-circle {
+  animation: logoCircleAppear 1s ease-out 0.45s both;
+  transition:
+    transform 0.7s ease,
+    box-shadow 0.7s ease,
+    filter 0.7s ease;
+}
+
+/* El aro aparece después del círculo */
+.visual-ring {
+  animation: logoRingAppear 1s ease-out 0.65s both;
+  transform-origin: center;
+  transition:
+    transform 0.8s ease,
+    border-color 0.7s ease,
+    box-shadow 0.7s ease;
+}
+
+/* La V se revela de arriba hacia abajo */
+.visual-symbol {
+  clip-path: inset(0 0 100% 0);
+  opacity: 0;
+  animation: logoLetterReveal 1.15s cubic-bezier(0.22, 1, 0.36, 1) 0.85s forwards;
+  transition:
+    transform 0.6s ease,
+    text-shadow 0.6s ease,
+    color 0.6s ease;
+  transform-origin: center;
+}
+
+/* El nombre aparece al final */
+.visual-caption {
+  opacity: 0;
+  animation: logoCaptionAppear 0.8s ease-out 1.45s forwards;
+  transition:
+    letter-spacing 0.6s ease,
+    text-shadow 0.6s ease;
+}
+
+/* Animaciones iniciales */
+@keyframes logoCircleAppear {
+  from {
+    opacity: 0;
+    transform: scale(0.82);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes logoRingAppear {
+  from {
+    opacity: 0;
+    transform: scale(0.88) rotate(-12deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+@keyframes logoLetterReveal {
+  from {
+    opacity: 0;
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes logoCaptionAppear {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==========================================
+   HOVER DEL LOGO
+   ========================================== */
+
+.hero-visual:hover .visual-circle {
+  transform: scale(1.055);
+  filter: brightness(1.15);
+  box-shadow:
+    0 25px 85px rgba(0, 0, 0, 0.35),
+    0 0 45px rgba(197, 167, 123, 0.18);
+}
+
+.hero-visual:hover .visual-ring {
+  transform: scale(1.045) rotate(8deg);
+  border-color: rgba(230, 208, 169, 0.8);
+  box-shadow: 0 0 22px rgba(197, 167, 123, 0.12);
+}
+
+.hero-visual:hover .visual-symbol {
+  color: #f5e4c4;
+  transform: translateY(-5px) scale(1.035);
+  text-shadow:
+    0 0 12px rgba(230, 208, 169, 0.45),
+    0 0 35px rgba(197, 167, 123, 0.3),
+    0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.hero-visual:hover .visual-caption {
+  letter-spacing: 6px;
+  text-shadow: 0 0 12px rgba(230, 208, 169, 0.45);
+}
+
+/* Accesibilidad: respetar movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+  .visual-circle,
+  .visual-ring,
+  .visual-symbol,
+  .visual-caption {
+    animation: none;
+    opacity: 1;
+    clip-path: none;
+    transition: none;
+  }
+
+  .hero-visual:hover .visual-circle,
+  .hero-visual:hover .visual-ring,
+  .hero-visual:hover .visual-symbol,
+  .hero-visual:hover .visual-caption {
+    transform: none;
+    filter: none;
+    box-shadow: none;
+    text-shadow: none;
+    letter-spacing: inherit;
+  }
+}
+

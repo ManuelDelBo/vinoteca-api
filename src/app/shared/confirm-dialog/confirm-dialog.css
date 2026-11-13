@@ -1,0 +1,273 @@
+/* VINOTECA UTN — Diálogo de confirmación compartido */
+:host {
+    display: contents;
+}
+
+.dialog-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 20px;
+    background: rgba(19, 12, 21, .65);
+    backdrop-filter: blur(5px);
+}
+
+.dialog-card {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 490px;
+    max-height: calc(100dvh - 40px);
+    overflow-y: auto;
+    padding: 30px;
+    border-radius: 18px;
+    border: 1px solid var(--wine-border, #e5d9d9);
+    background: var(--wine-surface, #fffdf9);
+    color: var(--wine-text, #302631);
+    box-shadow: 0 24px 65px rgba(15, 8, 18, .32);
+    animation: wine-dialog-in .22s ease-out both;
+}
+
+.dialog-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 17px;
+    border-radius: 50%;
+    background: var(--wine-surface-alt, #f5ece7);
+    color: var(--wine-primary, #6d3559);
+    border: 1px solid var(--wine-accent, #c8a77c);
+    font-size: 23px;
+    font-weight: 700;
+}
+
+.dialog-icon[data-variant="success"] {
+    background: rgba(74, 125, 83, .14);
+    border-color: rgba(74, 125, 83, .5);
+    color: #3f7049;
+}
+
+.dialog-icon[data-variant="error"],
+.dialog-icon[data-variant="danger"] {
+    background: rgba(181, 83, 69, .13);
+    border-color: rgba(181, 83, 69, .45);
+    color: #a7463c;
+}
+
+.dialog-icon[data-variant="warning"] {
+    background: rgba(176, 131, 45, .15);
+    border-color: rgba(176, 131, 45, .45);
+    color: #96691f;
+}
+
+.dialog-icon[data-variant="info"] {
+    background: rgba(72, 104, 142, .14);
+    border-color: rgba(72, 104, 142, .4);
+    color: #3f6188;
+}
+
+.dialog-card h2 {
+    margin: 0 0 12px;
+    color: var(--wine-text, #302631);
+    font: 500 25px/1.25 Georgia, 'Times New Roman', serif;
+}
+
+.dialog-message {
+    margin: 0 0 14px;
+    color: var(--wine-text, #302631);
+    font-size: 14px;
+    line-height: 1.65;
+    overflow-wrap: anywhere;
+}
+
+.dialog-detail {
+    margin: 0 0 16px;
+    padding: 13px 15px;
+    border: 1px solid var(--wine-border, #e5d9d9);
+    border-radius: 10px;
+    background: var(--wine-surface-alt, #f5ece7);
+    color: var(--wine-text, #302631);
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+.dialog-warning {
+    margin: 0 0 24px;
+    padding: 13px 15px;
+    border: 1px solid var(--wine-border, #e5d9d9);
+    border-left: 4px solid var(--wine-accent, #c8a77c);
+    border-radius: 9px;
+    background: var(--wine-surface-alt, #f5ece7);
+    color: var(--wine-muted, #766d75);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 11px;
+}
+
+.dialog-actions button {
+    min-height: 43px;
+    padding: 11px 19px;
+    border-radius: 9px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 650;
+    cursor: pointer;
+    transition: background-color .2s ease, border-color .2s ease, transform .2s ease;
+}
+
+.dialog-actions button:focus-visible {
+    outline: 3px solid var(--wine-accent, #c8a77c);
+    outline-offset: 3px;
+}
+
+.dialog-actions button:disabled {
+    opacity: .55;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-cancel {
+    border: 1px solid var(--wine-border, #e5d9d9);
+    background: var(--wine-surface-alt, #f5ece7);
+    color: var(--wine-text, #302631);
+}
+
+.btn-cancel:hover:not(:disabled) {
+    border-color: var(--wine-accent, #c8a77c);
+    transform: translateY(-2px);
+}
+
+.btn-confirm {
+    border: 1px solid var(--wine-primary, #6d3559);
+    background: var(--wine-primary, #6d3559);
+    color: #fff;
+}
+
+.btn-confirm:hover:not(:disabled) {
+    background: var(--wine-primary-hover, #552541);
+    transform: translateY(-2px);
+}
+
+/* Variantes del diálogo */
+
+.variant-danger .dialog-icon {
+    background: #fbecee;
+    color: #b23b47;
+    border-color: #e5b4b4;
+}
+
+.variant-danger .btn-confirm {
+    border-color: #a83a46;
+    background: #a83a46;
+}
+
+.variant-danger .btn-confirm:hover:not(:disabled) {
+    background: #8e2f3a;
+}
+
+.variant-error .dialog-icon {
+    background: #fbecee;
+    color: #b23b47;
+    border-color: #e5b4b4;
+}
+
+.variant-error .btn-confirm {
+    border-color: #a83a46;
+    background: #a83a46;
+}
+
+.variant-error .btn-confirm:hover:not(:disabled) {
+    background: #8e2f3a;
+}
+
+.variant-success .dialog-icon {
+    background: #eaf5ee;
+    color: #2f6b3a;
+    border-color: #9dcbad;
+}
+
+.variant-success .btn-confirm {
+    border-color: #38815a;
+    background: #38815a;
+}
+
+.variant-success .btn-confirm:hover:not(:disabled) {
+    background: #2c6848;
+}
+
+.variant-warning .dialog-icon {
+    background: #fdf4e3;
+    color: #9a6a1f;
+    border-color: #e6cd94;
+}
+
+.variant-warning .btn-confirm {
+    border-color: #b5852e;
+    background: #b5852e;
+}
+
+.variant-warning .btn-confirm:hover:not(:disabled) {
+    background: #9a6f24;
+}
+
+.variant-info .dialog-icon {
+    background: var(--wine-surface-alt, #f5ece7);
+    color: var(--wine-primary, #6d3559);
+}
+
+@keyframes wine-dialog-in {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(.985);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@media (max-width: 520px) {
+    .dialog-backdrop {
+        padding: 14px;
+    }
+
+    .dialog-card {
+        padding: 23px 20px;
+    }
+
+    .dialog-actions {
+        flex-direction: column-reverse;
+    }
+
+    .dialog-actions button {
+        width: 100%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .dialog-card {
+        animation: none;
+    }
+
+    .dialog-actions button {
+        transition: none;
+    }
+
+    .dialog-actions button:hover:not(:disabled) {
+        transform: none;
+    }
+}

@@ -1,0 +1,312 @@
+/* VINOTECA UTN — MIS PEDIDOS / GESTIÓN DE ÓRDENES */
+:host {
+  display: block;
+}
+
+.orders-page {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px;
+  color: var(--wine-text);
+  box-sizing: border-box;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.eyebrow {
+  color: var(--wine-primary);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.page-header h1 {
+  margin: 6px 0;
+  color: var(--wine-text);
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 28px;
+  font-weight: 500;
+}
+
+.page-header p {
+  margin: 0;
+  color: var(--wine-muted);
+  font-size: 13px;
+}
+
+/* Banner de filtro por cliente */
+.context-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 22px;
+  padding: 16px 20px;
+  background: rgba(103, 52, 81, 0.08);
+  border: 1px solid var(--wine-primary);
+  border-radius: 12px;
+}
+
+.context-banner-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.context-banner-label {
+  color: var(--wine-muted);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+.context-banner-text strong {
+  color: var(--wine-text);
+  font-size: 15px;
+}
+
+.btn-clear {
+  padding: 9px 16px;
+  border: 1px solid var(--wine-primary);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--wine-primary);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color .2s ease, color .2s ease;
+}
+
+.btn-clear:hover {
+  background: var(--wine-primary);
+  color: #ffffff;
+}
+
+.message {
+  padding: 14px 18px;
+  border-radius: 10px;
+  font-size: 14px;
+  margin-bottom: 18px;
+}
+
+.message.error {
+  background: #fbecee;
+  color: #922d3c;
+  border: 1px solid #e5b4b4;
+}
+
+.loading {
+  padding: 36px;
+  text-align: center;
+  color: var(--wine-muted);
+}
+
+.empty-state {
+  padding: 56px 20px;
+  text-align: center;
+  background: var(--wine-surface);
+  border: 1px dashed var(--wine-border);
+  border-radius: 14px;
+  color: var(--wine-muted);
+}
+
+.empty-state h3 {
+  margin: 0 0 10px;
+  color: var(--wine-text);
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.empty-state p {
+  margin: 0 auto 18px;
+  max-width: 480px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.btn-primary,
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  border-radius: 7px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color .2s ease, border-color .2s ease, color .2s ease;
+}
+
+.btn-primary {
+  background: var(--wine-primary);
+  color: #fff;
+  border: 1px solid transparent;
+}
+
+.btn-primary:hover {
+  background: var(--wine-primary-hover);
+}
+
+.btn-secondary {
+  border: 1px solid var(--wine-border);
+  background: var(--wine-surface);
+  color: var(--wine-text);
+}
+
+.btn-secondary:hover {
+  background: var(--wine-surface-alt);
+}
+
+.orders-table {
+  background: var(--wine-surface);
+  border: 1px solid var(--wine-border);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.orders-head,
+.orders-row {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr 1fr 1fr 1fr auto;
+  gap: 16px;
+  align-items: center;
+  padding: 14px 20px;
+}
+
+.orders-head {
+  background: var(--wine-surface-alt);
+  border-bottom: 1px solid var(--wine-border);
+  color: var(--wine-muted);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .6px;
+}
+
+.orders-row {
+  border-bottom: 1px solid var(--wine-border);
+  font-size: 14px;
+}
+
+.orders-row:last-child {
+  border-bottom: none;
+}
+
+.orders-row:hover {
+  background: var(--wine-surface-alt);
+}
+
+.order-number {
+  color: var(--wine-text);
+  font-weight: 700;
+}
+
+.order-date {
+  color: var(--wine-muted);
+  font-size: 13px;
+}
+
+.order-customer {
+  color: var(--wine-text);
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+.order-total {
+  color: var(--wine-text);
+  font-weight: 700;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.status-pending_payment {
+  background: #fdf4e3;
+  color: #9a6a1f;
+}
+
+.status-paid {
+  background: #e8f3ea;
+  color: #2f6b3a;
+}
+
+.status-cancelled {
+  background: #f8e8e6;
+  color: #a23f3f;
+}
+
+.btn-detail {
+  padding: 8px 12px;
+  border: 1px solid var(--wine-border);
+  border-radius: 6px;
+  background: var(--wine-surface);
+  color: var(--wine-primary);
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color .2s ease, color .2s ease, border-color .2s ease;
+}
+
+.btn-detail:hover {
+  background: var(--wine-primary);
+  color: #ffffff;
+  border-color: var(--wine-primary);
+}
+
+@media (max-width: 850px) {
+  .orders-head {
+    display: none;
+  }
+
+  .orders-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 16px;
+    padding: 16px 18px;
+  }
+
+  .order-action {
+    grid-column: 1 / -1;
+    margin-top: 4px;
+  }
+}
+
+@media (max-width: 650px) {
+  .orders-page {
+    padding: 20px 14px;
+  }
+
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-primary,
+  .btn-secondary,
+  .btn-detail,
+  .btn-clear {
+    transition: none;
+  }
+}

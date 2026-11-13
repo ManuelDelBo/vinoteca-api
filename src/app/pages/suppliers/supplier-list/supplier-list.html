@@ -1,0 +1,89 @@
+<div id="contenedor">
+
+    <div id="encabezado">
+        <div>
+            <h1>Proveedores</h1>
+            <p>Administración de proveedores.</p>
+        </div>
+
+        <button routerLink="/management/suppliers/new">
+            Agregar proveedor
+        </button>
+    </div>
+
+    <p>{{ mensaje() }}</p>
+
+    <div id="tarjetas">
+
+        @for (supplier of suppliers(); track supplier.id) {
+
+        <div id="tarjeta">
+
+            <h2>{{ supplier.name }}</h2>
+
+            <p>Contacto: {{ supplier.contact }}</p>
+
+            <p>Proveedor activo</p>
+
+            <div id="acciones">
+                <button
+                    [routerLink]="['/management/products']"
+                    [queryParams]="{ supplierId: supplier.id, supplierName: supplier.name }">
+                    Ver productos
+                </button>
+
+                <button [routerLink]="['/management/suppliers', supplier.id, 'edit']">
+                    Editar
+                </button>
+
+                <button (click)="requestDelete(supplier)" [disabled]="checkingDeletion()">
+                    {{ checkingDeletion() ? 'Verificando...' : 'Eliminar' }}
+                </button>
+
+            </div>
+
+        </div>
+
+        }
+
+    </div>
+
+    <button (click)="toggleInactiveSuppliers()">
+        {{ mostrarInactivos() ? 'Ocultar proveedores inactivos' : 'Ver proveedores inactivos' }}
+    </button>
+
+    @if (mostrarInactivos()) {
+
+    <h2>Proveedores inactivos</h2>
+
+    <div id="tarjetas">
+
+        @for (supplier of inactiveSuppliers(); track supplier.id) {
+
+        <div id="tarjeta">
+
+            <h3>{{ supplier.name }}</h3>
+
+            <p>Contacto: {{ supplier.contact }}</p>
+
+            <button (click)="activateSupplier(supplier.id)">
+                Reactivar
+            </button>
+
+        </div>
+
+        }
+
+    </div>
+
+    }
+
+    @if (pendingDeletion(); as pending) {
+    <app-confirm-dialog title="Eliminar proveedor" [message]="deleteMessage(pending)"
+        [detail]="deleteDetail(pending)"
+        warning="Si continuás, también se desactivarán todos los productos relacionados y sus variantes."
+        confirmLabel="Eliminar todo" cancelLabel="Cancelar" [busy]="deleting()"
+        (confirmed)="confirmCascadeDelete()" (cancelled)="cancelDelete()" />
+    }
+
+</div>

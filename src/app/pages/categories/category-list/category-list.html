@@ -1,0 +1,80 @@
+<div id="contenedor">
+
+    <div id="encabezado">
+        <div>
+            <h1>Categorías</h1>
+            <p>Administración de categorías del catálogo.</p>
+        </div>
+
+        <button routerLink="/management/categories/new">
+            Agregar categoría
+        </button>
+    </div>
+
+    <p>{{ mensaje() }}</p>
+
+    <div id="tarjetas">
+
+        @for (category of categories(); track category.id) {
+
+        <div id="tarjeta">
+
+            <h2>{{ category.name }}</h2>
+
+            <p>Categoría activa</p>
+
+            <div id="acciones">
+                <button
+                    [routerLink]="['/management/products']"
+                    [queryParams]="{ categoryId: category.id, categoryName: category.name }">
+                    Ver productos
+                </button>
+
+                <button [routerLink]="['/management/categories', category.id, 'edit']">
+                    Editar
+                </button>
+
+                <button (click)="requestDelete(category)" [disabled]="checkingDeletion()">
+                    {{ checkingDeletion() ? 'Verificando...' : 'Eliminar' }}
+                </button>
+            </div>
+
+        </div>
+
+        }
+
+    </div>
+
+    <button (click)="toggleInactiveCategories()">
+        {{ mostrarInactivas() ? 'Ocultar categorías inactivas' : 'Ver categorías inactivas' }}
+    </button>
+
+    @if (mostrarInactivas()) {
+
+    <h2>Categorías inactivas</h2>
+
+    <div id="tarjetas">
+
+        @for (category of inactiveCategories(); track category.id) {
+
+        <div id="tarjeta">
+            <h3>{{ category.name }}</h3>
+
+            <button (click)="activateCategory(category.id)">
+                Reactivar
+            </button>
+        </div>
+
+        }
+
+    </div>
+    }
+
+    @if (pendingDeletion(); as pending) {
+    <app-confirm-dialog title="Eliminar categoría" [message]="deleteMessage(pending)" [detail]="deleteDetail(pending)"
+        warning="Si continuás, también se desactivarán todos los productos relacionados y sus variantes."
+        confirmLabel="Eliminar todo" cancelLabel="Cancelar" [busy]="deleting()"
+        (confirmed)="confirmCascadeDelete()" (cancelled)="cancelDelete()" />
+    }
+
+</div>

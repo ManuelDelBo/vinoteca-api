@@ -1,0 +1,346 @@
+<div class="product-detail-page">
+
+    <div class="detail-header">
+        <button type="button" class="btn-back" (click)="goBack()">
+            ← {{ isStaff ? 'Volver a gestión de productos' : 'Volver al catálogo' }}
+        </button>
+
+        <div class="header-actions" *ngIf="isStaff && product">
+            <button type="button" class="btn-edit" *ngIf="product.active && canEditProduct" (click)="editProduct()">
+                Editar producto
+            </button>
+
+            <button type="button" class="btn-activate" *ngIf="!product.active && canActivateProduct"
+                [disabled]="activatingProduct" (click)="activateProduct()">
+                {{ activatingProduct ? 'Reactivando...' : 'Reactivar producto' }}
+            </button>
+
+            <button type="button" class="btn-danger" *ngIf="product.active && canDeleteProduct"
+                [disabled]="deletingProduct" (click)="deleteProduct()">
+                {{ deletingProduct ? 'Deshabilitando...' : 'Eliminar producto' }}
+            </button>
+        </div>
+    </div>
+
+    <div class="message error" *ngIf="errorMessage">{{ errorMessage }}</div>
+    <div class="message success" *ngIf="successMessage">{{ successMessage }}</div>
+
+    <div class="loading" *ngIf="loading">
+        Cargando producto...
+    </div>
+
+    <div class="error-state" *ngIf="!loading && errorMessage && !product">
+        <p>{{ errorMessage }}</p>
+        <button type="button" class="btn-back" (click)="goBack()">Volver</button>
+    </div>
+
+    <ng-container *ngIf="!loading && product">
+
+        <div class="inactive-notice" *ngIf="!product.active">
+            <strong>Producto deshabilitado.</strong>
+            {{ isStaff
+                ? 'No se puede vender mientras esté inactivo. Podés reactivarlo si sus datos asociados siguen activos.'
+                : 'Este producto no está disponible para la venta.' }}
+        </div>
+
+        <div class="detail-card">
+
+            <div class="gallery">
+                <div class="main-image">
+                    <img *ngIf="selectedImageUrl" [src]="selectedImageUrl" [alt]="product.name" />
+
+                    <div class="main-image-placeholder" *ngIf="!selectedImageUrl">
+                        <svg viewBox="0 0 64 64" aria-hidden="true">
+                            <rect x="10" y="12" width="44" height="40" rx="5" fill="none" stroke="currentColor"
+                                stroke-width="3" />
+                            <circle cx="24" cy="26" r="5" fill="currentColor" />
+                            <path d="M14 46l12-13 9 9 6-6 9 10z" fill="currentColor" opacity="0.55" />
+                        </svg>
+                        <span>Sin imagen disponible</span>
+                    </div>
+                </div>
+
+                <div class="thumbnails" *ngIf="galleryUrls.length > 1">
+                    <button type="button" class="thumbnail" *ngFor="let url of galleryUrls"
+                        [class.active]="url === selectedImageUrl" (click)="selectImage(url)">
+                        <img [src]="url" [alt]="'Imagen de ' + product.name" />
+                    </button>
+                </div>
+            </div>
+
+            <div class="detail-info">
+                <span class="eyebrow">{{ product.categoryName }}</span>
+
+                <div class="title-row">
+                    <h1>{{ product.name }}</h1>
+                    <span class="status" [class.inactive]="!product.active">
+                        {{ product.active ? 'Activo' : 'Deshabilitado' }}
+                    </span>
+                </div>
+
+                <p class="description">
+                    {{ product.description || 'Sin descripción disponible.' }}
+                </p>
+
+                <div class="detail-data">
+                    <div>
+                        <span>Marca</span>
+                        <strong>{{ product.brandName || 'Sin marca' }}</strong>
+                    </div>
+
+                    <div>
+                        <span>Categoría</span>
+                        <strong>{{ product.categoryName || 'Sin categoría' }}</strong>
+                    </div>
+
+                    <div>
+                        <span>Proveedor</span>
+                        <strong>{{ product.supplierName || 'Sin proveedor' }}</strong>
+                    </div>
+
+                    <div *ngIf="isStaff">
+                        <span>ID del producto</span>
+                        <strong class="mono">{{ product.id }}</strong>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Vista comercial (cliente) -->
+        <section class="buy-section" *ngIf="canBuy">
+            <div class="section-heading">
+                <div>
+                    <span class="eyebrow">COMPRA</span>
+                    <h2>Elegí tu variante</h2>
+                </div>
+            </div>
+
+            <div class="loading variants-loading" *ngIf="variantsLoading">
+                Cargando variantes...
+            </div>
+
+            <p class="empty-state" *ngIf="!variantsLoading && activeVariants.length === 0">
+                Este producto no tiene variantes disponibles para la venta.
+            </p>
+
+            <div class="variant-options" *ngIf="!variantsLoading && activeVariants.length > 0">
+                <button type="button" class="variant-option" *ngFor="let variant of activeVariants"
+                    [class.selected]="variant.id === selectedVariantId" [class.unavailable]="variant.stock <= 0"
+                    [disabled]="variant.stock <= 0" (click)="selectVariant(variant)">
+
+                    <span class="variant-option-top">
+                        <strong>{{ variant.attribute }}</strong>
+                        <span class="variant-price">$ {{ variant.price | number:'1.2-2' }}</span>
+                    </span>
+
+                    <span class="variant-stock" [class.out]="variant.stock <= 0">
+                        {{ variant.stock > 0 ? variant.stock + ' unidad(es) disponibles' : 'Sin stock' }}
+                    </span>
+
+                    <span class="variant-wholesale" *ngIf="hasWholesalePrice(variant)">
+                        Mayorista: $ {{ variant.wholesalePrice | number:'1.2-2' }}
+                        desde {{ variant.wholesaleMinQty }} unidad(es).
+                    </span>
+                </button>
+            </div>
+
+            <div class="purchase-panel" *ngIf="selectedVariant">
+                <div class="purchase-summary">
+                    <h3>{{ selectedVariant.attribute }}</h3>
+
+                    <div class="summary-row">
+                        <span>Stock disponible</span>
+                        <strong>{{ selectedStock }} unidad(es)</strong>
+                    </div>
+
+                    <div class="summary-row">
+                        <span>Precio unitario</span>
+                        <strong>$ {{ unitPrice | number:'1.2-2' }}</strong>
+                    </div>
+
+                    <p class="wholesale-applied" *ngIf="isWholesaleApplied">
+                        Se aplicó el precio mayorista por comprar {{ selectedVariant.wholesaleMinQty }} unidad(es) o más.
+                    </p>
+
+                    <div class="summary-row total">
+                        <span>Subtotal</span>
+                        <strong>$ {{ subtotal | number:'1.2-2' }}</strong>
+                    </div>
+                </div>
+
+                <div class="purchase-actions">
+                    <div class="quantity-field">
+                        <label for="quantity">Cantidad</label>
+                        <input id="quantity" type="number" min="1" step="1" [max]="selectedStock"
+                            [(ngModel)]="quantity" (ngModelChange)="onQuantityChange()" />
+                    </div>
+
+                    <p class="field-error" *ngIf="quantity > selectedStock">
+                        La cantidad supera el stock disponible ({{ selectedStock }}).
+                    </p>
+
+                    <button type="button" class="btn-add-cart" [disabled]="!canAddToCart" (click)="addToCart()">
+                        {{ addingToCart ? 'Agregando...' : 'Añadir al carrito' }}
+                    </button>
+
+                    <p class="cart-error" *ngIf="cartError">{{ cartError }}</p>
+                    <p class="cart-success" *ngIf="cartMessage">{{ cartMessage }}</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="guest-note" *ngIf="!isStaff && !isCustomer">
+            <p>Iniciá sesión como cliente para poder comprar este producto.</p>
+        </section>
+
+        <!-- Vista de gestión (empleado / administrador) -->
+        <section class="management-section" *ngIf="isStaff">
+            <div class="section-heading">
+                <div>
+                    <span class="eyebrow">VARIANTES</span>
+                    <h2>Variantes del producto</h2>
+                    <p>Incluye variantes activas e inactivas.</p>
+                </div>
+            </div>
+
+            <div class="loading variants-loading" *ngIf="variantsLoading">
+                Cargando variantes...
+            </div>
+
+            <p class="empty-state" *ngIf="!variantsLoading && allVariants.length === 0">
+                Este producto todavía no tiene variantes.
+            </p>
+
+            <div class="management-variants" *ngIf="!variantsLoading && allVariants.length > 0">
+                <article class="variant-row" *ngFor="let variant of allVariants; trackBy: trackByVariantId"
+                    [class.inactive-variant]="!variant.active">
+
+                    <div class="variant-row-main">
+                        <div class="variant-row-title">
+                            <h3>{{ variant.attribute }}</h3>
+                            <span class="status" [class.inactive]="!variant.active">
+                                {{ variant.active ? 'Activa' : 'Inactiva' }}
+                            </span>
+                        </div>
+
+                        <div class="variant-row-data">
+                            <div>
+                                <span>Precio de venta</span>
+                                <strong>$ {{ variant.price | number:'1.2-2' }}</strong>
+                            </div>
+
+                            <div>
+                                <span>Precio mayorista</span>
+                                <strong>
+                                    {{ variant.wholesalePrice != null
+                                        ? ('$ ' + (variant.wholesalePrice | number:'1.2-2'))
+                                        : 'No configurado' }}
+                                </strong>
+                            </div>
+
+                            <div>
+                                <span>Cantidad mínima mayorista</span>
+                                <strong>
+                                    {{ variant.wholesaleMinQty != null ? variant.wholesaleMinQty : 'No configurada' }}
+                                </strong>
+                            </div>
+
+                            <div>
+                                <span>Stock actual</span>
+                                <strong [class.no-stock]="variant.stock <= 0">{{ variant.stock }}</strong>
+                            </div>
+
+                            <div class="variant-id">
+                                <span>ID de la variante</span>
+                                <strong class="mono">{{ variant.id }}</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="variant-row-actions">
+                        <button type="button" class="btn-small" *ngIf="variant.active && canEditVariant"
+                            (click)="editVariant(variant)">
+                            Editar variante
+                        </button>
+
+                        <button type="button" class="btn-small danger" *ngIf="variant.active && canDeleteVariant"
+                            [disabled]="deletingVariantId === variant.id" (click)="deleteVariant(variant)">
+                            {{ deletingVariantId === variant.id ? 'Deshabilitando...' : 'Eliminar variante' }}
+                        </button>
+
+                        <button type="button" class="btn-small activate" *ngIf="!variant.active && canActivateVariant"
+                            [disabled]="activatingVariantId === variant.id || !product.active"
+                            [title]="!product.active ? 'Primero reactivá el producto' : 'Reactivar variante'"
+                            (click)="activateVariant(variant)">
+                            {{ activatingVariantId === variant.id ? 'Reactivando...' : 'Reactivar variante' }}
+                        </button>
+                    </div>
+
+                </article>
+            </div>
+        </section>
+
+    </ng-container>
+
+    <!-- Diálogo de confirmación de acciones administrativas -->
+    @if (pendingConfirmation) {
+    <app-confirm-dialog [title]="confirmationTitle" [message]="confirmationMessage" [detail]="confirmationDetail"
+        [warning]="confirmationWarning" [confirmLabel]="confirmationLabel" cancelLabel="Cancelar"
+        [busy]="confirmationBusy" (confirmed)="executePendingConfirmation()" (cancelled)="cancelPendingConfirmation()" />
+    }
+
+    <!-- Modal de edición de variante -->
+    <div class="modal-backdrop" *ngIf="editingVariant" (click)="cancelEditVariant()">
+        <div class="modal-card" role="dialog" aria-modal="true" (click)="$event.stopPropagation()">
+            <h2>Editar variante</h2>
+            <p class="modal-subtitle">{{ editingVariant.attribute }}</p>
+
+            <form (ngSubmit)="saveVariant()">
+                <div class="form-field">
+                    <label for="variant-attribute">Atributo o descripción</label>
+                    <input id="variant-attribute" name="attribute" type="text" [(ngModel)]="variantForm.attribute"
+                        placeholder="Ej. 750 ml" />
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-field">
+                        <label for="variant-price">Precio de venta</label>
+                        <input id="variant-price" name="price" type="number" min="0.01" step="0.01"
+                            [(ngModel)]="variantForm.price" placeholder="0.00" />
+                    </div>
+
+                    <div class="form-field">
+                        <label for="variant-stock">Stock actual</label>
+                        <input id="variant-stock" name="stock" type="number" min="0" step="1"
+                            [(ngModel)]="variantForm.stock" placeholder="0" />
+                    </div>
+
+                    <div class="form-field">
+                        <label for="variant-wholesale-price">Precio mayorista</label>
+                        <input id="variant-wholesale-price" name="wholesalePrice" type="number" min="0.01" step="0.01"
+                            [(ngModel)]="variantForm.wholesalePrice" placeholder="Opcional" />
+                    </div>
+
+                    <div class="form-field">
+                        <label for="variant-wholesale-qty">Cantidad mínima mayorista</label>
+                        <input id="variant-wholesale-qty" name="wholesaleMinQty" type="number" min="1" step="1"
+                            [(ngModel)]="variantForm.wholesaleMinQty" placeholder="Opcional" />
+                    </div>
+                </div>
+
+                <p class="form-error" *ngIf="variantError">{{ variantError }}</p>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel" [disabled]="savingVariant" (click)="cancelEditVariant()">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn-save" [disabled]="savingVariant">
+                        {{ savingVariant ? 'Guardando...' : 'Guardar cambios' }}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,165 @@
+<div class="order-detail-page">
+
+    <div class="page-header">
+        <div>
+            <span class="eyebrow">{{ isStaff ? 'GESTIÓN DE ÓRDENES' : 'MI PEDIDO' }}</span>
+            <h1>Pedido {{ order ? orderNumber(order.id) : '' }}</h1>
+            <p *ngIf="order">Creado el {{ order.createdAt | date:'dd/MM/yyyy HH:mm' }}</p>
+        </div>
+
+        <a class="btn-secondary" [routerLink]="listPath" [queryParams]="listQueryParams">Volver a pedidos</a>
+    </div>
+
+    <div class="message success" *ngIf="created">
+        ¡Pedido creado correctamente! Quedó en estado <strong>Pendiente de pago</strong>.
+    </div>
+
+    <div class="message info" *ngIf="replayed">
+        El pedido ya había sido confirmado en un intento anterior. Te mostramos el pedido existente.
+    </div>
+
+    <div class="message success" *ngIf="successMessage">{{ successMessage }}</div>
+    <div class="message error" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+    <div class="loading" *ngIf="loading">Cargando pedido...</div>
+
+    <ng-container *ngIf="!loading && order">
+
+        <section class="summary-card">
+            <div class="summary-top">
+                <div>
+                    <span class="label">Estado</span>
+                    <span class="status-badge" [ngClass]="statusClass(order.status)">
+                        {{ statusLabel(order.status) }}
+                    </span>
+                </div>
+
+                <div>
+                    <span class="label">Total</span>
+                    <strong class="total">$ {{ order.total | number:'1.2-2' }}</strong>
+                </div>
+            </div>
+
+            <dl class="summary-data">
+                <div class="data-item">
+                    <dt>Número de pedido</dt>
+                    <dd>{{ orderNumber(order.id) }}</dd>
+                </div>
+
+                <div class="data-item">
+                    <dt>Fecha</dt>
+                    <dd>{{ order.createdAt | date:'dd/MM/yyyy HH:mm' }}</dd>
+                </div>
+
+                <div class="data-item">
+                    <dt>Tipo de entrega</dt>
+                    <dd>{{ deliveryLabel(order.deliveryType) }}</dd>
+                </div>
+
+                <div class="data-item" *ngIf="isStaff">
+                    <dt>Cliente</dt>
+                    <dd>{{ order.customerName || 'Cliente' }}</dd>
+                </div>
+            </dl>
+        </section>
+
+        <section class="items-card">
+            <h2>Detalle del pedido</h2>
+
+            <div class="items-table">
+                <div class="items-head">
+                    <span>Producto</span>
+                    <span>Cantidad</span>
+                    <span>Precio unitario</span>
+                    <span>Subtotal</span>
+                </div>
+
+                <div class="items-row" *ngFor="let item of order.items; trackBy: trackByItem">
+                    <div class="item-product">
+                        <strong>{{ itemTitle(item) }}</strong>
+                        <small *ngIf="item.variantAttribute">{{ item.variantAttribute }}</small>
+                    </div>
+                    <div class="item-quantity">{{ item.quantity }}</div>
+                    <div class="item-price">$ {{ item.unitPrice | number:'1.2-2' }}</div>
+                    <div class="item-subtotal">$ {{ item.subtotal | number:'1.2-2' }}</div>
+                </div>
+            </div>
+
+            <div class="items-total">
+                <span>Total</span>
+                <strong>$ {{ order.total | number:'1.2-2' }}</strong>
+            </div>
+        </section>
+
+        <section class="payment-card">
+            <h2>Pago</h2>
+
+            <div class="payment-info" *ngIf="payment">
+                <div class="payment-status-row">
+                    <span class="status-badge" [ngClass]="'payment-' + payment.status.toLowerCase()">
+                        {{ paymentStatusLabel(payment.status) }}
+                    </span>
+                </div>
+
+                <dl class="summary-data">
+                    <div class="data-item">
+                        <dt>Método</dt>
+                        <dd>{{ paymentMethodLabel(payment.paymentMethod) }}</dd>
+                    </div>
+                    <div class="data-item">
+                        <dt>Importe</dt>
+                        <dd>$ {{ payment.amount | number:'1.2-2' }}</dd>
+                    </div>
+                    <div class="data-item">
+                        <dt>Fecha</dt>
+                        <dd>{{ payment.createdAt | date:'dd/MM/yyyy HH:mm' }}</dd>
+                    </div>
+                </dl>
+
+                <p class="payment-note" *ngIf="payment.status === 'APPROVED'">
+                    El pedido fue pagado correctamente.
+                </p>
+                <p class="payment-note" *ngIf="payment.status === 'REJECTED'">
+                    El pago fue rechazado y el pedido quedó cancelado.
+                </p>
+            </div>
+
+            <form class="payment-form" *ngIf="canPay" [formGroup]="paymentForm" (ngSubmit)="pay()">
+                <p class="payment-intro">El pedido está pendiente de pago. Elegí un método para completar la compra.</p>
+
+                <div class="payment-controls">
+                    <div class="field">
+                        <label for="paymentMethod">Método de pago</label>
+                        <select id="paymentMethod" formControlName="paymentMethod">
+                            <option *ngFor="let method of paymentMethods" [value]="method.value">
+                                {{ method.label }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn-primary" [disabled]="paying">
+                        {{ paying ? 'Procesando...' : 'Pagar pedido' }}
+                    </button>
+                </div>
+
+                <p class="field-error" *ngIf="paymentError">{{ paymentError }}</p>
+            </form>
+
+            <p class="payment-note" *ngIf="!payment && !canPay && order.status === 'CANCELLED'">
+                El pedido está cancelado y no admite pagos.
+            </p>
+
+            <p class="payment-note" *ngIf="!payment && !canPay && order.status === 'PENDING_PAYMENT'">
+                No tenés permisos para registrar el pago de este pedido.
+            </p>
+        </section>
+
+        <div class="actions" *ngIf="canCancel">
+            <button type="button" class="btn-danger" [disabled]="cancelling" (click)="cancelOrder()">
+                {{ cancelling ? 'Cancelando...' : 'Cancelar pedido' }}
+            </button>
+        </div>
+
+    </ng-container>
+
+</div>

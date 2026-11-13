@@ -1,0 +1,58 @@
+<div class="payment-detail-page">
+
+    <div class="page-header">
+        <div>
+            <span class="eyebrow">GESTIÓN</span>
+            <h1>Detalle del pago</h1>
+            <p *ngIf="orderId">Orden {{ orderId }}</p>
+        </div>
+
+        <a class="btn-secondary" routerLink="/management/payments">Volver a pagos</a>
+    </div>
+
+    <div class="message error" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+    <div class="loading" *ngIf="loading">Cargando pago...</div>
+
+    <section class="payment-card" *ngIf="!loading && payment">
+        <div class="status-row">
+            <span class="status-badge" [ngClass]="'payment-' + payment.status.toLowerCase()">
+                {{ statusLabel(payment.status) }}
+            </span>
+        </div>
+
+        <dl class="data-grid">
+            <div class="data-item">
+                <dt>Método de pago</dt>
+                <dd>{{ methodLabel(payment.paymentMethod) }}</dd>
+            </div>
+
+            <div class="data-item">
+                <dt>Importe</dt>
+                <dd>$ {{ payment.amount | number:'1.2-2' }}</dd>
+            </div>
+
+            <div class="data-item">
+                <dt>Fecha</dt>
+                <dd>{{ payment.createdAt | date:'dd/MM/yyyy HH:mm' }}</dd>
+            </div>
+
+            <div class="data-item">
+                <dt>Orden</dt>
+                <dd class="mono">{{ payment.orderId }}</dd>
+            </div>
+
+            <div class="data-item">
+                <dt>Pago</dt>
+                <dd class="mono">{{ payment.id }}</dd>
+            </div>
+        </dl>
+
+        <div class="actions">
+            <a class="btn-primary" [routerLink]="['/management/orders', payment.orderId]">
+                Ver orden
+            </a>
+        </div>
+    </section>
+
+</div>

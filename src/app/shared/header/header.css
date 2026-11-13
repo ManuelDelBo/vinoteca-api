@@ -1,0 +1,464 @@
+
+/* =========================================
+   VINOTECA UTN - HEADER
+   ========================================= */
+
+.header {
+  width: 100%;
+  min-height: 82px;
+  padding: 16px 5%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+
+  background: var(--wine-surface);
+  border-bottom: 1px solid var(--wine-border);
+  box-shadow: 0 4px 20px rgba(46, 28, 39, 0.05);
+
+  box-sizing: border-box;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+/* Logo */
+
+.brand {
+  flex-shrink: 0;
+  text-decoration: none;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 27px;
+  font-weight: 700;
+  letter-spacing: -0.7px;
+  color: var(--wine-text);
+  transition: color 0.2s ease;
+}
+
+.brand span {
+  color: var(--wine-primary);
+}
+
+.brand:hover {
+  color: var(--wine-primary);
+}
+
+/* Navegación */
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 26px;
+  flex-wrap: wrap;
+}
+
+.nav-link {
+  position: relative;
+  text-decoration: none;
+  color: var(--wine-text);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 0;
+  transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+  color: var(--wine-primary);
+}
+
+/* Línea animada debajo de los enlaces */
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--wine-primary);
+  transition: width 0.25s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* Gestión interna */
+
+.management-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 11px 19px;
+  border-radius: 9px;
+  background: var(--wine-primary);
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.management-link:hover {
+  background: var(--wine-primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(103, 52, 81, 0.2);
+}
+
+/* Iniciar sesión */
+
+.login-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 18px;
+  border: 1px solid var(--wine-primary);
+  border-radius: 9px;
+  color: #ffffff;
+  background: var(--wine-primary);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.login-link:hover {
+  background: var(--wine-primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(103, 52, 81, 0.2);
+}
+
+/* Registrarse */
+
+.register-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 18px;
+  border: 1px solid var(--wine-primary);
+  border-radius: 9px;
+  color: var(--wine-primary);
+  background: transparent;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.register-link:hover {
+  background: var(--wine-primary);
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+/* =========================================
+   ICONOS DE NAVEGACIÓN (CARRITO / PERFIL)
+   ========================================= */
+
+.nav-icon-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  padding: 0;
+  border: 1px solid var(--wine-border);
+  border-radius: 50%;
+  background: var(--wine-surface);
+  color: var(--wine-text);
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.nav-icon-link svg {
+  width: 20px;
+  height: 20px;
+}
+
+.nav-icon-link:hover,
+.nav-icon-link:focus-visible,
+.nav-icon-link.active,
+.nav-icon-link.is-open {
+  background: var(--wine-primary);
+  border-color: var(--wine-primary);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(103, 52, 81, 0.18);
+}
+
+.nav-icon-link:focus-visible {
+  outline: 2px solid var(--wine-primary);
+  outline-offset: 3px;
+}
+
+/* Menú de perfil */
+
+.profile-menu {
+  position: relative;
+  display: inline-flex;
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  z-index: 200;
+  min-width: 210px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  background: var(--wine-surface);
+  border: 1px solid var(--wine-border);
+  border-radius: 12px;
+  box-shadow: 0 16px 38px rgba(46, 28, 39, 0.18);
+  animation: dropdown-in 0.16s ease both;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 10px 12px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--wine-text);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.18s ease, color 0.18s ease;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus-visible {
+  background: var(--wine-surface-alt);
+  color: var(--wine-primary);
+  outline: none;
+}
+
+.dropdown-divider {
+  height: 1px;
+  margin: 6px 4px;
+  background: var(--wine-border);
+}
+
+.dropdown-logout {
+  color: #b8444f;
+}
+
+.dropdown-logout:hover,
+.dropdown-logout:focus-visible {
+  background: rgba(195, 75, 86, 0.1);
+  color: #a8353f;
+}
+
+.nav-link.active {
+  color: var(--wine-primary);
+}
+
+.nav-link.active::after {
+  width: 100%;
+}
+
+/* Texto solo para lectores de pantalla */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@keyframes dropdown-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Cerrar sesión */
+
+.logout-button {
+  padding: 9px 12px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--wine-muted);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.logout-button:hover {
+  color: #c34b56;
+  background: rgba(195, 75, 86, 0.08);
+}
+
+
+/* =========================================
+   BOTÓN MODO CLARO / OSCURO
+   ========================================= */
+
+.theme-toggle {
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid var(--wine-border);
+  border-radius: 50%;
+
+  background: var(--wine-surface);
+  color: var(--wine-primary);
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease,
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.theme-toggle svg {
+  width: 20px;
+  height: 20px;
+
+  transition: transform 0.3s ease;
+}
+
+/* Efecto al pasar el mouse */
+
+.theme-toggle:hover {
+  background: var(--wine-primary);
+  color: #ffffff;
+  border-color: var(--wine-primary);
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 5px 15px rgba(103, 52, 81, 0.18);
+}
+
+.theme-toggle:hover svg {
+  transform: rotate(15deg);
+}
+
+/* Accesibilidad con teclado */
+
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--wine-primary);
+  outline-offset: 4px;
+}
+
+/* Efecto al presionar */
+
+.theme-toggle:active {
+  transform: scale(0.94);
+}
+
+/* Respetar preferencias de movimiento reducido */
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-toggle,
+  .theme-toggle svg {
+    transition: none;
+  }
+}
+
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+
+@media (max-width: 900px) {
+  .header {
+    padding: 16px 4%;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .nav {
+    justify-content: center;
+    gap: 18px;
+  }
+}
+
+@media (max-width: 600px) {
+  .header {
+    padding: 16px;
+    gap: 14px;
+  }
+
+  .brand {
+    font-size: 24px;
+  }
+
+  .nav {
+    width: 100%;
+    gap: 12px 18px;
+  }
+
+  .nav-link,
+  .management-link,
+  .login-link,
+  .register-link,
+  .logout-button {
+    font-size: 13px;
+  }
+}
+
+/* Accesibilidad */
+
+@media (prefers-reduced-motion: reduce) {
+  .header *,
+  .header *::after {
+    transition: none;
+  }
+
+  .profile-dropdown {
+    animation: none;
+  }
+}

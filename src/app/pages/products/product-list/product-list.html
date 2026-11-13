@@ -1,0 +1,267 @@
+<div class="products-page">
+
+    <div class="page-header">
+        <div>
+            <span class="eyebrow">CATÁLOGO</span>
+            <h1>{{ isManagement ? 'Gestión de productos' : 'Nuestros productos' }}</h1>
+            <p>
+                {{ isManagement
+                    ? 'Administrá los productos de tu corralón.'
+                    : 'Conocé los productos disponibles.' }}
+            </p>
+        </div>
+
+        <div class="header-actions" *ngIf="isManagement">
+            <button class="btn-primary" (click)="createProduct()" *ngIf="!showingInactive">
+                <span>+</span> Nuevo producto
+            </button>
+
+            <button class="btn-secondary" (click)="toggleInactive()">
+                {{ showingInactive ? 'Ver productos activos' : 'Ver productos deshabilitados' }}
+            </button>
+        </div>
+    </div>
+
+    <div class="context-banner" *ngIf="hasEntityFilter" role="status">
+        <div class="context-banner-text">
+            <span class="context-banner-label">Mostrando productos filtrados por</span>
+            <strong>{{ contextLabel }}</strong>
+        </div>
+
+        <button
+            type="button"
+            class="btn-clear"
+            (click)="removeContextFilter()"
+            aria-label="Quitar filtro de entidad">
+            Quitar filtro
+        </button>
+    </div>
+
+    <div class="filters">
+
+        <div class="search-field">
+            <label for="searchName">Buscar producto</label>
+            <input
+                id="searchName"
+                type="text"
+                [(ngModel)]="searchName"
+                (keyup.enter)="search()"
+                placeholder="Ingresá el nombre del producto">
+        </div>
+
+        <div class="filter-field">
+            <label for="category">Categoría</label>
+            <select id="category" [(ngModel)]="selectedCategory" (ngModelChange)="onFilterChange()">
+                <option value="">Todas las categorías</option>
+                <option *ngFor="let category of categories" [value]="category.id">
+                    {{ category.name }}
+                </option>
+            </select>
+        </div>
+
+        <div class="filter-field">
+            <label for="brand">Marca</label>
+            <select id="brand" [(ngModel)]="selectedBrand" (ngModelChange)="onFilterChange()">
+                <option value="">Todas las marcas</option>
+                <option *ngFor="let brand of brands" [value]="brand.id">
+                    {{ brand.name }}
+                </option>
+            </select>
+        </div>
+
+        <div class="filter-field">
+            <label for="supplier">Proveedor</label>
+            <select id="supplier" [(ngModel)]="selectedSupplier" (ngModelChange)="onFilterChange()">
+                <option value="">Todos los proveedores</option>
+                <option *ngFor="let supplier of suppliers" [value]="supplier.id">
+                    {{ supplier.name }}
+                </option>
+            </select>
+        </div>
+
+        <div class="filter-actions">
+            <button class="btn-primary" (click)="search()">Buscar</button>
+            <button class="btn-clear" (click)="clearFilters()">Limpiar</button>
+        </div>
+
+    </div>
+
+    <div class="message success" *ngIf="successMessage">
+        {{ successMessage }}
+    </div>
+
+    <div class="message error" *ngIf="errorMessage">
+        {{ errorMessage }}
+    </div>
+
+    <div class="list-heading">
+        <h2>{{ showingInactive ? 'Productos deshabilitados' : 'Productos' }}</h2>
+
+        <div class="list-controls">
+            <span>{{ products.length }} resultado(s)</span>
+
+            <div class="sort-field">
+                <label for="sortBy">Ordenar por:</label>
+
+                <select
+                    id="sortBy"
+                    [(ngModel)]="sortBy"
+                    (ngModelChange)="changeSort()">
+
+                    <option value="name-asc">Nombre: A-Z</option>
+                    <option value="name-desc">Nombre: Z-A</option>
+                    <option value="price-asc">Precio: menor a mayor</option>
+                    <option value="price-desc">Precio: mayor a menor</option>
+
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="loading" *ngIf="loading">
+        Cargando productos...
+    </div>
+
+    <div class="empty-state" *ngIf="!loading && products.length === 0">
+        <div class="empty-icon">📦</div>
+        <h3>No hay productos para mostrar</h3>
+        <p>
+            {{ showingInactive
+                ? 'No se encontraron productos deshabilitados.'
+                : 'Probá modificando los filtros o agregá un nuevo producto.' }}
+        </p>
+        <button
+            class="btn-primary"
+            *ngIf="isManagement && !showingInactive"
+            (click)="createProduct()">
+            Crear producto
+        </button>
+    </div>
+
+    <div class="products-grid" *ngIf="!loading && products.length > 0">
+
+        <article class="product-card" *ngFor="let product of paginatedProducts">
+
+            <div class="product-image">
+                <img *ngIf="product.principalImagePath" [src]="product.principalImagePath" [alt]="product.name"
+                    loading="lazy" />
+
+                <div class="product-image-placeholder" *ngIf="!product.principalImagePath">
+                    <svg viewBox="0 0 64 64" aria-hidden="true">
+                        <rect x="10" y="12" width="44" height="40" rx="5" fill="none" stroke="currentColor"
+                            stroke-width="3" />
+                        <circle cx="24" cy="26" r="5" fill="currentColor" />
+                        <path d="M14 46l12-13 9 9 6-6 9 10z" fill="currentColor" opacity="0.55" />
+                    </svg>
+                    <span>Sin imagen</span>
+                </div>
+            </div>
+
+            <div class="card-top">
+                <span class="status" [class.inactive]="!product.active">
+                    {{ product.active ? 'Activo' : 'Deshabilitado' }}
+                </span>
+
+                <span class="product-category">{{ product.categoryName }}</span>
+            </div>
+
+            <div class="product-info">
+                <h3>{{ product.name }}</h3>
+
+                <p class="product-description">
+                    {{ product.description || 'Sin descripción disponible.' }}
+                </p>
+
+                <div class="product-data">
+                    <div>
+                        <span>Marca</span>
+                        <strong>{{ product.brandName }}</strong>
+                    </div>
+
+                    <div>
+                        <span>Proveedor</span>
+                        <strong>{{ product.supplierName }}</strong>
+                    </div>
+                </div>
+
+                <div class="product-price">
+                    <ng-container *ngIf="product.minPrice !== null; else noPrice">
+                        <span class="price-label">Desde</span>
+                        <strong class="price-value">
+                            {{ product.minPrice | currency:'ARS':'symbol':'1.0-0':'es-AR' }}
+                        </strong>
+                    </ng-container>
+
+                    <ng-template #noPrice>
+                        <span class="price-unavailable">Sin variantes disponibles</span>
+                    </ng-template>
+                </div>
+            </div>
+
+            <div class="card-actions">
+
+                <button class="btn-outline" (click)="viewProduct(product)">
+                    Ver detalle
+                </button>
+
+                <ng-container *ngIf="isManagement">
+
+                    <button
+                        class="btn-outline"
+                        *ngIf="!showingInactive"
+                        (click)="editProduct(product)">
+                        Editar
+                    </button>
+
+                    <button
+                        class="btn-danger"
+                        *ngIf="!showingInactive"
+                        (click)="deleteProduct(product)">
+                        Deshabilitar
+                    </button>
+
+                    <button
+                        class="btn-activate"
+                        *ngIf="showingInactive"
+                        (click)="activateProduct(product)">
+                        Activar
+                    </button>
+
+                </ng-container>
+
+            </div>
+
+        </article>
+
+    </div>
+
+            <!-- PAGINACIÓN -->
+
+        <nav
+            class="pagination"
+            *ngIf="!loading && totalPages > 1"
+            aria-label="Paginación de productos">
+
+            <button
+                type="button"
+                class="pagination-btn"
+                [disabled]="currentPage === 1"
+                (click)="changePage(currentPage - 1)">
+                ← Anterior
+            </button>
+
+            <span class="pagination-info">
+                Página {{ currentPage }} de {{ totalPages }}
+            </span>
+
+            <button
+                type="button"
+                class="pagination-btn"
+                [disabled]="currentPage === totalPages"
+                (click)="changePage(currentPage + 1)">
+                Siguiente →
+            </button>
+
+        </nav>
+
+</div>

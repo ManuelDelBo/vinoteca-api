@@ -1,0 +1,384 @@
+<div class="stock-page">
+
+    <div class="page-header">
+        <div>
+            <span class="eyebrow">INVENTARIO</span>
+            <h1>Stock y movimientos</h1>
+            <p>Consultá las unidades disponibles de cada variante y registrá sus ajustes.</p>
+        </div>
+
+        <div class="header-actions">
+            <button class="btn-secondary" type="button" (click)="loadData()" [disabled]="loading">
+                {{ loading ? 'Actualizando...' : 'Actualizar' }}
+            </button>
+        </div>
+    </div>
+
+    <div class="filters">
+
+        <div class="search-field">
+            <label for="searchName">Buscar producto</label>
+            <input
+                id="searchName"
+                type="text"
+                [(ngModel)]="searchName"
+                (keyup.enter)="applyFilters()"
+                placeholder="Nombre del producto o atributo">
+        </div>
+
+        <div class="search-field">
+            <label for="searchUuid">Buscar por ID</label>
+            <input
+                id="searchUuid"
+                type="text"
+                [(ngModel)]="searchUuid"
+                (keyup.enter)="applyFilters()"
+                placeholder="UUID de la variante">
+        </div>
+
+        <div class="filter-field">
+            <label for="category">Categoría</label>
+            <select id="category" [(ngModel)]="selectedCategory" (ngModelChange)="applyFilters()">
+                <option value="">Todas las categorías</option>
+                <option *ngFor="let category of categories" [value]="category.id">
+                    {{ category.name }}
+                </option>
+            </select>
+        </div>
+
+        <div class="filter-field">
+            <label for="brand">Marca</label>
+            <select id="brand" [(ngModel)]="selectedBrand" (ngModelChange)="applyFilters()">
+                <option value="">Todas las marcas</option>
+                <option *ngFor="let brand of brands" [value]="brand.id">
+                    {{ brand.name }}
+                </option>
+            </select>
+        </div>
+
+        <div class="filter-field">
+            <label for="supplier">Proveedor</label>
+            <select id="supplier" [(ngModel)]="selectedSupplier" (ngModelChange)="applyFilters()">
+                <option value="">Todos los proveedores</option>
+                <option *ngFor="let supplier of suppliers" [value]="supplier.id">
+                    {{ supplier.name }}
+                </option>
+            </select>
+        </div>
+
+        <div class="filter-field">
+            <label for="sortOrder">Ordenar stock</label>
+            <select id="sortOrder" [(ngModel)]="sortOrder" (ngModelChange)="applyFilters()">
+                <option value="asc">Menor a mayor</option>
+                <option value="desc">Mayor a menor</option>
+            </select>
+        </div>
+
+        <div class="filter-actions">
+            <button class="btn-primary" type="button" (click)="applyFilters()">Buscar</button>
+            <button class="btn-clear" type="button" (click)="clearFilters()">Limpiar</button>
+        </div>
+
+    </div>
+
+    <div class="message success" *ngIf="successMessage">
+        {{ successMessage }}
+    </div>
+
+    <div class="message error" *ngIf="errorMessage">
+        {{ errorMessage }}
+    </div>
+
+    <div class="list-heading">
+        <div class="list-title">
+            <h2>Variantes</h2>
+            <span class="low-summary" *ngIf="lowStockCount > 0">
+                ⚠ {{ lowStockCount }} con stock bajo
+            </span>
+        </div>
+
+        <span>{{ rows.length }} resultado(s)</span>
+    </div>
+
+    <div class="loading" *ngIf="loading">
+        Cargando stock...
+    </div>
+
+    <div class="empty-state" *ngIf="!loading && rows.length === 0">
+        <div class="empty-icon">🏭</div>
+        <h3>No hay variantes para mostrar</h3>
+        <p>
+            {{ hasVariants
+                ? 'Probá modificando los filtros o la búsqueda.'
+                : 'Todavía no hay variantes activas registradas.' }}
+        </p>
+    </div>
+
+    <div class="stock-list" *ngIf="!loading && rows.length > 0">
+
+        <article
+            class="stock-row"
+            *ngFor="let row of rows; trackBy: trackByVariantId"
+            [class.low-stock]="isLowStock(row)"
+            [class.out-of-stock]="isOutOfStock(row)">
+
+            <div class="stock-main">
+
+                <div class="stock-title">
+                    <h3>{{ row.productName }}</h3>
+
+                    <span class="variant-attribute">{{ row.variant.attribute }}</span>
+
+                    <span class="badges">
+                        <span class="badge out" *ngIf="isOutOfStock(row)">Sin stock</span>
+                        <span class="badge low" *ngIf="isLowStock(row)">Stock bajo</span>
+                        <span class="badge ok" *ngIf="!isLowStock(row)">Stock disponible</span>
+                    </span>
+                </div>
+
+                <div class="stock-data">
+
+                    <div class="variant-id-cell">
+                        <span>ID de la variante</span>
+
+                        <div class="id-line">
+                            <strong class="mono" [title]="row.variant.id">
+                                {{ shortVariantId(row.variant.id) }}
+                            </strong>
+
+                            <button
+                                class="btn-copy"
+                                type="button"
+                                [title]="'Copiar ID completo: ' + row.variant.id"
+                                (click)="copyVariantId(row.variant.id, $event)">
+                                {{ copiedId === row.variant.id ? 'Copiado' : 'Copiar' }}
+                            </button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <span>Categoría</span>
+                        <strong>{{ row.categoryName || '—' }}</strong>
+                    </div>
+
+                    <div>
+                        <span>Marca</span>
+                        <strong>{{ row.brandName || '—' }}</strong>
+                    </div>
+
+                    <div>
+                        <span>Proveedor</span>
+                        <strong>{{ row.supplierName || '—' }}</strong>
+                    </div>
+
+                    <div>
+                        <span>Stock disponible</span>
+                        <strong
+                            class="stock-value"
+                            [class.low]="isLowStock(row)"
+                            [class.zero]="isOutOfStock(row)">
+                            {{ row.variant.stock }} unidad(es)
+                        </strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="stock-actions">
+                <button
+                    class="btn-adjust"
+                    type="button"
+                    *ngIf="canAdjustStock"
+                    (click)="openAdjustModal(row)">
+                    Modificar stock
+                </button>
+
+                <button
+                    class="btn-history"
+                    type="button"
+                    *ngIf="canViewMovements"
+                    (click)="openHistory(row)">
+                    Ver movimientos
+                </button>
+            </div>
+
+        </article>
+
+    </div>
+
+    <!-- Modal para modificar únicamente el stock de una variante -->
+    <div class="modal-backdrop" *ngIf="adjustTarget" (click)="closeAdjustModal()">
+        <div class="modal-card" role="dialog" aria-modal="true" aria-label="Modificar stock"
+            (click)="$event.stopPropagation()">
+
+            <h2>Modificar stock</h2>
+            <p class="modal-subtitle">
+                {{ adjustTarget.productName }} · {{ adjustTarget.variant.attribute }}
+            </p>
+
+            <div class="modal-info">
+                <div class="info-id">
+                    <span>ID de la variante</span>
+                    <strong class="mono">{{ adjustTarget.variant.id }}</strong>
+                </div>
+
+                <div>
+                    <span>Stock actual</span>
+                    <strong>{{ adjustTarget.variant.stock }}</strong>
+                </div>
+            </div>
+
+            <form (ngSubmit)="submitAdjustment()">
+
+                <div class="form-field">
+                    <label for="desiredStock">Nuevo stock deseado *</label>
+                    <input
+                        id="desiredStock"
+                        name="desiredStock"
+                        type="number"
+                        min="0"
+                        step="1"
+                        [ngModel]="adjustForm.desiredStock"
+                        (ngModelChange)="onDesiredStockChange($event)"
+                        placeholder="0">
+                    <small class="hint">Debe ser un número entero mayor o igual a cero.</small>
+                </div>
+
+                <div class="summary">
+                    <div>
+                        <span>Stock actual</span>
+                        <strong>{{ adjustTarget.variant.stock }}</strong>
+                    </div>
+
+                    <div>
+                        <span>Nuevo stock</span>
+                        <strong>
+                            {{ adjustForm.desiredStock !== null ? adjustForm.desiredStock : '—' }}
+                        </strong>
+                    </div>
+
+                    <div>
+                        <span>Diferencia</span>
+                        <strong
+                            class="delta"
+                            [class.positive]="adjustDelta !== null && adjustDelta > 0"
+                            [class.negative]="adjustDelta !== null && adjustDelta < 0">
+                            {{ adjustDeltaLabel }}
+                        </strong>
+                    </div>
+                </div>
+
+                <div class="form-field">
+                    <label for="reason">Motivo del ajuste *</label>
+                    <textarea
+                        id="reason"
+                        name="reason"
+                        rows="3"
+                        maxlength="500"
+                        [ngModel]="adjustForm.reason"
+                        (ngModelChange)="onReasonChange($event)"
+                        placeholder="Ej. Corrección por recuento físico de mercadería"></textarea>
+                    <small class="hint">
+                        {{ adjustForm.reason.trim().length }} / 500 caracteres (mínimo 10)
+                    </small>
+                </div>
+
+                <p class="form-error" *ngIf="adjustError">{{ adjustError }}</p>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel" [disabled]="adjusting" (click)="closeAdjustModal()">
+                        Cancelar
+                    </button>
+
+                    <button type="submit" class="btn-save" [disabled]="adjusting">
+                        Revisar ajuste
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <!-- Confirmación del ajuste antes de enviarlo -->
+    @if (pendingAdjustment) {
+    <app-confirm-dialog
+        title="Confirmar ajuste de stock"
+        [message]="confirmationMessage"
+        [detail]="confirmationDetail"
+        warning="Esta operación registra un movimiento de tipo Ajuste. No se modificarán otros datos de la variante."
+        confirmLabel="Aplicar ajuste"
+        cancelLabel="Revisar"
+        [busy]="adjusting"
+        (confirmed)="executeAdjustment()"
+        (cancelled)="cancelAdjustmentConfirmation()" />
+    }
+
+    <!-- Historial de movimientos de la variante -->
+    <div class="modal-backdrop" *ngIf="historyTarget" (click)="closeHistory()">
+        <div class="modal-card history-modal" role="dialog" aria-modal="true" aria-label="Historial de movimientos"
+            (click)="$event.stopPropagation()">
+
+            <div class="modal-head">
+                <div>
+                    <h2>Historial de movimientos</h2>
+                    <p class="modal-subtitle">
+                        {{ historyTarget.productName }} · {{ historyTarget.variant.attribute }}
+                    </p>
+                </div>
+
+                <button class="btn-close" type="button" aria-label="Cerrar" (click)="closeHistory()">×</button>
+            </div>
+
+            <div class="modal-info compact">
+                <div class="info-id">
+                    <span>ID de la variante</span>
+                    <strong class="mono">{{ historyTarget.variant.id }}</strong>
+                </div>
+
+                <div>
+                    <span>Stock actual</span>
+                    <strong>{{ historyTarget.variant.stock }}</strong>
+                </div>
+            </div>
+
+            <div class="history-loading" *ngIf="historyLoading">
+                Cargando movimientos...
+            </div>
+
+            <p class="form-error" *ngIf="historyError">{{ historyError }}</p>
+
+            <div class="history-empty" *ngIf="!historyLoading && !historyError && movements.length === 0">
+                <div class="empty-icon">🕘</div>
+                <h3>Sin movimientos registrados</h3>
+                <p>Esta variante todavía no tiene movimientos de stock.</p>
+            </div>
+
+            <div class="history-list" *ngIf="!historyLoading && !historyError && movements.length > 0">
+                <article class="history-row" *ngFor="let movement of movements; trackBy: trackByMovementId">
+                    <div class="history-top">
+                        <span class="movement-badge" [ngClass]="movementTypeClass(movement.type)">
+                            {{ movementTypeLabel(movement.type) }}
+                        </span>
+
+                        <strong class="movement-qty" [ngClass]="movementQuantityClass(movement)">
+                            {{ movementQuantityLabel(movement) }} unidad(es)
+                        </strong>
+                    </div>
+
+                    <p class="history-reason">{{ movement.reason || 'Sin motivo registrado.' }}</p>
+
+                    <span class="history-date">
+                        {{ movement.movementDate | date:'dd/MM/yyyy HH:mm' }}
+                    </span>
+                </article>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn-cancel" type="button" (click)="closeHistory()">Cerrar</button>
+            </div>
+
+        </div>
+    </div>
+
+</div>
