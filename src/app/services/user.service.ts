@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { User, UserRequest } from '../models/user';
+import { User, UserProfileUpdate, UserRequest } from '../models/user';
 
 @Service()
 export class UserService {
@@ -29,6 +29,15 @@ export class UserService {
 
     getMe(): Observable<User> {
         return this.http.get<any>(`${this.url}/me`).pipe(
+            map(user => ({
+                ...user,
+                id: user.externalId ?? user.id
+            }))
+        );
+    }
+
+    updateMyProfile(profile: UserProfileUpdate): Observable<User> {
+        return this.http.put<any>(`${this.url}/me`, profile).pipe(
             map(user => ({
                 ...user,
                 id: user.externalId ?? user.id

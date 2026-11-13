@@ -150,7 +150,11 @@ export class ProductDetail implements OnInit {
       next: product => {
         this.setProduct(product);
         this.loading = false;
-        this.loadVariants(product.id);
+
+        if (this.canBuy || this.isStaff) {
+          this.loadVariants(product.id);
+        }
+
         this.cdr.markForCheck();
       },
       error: error => {
@@ -171,7 +175,11 @@ export class ProductDetail implements OnInit {
       next: product => {
         this.setProduct(product);
         this.loading = false;
-        this.loadVariants(product.id);
+
+        if (this.canBuy || this.isStaff) {
+          this.loadVariants(product.id);
+        }
+
         this.cdr.markForCheck();
       },
       error: () => {

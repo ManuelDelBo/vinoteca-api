@@ -22,6 +22,21 @@
         </div>
     </div>
 
+    <div class="context-banner" *ngIf="hasEntityFilter" role="status">
+        <div class="context-banner-text">
+            <span class="context-banner-label">Mostrando productos filtrados por</span>
+            <strong>{{ contextLabel }}</strong>
+        </div>
+
+        <button
+            type="button"
+            class="btn-clear"
+            (click)="removeContextFilter()"
+            aria-label="Quitar filtro de entidad">
+            Quitar filtro
+        </button>
+    </div>
+
     <div class="filters">
 
         <div class="search-field">
@@ -36,7 +51,7 @@
 
         <div class="filter-field">
             <label for="category">Categoría</label>
-            <select id="category" [(ngModel)]="selectedCategory">
+            <select id="category" [(ngModel)]="selectedCategory" (ngModelChange)="onFilterChange()">
                 <option value="">Todas las categorías</option>
                 <option *ngFor="let category of categories" [value]="category.id">
                     {{ category.name }}
@@ -46,7 +61,7 @@
 
         <div class="filter-field">
             <label for="brand">Marca</label>
-            <select id="brand" [(ngModel)]="selectedBrand">
+            <select id="brand" [(ngModel)]="selectedBrand" (ngModelChange)="onFilterChange()">
                 <option value="">Todas las marcas</option>
                 <option *ngFor="let brand of brands" [value]="brand.id">
                     {{ brand.name }}
@@ -56,7 +71,7 @@
 
         <div class="filter-field">
             <label for="supplier">Proveedor</label>
-            <select id="supplier" [(ngModel)]="selectedSupplier">
+            <select id="supplier" [(ngModel)]="selectedSupplier" (ngModelChange)="onFilterChange()">
                 <option value="">Todos los proveedores</option>
                 <option *ngFor="let supplier of suppliers" [value]="supplier.id">
                     {{ supplier.name }}
@@ -167,6 +182,19 @@
                         <span>Proveedor</span>
                         <strong>{{ product.supplierName }}</strong>
                     </div>
+                </div>
+
+                <div class="product-price">
+                    <ng-container *ngIf="product.minPrice !== null; else noPrice">
+                        <span class="price-label">Desde</span>
+                        <strong class="price-value">
+                            {{ product.minPrice | currency:'ARS':'symbol':'1.0-0':'es-AR' }}
+                        </strong>
+                    </ng-container>
+
+                    <ng-template #noPrice>
+                        <span class="price-unavailable">Sin variantes disponibles</span>
+                    </ng-template>
                 </div>
             </div>
 

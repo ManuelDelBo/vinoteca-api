@@ -105,6 +105,7 @@ export class ManagementHome implements OnInit {
                     'ORDER_CANCEL_ANY'
                 ]
             },
+            /*
             {
                 nombre: 'Pagos',
                 descripcion: 'Consultar pagos',
@@ -112,6 +113,7 @@ export class ManagementHome implements OnInit {
                 ruta: '/management/payments',
                 permisos: ['PAYMENT_READ']
             },
+            */
             /*
             {
                 nombre: 'Notificaciones',

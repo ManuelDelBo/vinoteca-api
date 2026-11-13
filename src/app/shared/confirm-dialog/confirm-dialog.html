@@ -1,12 +1,14 @@
-<div class="dialog-backdrop" (click)="onCancel()">
-    <div class="dialog-card" role="dialog" aria-modal="true" [attr.aria-label]="title"
-        (click)="$event.stopPropagation()">
+<div class="dialog-backdrop">
+    <div #dialogCard [class]="'dialog-card variant-' + variant" role="dialog" aria-modal="true"
+        [attr.aria-label]="title">
 
-        <div class="dialog-icon" aria-hidden="true">!</div>
+        <div class="dialog-icon" aria-hidden="true">{{ icon }}</div>
 
         <h2>{{ title }}</h2>
 
+        @if (message) {
         <p class="dialog-message">{{ message }}</p>
+        }
 
         @if (detail) {
         <p class="dialog-detail">{{ detail }}</p>
@@ -17,11 +19,13 @@
         }
 
         <div class="dialog-actions">
-            <button type="button" class="btn-cancel" [disabled]="busy" (click)="onCancel()">
+            @if (showCancel) {
+            <button #cancelButton type="button" class="btn-cancel" [disabled]="busy" (click)="onCancel()">
                 {{ cancelLabel }}
             </button>
+            }
 
-            <button type="button" class="btn-confirm" [disabled]="busy" (click)="onConfirm()">
+            <button #confirmButton type="button" class="btn-confirm" [disabled]="busy" (click)="onConfirm()">
                 {{ busy ? 'Procesando...' : confirmLabel }}
             </button>
         </div>

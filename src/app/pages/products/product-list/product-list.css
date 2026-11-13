@@ -211,6 +211,55 @@ button:focus-visible {
 }
 
 /* ==========================================
+   BANNER DE CONTEXTO (FILTRO POR ENTIDAD)
+   ========================================== */
+
+.context-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+
+  margin-bottom: 24px;
+  padding: 16px 20px;
+
+  background: rgba(103, 52, 81, 0.08);
+  border: 1px solid var(--wine-primary);
+  border-radius: 12px;
+}
+
+.context-banner-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.context-banner-label {
+  color: var(--wine-muted);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+.context-banner-text strong {
+  color: var(--wine-text);
+  font-size: 15px;
+}
+
+.context-banner .btn-clear {
+  background: transparent;
+  color: var(--wine-primary);
+  border-color: var(--wine-primary);
+}
+
+.context-banner .btn-clear:hover {
+  background: var(--wine-primary);
+  color: #ffffff;
+}
+
+/* ==========================================
    ENCABEZADO DE RESULTADOS
    ========================================== */
 
@@ -430,6 +479,38 @@ button:focus-visible {
   font-weight: 600;
   text-align: right;
   overflow-wrap: anywhere;
+}
+
+/* Precio mínimo */
+
+.product-price {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--wine-border);
+}
+
+.price-label {
+  color: var(--wine-muted);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+.price-value {
+  color: var(--wine-primary);
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.price-unavailable {
+  color: var(--wine-muted);
+  font-size: 12px;
+  font-style: italic;
 }
 
 /* ==========================================

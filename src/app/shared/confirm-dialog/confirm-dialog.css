@@ -136,6 +136,73 @@
     transform: translateY(-2px);
 }
 
+/* Variantes del diálogo */
+
+.variant-danger .dialog-icon {
+    background: #fbecee;
+    color: #b23b47;
+    border-color: #e5b4b4;
+}
+
+.variant-danger .btn-confirm {
+    border-color: #a83a46;
+    background: #a83a46;
+}
+
+.variant-danger .btn-confirm:hover:not(:disabled) {
+    background: #8e2f3a;
+}
+
+.variant-error .dialog-icon {
+    background: #fbecee;
+    color: #b23b47;
+    border-color: #e5b4b4;
+}
+
+.variant-error .btn-confirm {
+    border-color: #a83a46;
+    background: #a83a46;
+}
+
+.variant-error .btn-confirm:hover:not(:disabled) {
+    background: #8e2f3a;
+}
+
+.variant-success .dialog-icon {
+    background: #eaf5ee;
+    color: #2f6b3a;
+    border-color: #9dcbad;
+}
+
+.variant-success .btn-confirm {
+    border-color: #38815a;
+    background: #38815a;
+}
+
+.variant-success .btn-confirm:hover:not(:disabled) {
+    background: #2c6848;
+}
+
+.variant-warning .dialog-icon {
+    background: #fdf4e3;
+    color: #9a6a1f;
+    border-color: #e6cd94;
+}
+
+.variant-warning .btn-confirm {
+    border-color: #b5852e;
+    background: #b5852e;
+}
+
+.variant-warning .btn-confirm:hover:not(:disabled) {
+    background: #9a6f24;
+}
+
+.variant-info .dialog-icon {
+    background: var(--wine-surface-alt, #f5ece7);
+    color: var(--wine-primary, #6d3559);
+}
+
 @keyframes wine-dialog-in {
     from {
         opacity: 0;

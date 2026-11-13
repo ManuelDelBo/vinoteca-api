@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ConfirmDialog } from '../../../shared/confirm-dialog/confirm-dialog';
+import { ModalService } from '../../../shared/modal/modal.service';
 import { BrandService } from '../../../services/brand.service';
 import { Brand } from '../../../models/brand';
 
@@ -28,6 +29,7 @@ export class BrandList implements OnInit {
 
     constructor(
         private brandService: BrandService,
+        private modal: ModalService,
         private cdr: ChangeDetectorRef
     ) {}
 
@@ -52,13 +54,17 @@ export class BrandList implements OnInit {
         this.cdr.markForCheck();
 
         this.brandService.getRelatedProductCount(brand.id).subscribe({
-            next: ({ count }) => {
+            next: async ({ count }) => {
                 this.checkingDeletion.set(false);
 
                 if (count <= 0) {
-                    const confirmar = confirm(
-                        `¿Estás seguro de que querés eliminar la marca "${brand.name}"?`
-                    );
+                    const confirmar = await this.modal.confirm({
+                        title: 'Eliminar marca',
+                        message: `¿Estás seguro de que querés eliminar la marca "${brand.name}"?`,
+                        confirmLabel: 'Eliminar',
+                        cancelLabel: 'Cancelar',
+                        variant: 'danger'
+                    });
 
                     if (confirmar) {
                         this.performDelete(brand.id, false);
@@ -163,8 +169,14 @@ export class BrandList implements OnInit {
         this.cdr.markForCheck();
     }
 
-    activateBrand(id: string): void {
-        const confirmar = confirm('¿Querés volver a activar esta marca?');
+    async activateBrand(id: string): Promise<void> {
+        const confirmar = await this.modal.confirm({
+            title: 'Activar marca',
+            message: '¿Querés volver a activar esta marca?',
+            confirmLabel: 'Activar',
+            cancelLabel: 'Cancelar',
+            variant: 'confirm'
+        });
 
         if (!confirmar) return;
 

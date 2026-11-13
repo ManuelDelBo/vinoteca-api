@@ -4,16 +4,21 @@ import { AuthRequest, AuthResponse } from '../models/auth';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { User, UserRequest } from '../models/user';
 
+interface TokenPayload {
+    exp?: number;
+    roles?: string[];
+}
+
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
+    private static readonly TOKEN_KEY = 'token';
+
     private http = inject(HttpClient);
     private apiUrl = 'http://localhost:8081/api/auth';
 
-    private loggedInSubject = new BehaviorSubject<boolean>(
-        !!localStorage.getItem('token')
-    );
+    private loggedInSubject = new BehaviorSubject<boolean>(false);
 
     loggedIn$ = this.loggedInSubject.asObservable();
 
@@ -24,7 +29,9 @@ export class AuthService {
     permissions$ = this.permissionsSubject.asObservable();
 
     constructor() {
-        const token = localStorage.getItem('token');
+        const token = this.getValidToken();
+
+        this.loggedInSubject.next(!!token);
 
         if (token) {
             this.loadAuthorities(token);
@@ -37,7 +44,7 @@ export class AuthService {
             credentials
         ).pipe(
             tap(response => {
-                localStorage.setItem('token', response.token);
+                localStorage.setItem(AuthService.TOKEN_KEY, response.token);
                 this.loadAuthorities(response.token);
                 this.loggedInSubject.next(true);
             })
@@ -52,7 +59,7 @@ export class AuthService {
     }
 
     logout(): void {
-        localStorage.removeItem('token');
+        localStorage.removeItem(AuthService.TOKEN_KEY);
 
         this.loggedInSubject.next(false);
         this.rolesSubject.next([]);
@@ -60,11 +67,11 @@ export class AuthService {
     }
 
     getToken(): string | null {
-        return localStorage.getItem('token');
+        return this.getValidToken();
     }
 
     isLoggedIn(): boolean {
-        return !!this.getToken();
+        return !!this.getValidToken();
     }
 
     hasRole(role: string): boolean {
@@ -81,42 +88,78 @@ export class AuthService {
         );
     }
 
-    private loadAuthorities(token: string): void {
+    /**
+     * Devuelve el token solo si existe y no está vencido.
+     * Si el token guardado ya expiró (o no se puede leer), limpia la sesión
+     * para que el header vuelva al estado de invitado.
+     */
+    private getValidToken(): string | null {
+        const token = localStorage.getItem(AuthService.TOKEN_KEY);
+
+        if (!token) {
+            return null;
+        }
+
+        const payload = this.decodePayload(token);
+
+        if (!payload) {
+            this.logout();
+            return null;
+        }
+
+        if (typeof payload.exp === 'number' && payload.exp * 1000 <= Date.now()) {
+            this.logout();
+            return null;
+        }
+
+        return token;
+    }
+
+    private decodePayload(token: string): TokenPayload | null {
         try {
             const payload = token.split('.')[1];
 
             if (!payload) {
-                throw new Error('Token inválido');
+                return null;
             }
 
             const base64 = payload
                 .replace(/-/g, '+')
                 .replace(/_/g, '/');
 
-            const decodedPayload = atob(base64);
-            const data = JSON.parse(decodedPayload);
-
-            const authorities: string[] = Array.isArray(data.roles)
-                ? data.roles
-                : [];
-
-            const roles = authorities.filter(authority =>
-                authority.startsWith('ROLE_')
+            const padded = base64.padEnd(
+                base64.length + ((4 - (base64.length % 4)) % 4),
+                '='
             );
 
-            const permissions = authorities.filter(authority =>
-                !authority.startsWith('ROLE_')
-            );
-
-            this.rolesSubject.next(roles);
-            this.permissionsSubject.next(permissions);
-
-        } catch (error) {
-            console.error('No se pudieron obtener los permisos del token:', error);
-
-            this.rolesSubject.next([]);
-            this.permissionsSubject.next([]);
+            return JSON.parse(atob(padded));
+        } catch {
+            return null;
         }
     }
-}
 
+    private loadAuthorities(token: string): void {
+        const data = this.decodePayload(token);
+
+        if (!data) {
+            this.rolesSubject.next([]);
+            this.permissionsSubject.next([]);
+            return;
+        }
+
+        const authorities: string[] = Array.isArray(data.roles)
+            ? data.roles
+            : [];
+
+        const roles = authorities.filter(authority =>
+            authority.startsWith('ROLE_')
+        );
+
+        const permissions = authorities.filter(authority =>
+            !authority.startsWith('ROLE_')
+        );
+
+        this.rolesSubject.next(roles);
+        this.permissionsSubject.next(permissions);
+    }
+}
